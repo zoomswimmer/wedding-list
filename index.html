@@ -1,0 +1,1644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Wedding Guest List</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #F8F5F0;
+  --warm: #FDFBF8;
+  --ink: #1C1917;
+  --ink-soft: #44403C;
+  --ink-muted: #78716C;
+  --ink-faint: #C8C2BA;
+  --border: #EAE5DE;
+  --border-strong: #CCC5BB;
+  --gold: #A87422;
+  --gold-lt: #FBF3E3;
+  --gold-mid: #D4A855;
+  --green: #2D6645;
+  --green-lt: #E6F2EB;
+  --red: #8B3030;
+  --red-lt: #F5E8E8;
+  --amber: #7A5210;
+  --amber-lt: #FEF3DC;
+  --blue: #1F4E7A;
+  --blue-lt: #E5EEF8;
+  --purple: #5B3B8C;
+  --purple-lt: #EEE8F8;
+  --rose: #8B2F52;
+  --rose-lt: #F8EBF1;
+  --rose-mid: #D4829F;
+  --orange: #9B5A1A;
+  --orange-lt: #FFF0E6;
+  --r: 10px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); min-height: 100vh; }
+
+/* ── HEADER ── */
+.hdr { background: var(--warm); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 200; }
+.hdr-top { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px 8px; }
+.hdr-title { font-family: 'DM Serif Display', serif; font-size: 20px; letter-spacing: -0.2px; }
+.hdr-title em { color: var(--gold); font-style: italic; }
+.side-toggle { display: flex; background: var(--cream); border: 1px solid var(--border-strong); border-radius: 8px; overflow: hidden; }
+.side-btn { padding: 5px 10px; font-size: 12px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; background: none; border: none; color: var(--ink-muted); }
+.side-btn.act-g { background: var(--gold); color: white; }
+.side-btn.act-r { background: var(--rose); color: white; }
+.side-btn.act-b { background: var(--ink); color: white; }
+
+/* ── STATS ── */
+.stats { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1px; background: var(--border); border-top: 1px solid var(--border); }
+.stat { background: var(--warm); padding: 7px 4px; text-align: center; }
+.stat-n { font-size: 15px; font-weight: 600; line-height: 1; }
+.stat-n.gold { color: var(--gold); }
+.stat-n.blue { color: var(--blue); }
+.stat-n.green { color: var(--green); }
+.stat-n.rose { color: var(--rose); }
+.stat-n.orange { color: var(--orange); }
+.stat-n.muted { color: var(--ink-muted); }
+.stat-l { font-size: 9px; color: var(--ink-muted); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.4px; }
+
+/* ── TABS ── */
+.tabs { display: flex; background: var(--warm); border-bottom: 1px solid var(--border); }
+.tab { flex: 1; padding: 10px 4px; text-align: center; font-size: 11px; font-weight: 500; color: var(--ink-muted); cursor: pointer; border-bottom: 2px solid transparent; }
+.tab.on { color: var(--gold); border-bottom-color: var(--gold); }
+
+/* ── PANELS ── */
+.panel { display: none; }
+.panel.on { display: block; }
+.main { padding: 12px 16px 100px; max-width: 600px; margin: 0 auto; }
+
+/* ── CONTROLS ── */
+.ctrl-row { display: flex; gap: 6px; margin-bottom: 10px; align-items: center; }
+.search-wrap { flex: 1; position: relative; }
+.search-wrap input { width: 100%; padding: 8px 10px 8px 30px; border: 1px solid var(--border-strong); border-radius: 8px; font-size: 14px; font-family: 'DM Sans', sans-serif; background: var(--warm); color: var(--ink); outline: none; }
+.search-wrap input:focus { border-color: var(--gold-mid); }
+.search-ico { position: absolute; left: 9px; top: 50%; transform: translateY(-50%); color: var(--ink-faint); font-size: 13px; pointer-events: none; }
+.btn { padding: 8px 10px; border: 1px solid var(--border-strong); border-radius: 8px; background: var(--warm); font-size: 12px; font-family: 'DM Sans', sans-serif; font-weight: 500; color: var(--ink-soft); cursor: pointer; white-space: nowrap; }
+.btn.on { background: var(--ink); color: white; border-color: var(--ink); }
+.btn.gold { background: var(--gold-lt); color: var(--gold); border-color: var(--gold-mid); }
+.btn.blue { background: var(--blue-lt); color: var(--blue); border-color: #C5D8EE; }
+
+/* ── FILTER CHIPS ── */
+.chips { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+.chip { font-size: 11px; padding: 4px 10px; border-radius: 99px; border: 1px solid var(--border-strong); background: var(--warm); color: var(--ink-soft); cursor: pointer; white-space: nowrap; }
+.chip.on { background: var(--ink); color: white; border-color: var(--ink); }
+
+/* ── CUTOFF BAR ── */
+.cutoff-bar { background: var(--warm); border: 1px solid var(--border); border-radius: var(--r); padding: 9px 12px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.cutoff-bar label { font-size: 11px; font-weight: 600; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.3px; white-space: nowrap; }
+.cutoff-bar input[type=number] { width: 54px; padding: 5px 6px; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 14px; font-weight: 600; font-family: 'DM Sans', sans-serif; text-align: center; outline: none; }
+.cutoff-bar input.g-inp { color: var(--gold); background: var(--gold-lt); }
+.cutoff-bar input.r-inp { color: var(--rose); background: var(--rose-lt); }
+.cutoff-note { font-size: 11px; color: var(--ink-muted); flex: 1; min-width: 80px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+.dot.g { background: var(--gold-mid); }
+.dot.r { background: var(--rose-mid); }
+
+/* ── SECTION HEADER ── */
+.sec-hdr { display: flex; align-items: center; gap: 8px; margin: 14px 0 8px; }
+.sec-lbl { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: var(--ink-muted); white-space: nowrap; }
+.sec-cnt { font-size: 10px; background: var(--border); color: var(--ink-soft); border-radius: 99px; padding: 1px 7px; }
+.sec-line { flex: 1; height: 1px; background: var(--border); }
+
+/* ── CUTOFF DIVIDER ── */
+.cut-div { display: flex; align-items: center; gap: 8px; margin: 8px 0; }
+.cut-line { flex: 1; height: 2px; border-radius: 2px; }
+.cut-line.g { background: var(--gold-mid); }
+.cut-line.r { background: var(--rose-mid); }
+.cut-pill { font-size: 11px; font-weight: 600; border-radius: 99px; padding: 3px 12px; white-space: nowrap; }
+.cut-pill.g { color: var(--gold); background: var(--gold-lt); border: 1px solid var(--gold-mid); }
+.cut-pill.r { color: var(--rose); background: var(--rose-lt); border: 1px solid var(--rose-mid); }
+
+/* ── GUEST CARD ── */
+.card { background: var(--warm); border: 1px solid var(--border); border-radius: var(--r); padding: 9px 10px; margin-bottom: 5px; display: flex; align-items: center; gap: 8px; cursor: pointer; position: relative; }
+.card:hover { border-color: var(--border-strong); }
+.card.must { border-left: 3px solid var(--blue); }
+.card.soft { border-left: 3px solid var(--green); }
+.card.dim { opacity: 0.65; }
+.card.archived { opacity: 0.5; background: var(--cream); }
+.card.dragging { opacity: 0.3; border-style: dashed; }
+.card.drag-over { border-color: var(--gold); border-style: dashed; background: var(--gold-lt); }
+
+.rank { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; flex-shrink: 0; background: var(--cream); border: 1px solid var(--border-strong); color: var(--ink-muted); }
+.rank.locked-g { background: var(--gold-lt); border-color: var(--gold-mid); color: var(--gold); }
+.rank.locked-r { background: var(--rose-lt); border-color: var(--rose-mid); color: var(--rose); }
+.rank.arch { background: var(--border); border-color: var(--border); color: var(--ink-faint); }
+
+.drag-hdl { color: var(--ink-faint); font-size: 16px; cursor: grab; flex-shrink: 0; }
+.drag-hdl:active { cursor: grabbing; }
+
+.card-body { flex: 1; min-width: 0; }
+.card-name { font-size: 14px; font-weight: 500; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 3px; }
+.tag { font-size: 10px; border-radius: 4px; padding: 1px 5px; border: 1px solid var(--border); background: var(--cream); color: var(--ink-muted); }
+.tag.must { background: var(--blue-lt); color: var(--blue); border-color: #C5D8EE; }
+.tag.soft { background: var(--green-lt); color: var(--green); border-color: #C0D9C9; }
+.tag.pin { background: var(--amber-lt); color: var(--amber); border-color: #F0D9A0; }
+.tag.kid { background: var(--orange-lt); color: var(--orange); border-color: #F5C99A; }
+.tag.rose { background: var(--rose-lt); color: var(--rose); border-color: var(--rose-mid); }
+.tag.arch { background: var(--border); color: var(--ink-muted); border-color: var(--border-strong); }
+
+.arrow-col { display: flex; flex-direction: column; gap: 2px; flex-shrink: 0; }
+.arr { background: var(--cream); border: 1px solid var(--border-strong); border-radius: 4px; width: 22px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 10px; color: var(--ink-soft); cursor: pointer; }
+.arr:active { background: var(--border); }
+
+.rsvp { font-size: 11px; font-weight: 600; border-radius: 99px; padding: 4px 9px; flex-shrink: 0; cursor: pointer; border: 1px solid transparent; font-family: 'DM Sans', sans-serif; }
+.rsvp.yes { background: var(--green-lt); color: var(--green); border-color: #C0D9C9; }
+.rsvp.maybe { background: var(--amber-lt); color: var(--amber); border-color: #F0D9A0; }
+.rsvp.no { background: var(--red-lt); color: var(--red); border-color: #DDBBBB; }
+.rsvp.none { background: var(--cream); color: var(--ink-muted); border-color: var(--border-strong); }
+
+/* ── ARCHIVE SECTION ── */
+.arch-toggle { display: flex; align-items: center; justify-content: space-between; cursor: pointer; padding: 10px 14px; background: var(--warm); border: 1px solid var(--border); border-radius: var(--r); margin: 16px 0 6px; }
+.arch-lbl { font-size: 11px; font-weight: 600; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+.arch-cnt { font-size: 11px; background: var(--border); color: var(--ink-soft); border-radius: 99px; padding: 1px 8px; }
+.arch-arrow { font-size: 11px; color: var(--ink-faint); transition: transform 0.2s; }
+.arch-arrow.open { transform: rotate(180deg); }
+.arch-body { display: none; }
+.arch-body.open { display: block; }
+
+/* ── MODAL OVERLAY ── */
+.overlay { position: fixed; inset: 0; background: rgba(28,25,23,0.5); z-index: 500; display: flex; align-items: flex-end; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+.overlay.on { opacity: 1; pointer-events: all; }
+.sheet { background: var(--warm); border-radius: 16px 16px 0 0; width: 100%; max-width: 600px; padding: 20px 20px 44px; transform: translateY(100%); transition: transform 0.25s cubic-bezier(0.32,0.72,0,1); max-height: 90vh; overflow-y: auto; }
+.overlay.on .sheet { transform: translateY(0); }
+.sheet-handle { width: 36px; height: 4px; background: var(--border-strong); border-radius: 2px; margin: 0 auto 16px; }
+.sheet-title { font-family: 'DM Serif Display', serif; font-size: 19px; margin-bottom: 3px; }
+.sheet-sub { font-size: 12px; color: var(--ink-muted); margin-bottom: 14px; }
+.sheet-sec { margin-bottom: 14px; }
+.sheet-sec-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--ink-muted); margin-bottom: 8px; }
+.divider { height: 1px; background: var(--border); margin: 12px 0; }
+
+/* ── RSVP OPTIONS ── */
+.rsvp-opts { display: grid; grid-template-columns: repeat(4,1fr); gap: 6px; }
+.rsvp-opt { padding: 9px 4px; border: 1px solid var(--border-strong); border-radius: 8px; text-align: center; cursor: pointer; font-size: 12px; font-weight: 500; font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink-soft); }
+.rsvp-opt.yes.sel { background: var(--green-lt); color: var(--green); border-color: #C0D9C9; }
+.rsvp-opt.maybe.sel { background: var(--amber-lt); color: var(--amber); border-color: #F0D9A0; }
+.rsvp-opt.no.sel { background: var(--red-lt); color: var(--red); border-color: #DDBBBB; }
+.rsvp-opt.none.sel { background: var(--border); color: var(--ink-muted); border-color: var(--border-strong); }
+
+/* ── AGE OPTIONS ── */
+.age-opts { display: flex; gap: 8px; }
+.age-opt { flex: 1; padding: 10px; border: 1px solid var(--border-strong); border-radius: 8px; text-align: center; cursor: pointer; font-size: 12px; font-weight: 500; font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink-soft); }
+.age-opt.adult.sel { background: var(--blue-lt); color: var(--blue); border-color: #C5D8EE; }
+.age-opt.kid.sel { background: var(--orange-lt); color: var(--orange); border-color: #F5C99A; }
+.age-opt.clear.sel { background: var(--border); color: var(--ink-muted); }
+
+/* ── NAME EDIT ── */
+.name-row { display: flex; align-items: center; gap: 8px; margin-bottom: 3px; }
+.name-edit-row { display: none; gap: 6px; align-items: center; margin-bottom: 3px; }
+.name-edit-row.on { display: flex; }
+.name-edit-input { flex: 1; padding: 7px 10px; border: 1px solid var(--gold-mid); border-radius: 8px; font-size: 16px; font-family: 'DM Serif Display', serif; color: var(--ink); background: var(--gold-lt); outline: none; }
+.edit-lbl-btn { background: var(--cream); border: 1px solid var(--border-strong); border-radius: 6px; padding: 4px 9px; font-size: 11px; color: var(--ink-muted); font-family: 'DM Sans', sans-serif; cursor: pointer; }
+
+/* ── LINKED DISPLAY ── */
+.linked { background: var(--cream); border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; font-size: 13px; display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 6px; flex-wrap: wrap; }
+.linked-name { font-weight: 500; }
+.linked-name.blue { color: var(--blue); }
+.linked-name.green { color: var(--green); }
+.unlink-btn { font-size: 11px; color: var(--red); cursor: pointer; background: var(--red-lt); border: none; border-radius: 4px; padding: 3px 8px; font-family: 'DM Sans', sans-serif; flex-shrink: 0; }
+
+/* ── MINI BUTTONS ── */
+.mini { padding: 7px 12px; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; font-family: 'DM Sans', sans-serif; cursor: pointer; flex-shrink: 0; }
+.mini.blue { background: var(--blue-lt); color: var(--blue); }
+.mini.green { background: var(--green-lt); color: var(--green); }
+.mini.amber { background: var(--amber-lt); color: var(--amber); }
+.mini.gold { background: var(--gold); color: white; }
+
+/* ── REL ROW ── */
+.rel-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 6px; }
+.rel-row input { flex: 1; min-width: 120px; padding: 7px 10px; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 13px; font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); outline: none; }
+.rel-row input:focus { border-color: var(--gold-mid); }
+
+/* ── RANK ROW ── */
+.rank-row { display: flex; gap: 8px; align-items: center; }
+.rank-row input { width: 70px; padding: 7px 8px; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 14px; font-weight: 600; font-family: 'DM Sans', sans-serif; text-align: center; color: var(--gold); background: var(--gold-lt); outline: none; }
+
+/* ── MODAL ACTIONS ── */
+.modal-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+.act-btn { padding: 11px; border: 1px solid var(--border-strong); border-radius: 8px; font-size: 13px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; text-align: center; background: var(--cream); color: var(--ink-soft); }
+.act-btn.archive { color: var(--red); border-color: #DDBBBB; background: var(--red-lt); }
+.act-btn.restore { color: var(--green); border-color: #C0D9C9; background: var(--green-lt); }
+.act-btn.done { background: var(--ink); color: white; border-color: var(--ink); grid-column: span 2; padding: 13px; font-size: 14px; font-weight: 600; }
+
+/* ── FORM ── */
+.form-row { margin-bottom: 12px; }
+.form-row label { display: block; font-size: 11px; font-weight: 600; color: var(--ink-soft); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.3px; }
+.form-row input, .form-row select { width: 100%; padding: 9px 12px; border: 1px solid var(--border-strong); border-radius: 8px; font-size: 14px; font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); outline: none; }
+.form-row input:focus, .form-row select:focus { border-color: var(--gold-mid); }
+.form-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+.submit-btn { width: 100%; padding: 13px; background: var(--gold); color: white; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; font-family: 'DM Sans', sans-serif; cursor: pointer; margin-top: 4px; }
+
+/* ── IMPORT ── */
+.drop-zone { border: 2px dashed var(--border-strong); border-radius: 10px; padding: 28px 20px; text-align: center; cursor: pointer; margin-bottom: 12px; }
+.drop-zone:hover, .drop-zone.over { border-color: var(--gold-mid); background: var(--gold-lt); }
+.import-hint { background: var(--cream); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; font-size: 11px; color: var(--ink-muted); line-height: 1.7; }
+.preview-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.preview-table th { padding: 7px 8px; text-align: left; font-weight: 600; color: var(--ink-soft); border-bottom: 1px solid var(--border); background: var(--cream); position: sticky; top: 0; }
+.preview-table td { padding: 6px 8px; border-bottom: 1px solid var(--border); color: var(--ink-soft); }
+.preview-table tr.dupe td { background: var(--amber-lt); }
+
+/* ── SETTINGS ── */
+.set-section { background: var(--warm); border: 1px solid var(--border); border-radius: var(--r); padding: 14px; margin-bottom: 10px; }
+.set-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--ink-muted); margin-bottom: 10px; }
+.set-row { margin-bottom: 10px; }
+.set-row label { display: block; font-size: 12px; font-weight: 500; color: var(--ink-soft); margin-bottom: 4px; }
+.set-row input { width: 100%; padding: 8px 10px; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 13px; font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); outline: none; }
+.set-row input:focus { border-color: var(--gold-mid); }
+.set-note { font-size: 11px; color: var(--ink-muted); line-height: 1.5; margin-top: 4px; }
+.set-save { width: 100%; padding: 11px; background: var(--gold); color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; font-family: 'DM Sans', sans-serif; cursor: pointer; }
+
+/* ── AUTOCOMPLETE ── */
+.ac-wrap { position: relative; flex: 1; min-width: 120px; }
+.ac-list { position: absolute; top: 100%; left: 0; right: 0; background: var(--warm); border: 1px solid var(--border-strong); border-radius: 6px; max-height: 150px; overflow-y: auto; z-index: 600; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: none; }
+.ac-item { padding: 8px 10px; font-size: 13px; cursor: pointer; color: var(--ink); }
+.ac-item:hover { background: var(--cream); }
+
+/* ── PASSWORD SCREEN ── */
+#pw-screen { position: fixed; inset: 0; background: var(--cream); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px 24px; }
+.pw-card { background: var(--warm); border: 1px solid var(--border); border-radius: 16px; padding: 32px 28px; width: 100%; max-width: 360px; text-align: center; }
+.pw-title { font-family: 'DM Serif Display', serif; font-size: 26px; margin-bottom: 4px; }
+.pw-title em { color: var(--gold); font-style: italic; }
+.pw-sub { font-size: 13px; color: var(--ink-muted); margin-bottom: 24px; }
+.pw-input { width: 100%; padding: 12px 14px; border: 1px solid var(--border-strong); border-radius: 10px; font-size: 18px; font-family: 'DM Sans', sans-serif; text-align: center; letter-spacing: 4px; background: var(--cream); color: var(--ink); outline: none; margin-bottom: 12px; }
+.pw-input:focus { border-color: var(--gold-mid); }
+.pw-input.shake { animation: shake 0.35s; border-color: var(--red) !important; }
+.pw-btn { width: 100%; padding: 13px; background: var(--gold); color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; font-family: 'DM Sans', sans-serif; cursor: pointer; }
+.pw-btn:active { opacity: 0.85; }
+.pw-err { font-size: 13px; color: var(--red); margin-top: 10px; min-height: 18px; }
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+}
+#app { display: none; }
+
+.toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--ink); color: white; font-size: 13px; padding: 8px 16px; border-radius: 99px; opacity: 0; transition: all 0.2s; z-index: 999; white-space: nowrap; pointer-events: none; }
+.toast.on { opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- PASSWORD SCREEN -->
+<div id="pw-screen">
+  <div class="pw-card">
+    <div class="pw-title">George <em>&</em> Teresa</div>
+    <div class="pw-sub">Wedding Guest List</div>
+    <input class="pw-input" id="pw-input" type="password" placeholder="••••••" maxlength="30"
+      onkeydown="if(event.key==='Enter')checkPw()"
+      oninput="document.getElementById('pw-err').textContent=''">
+    <button class="pw-btn" onclick="checkPw()">Enter</button>
+    <div class="pw-err" id="pw-err"></div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app">
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-top">
+    <div class="hdr-title"><span id="g-name-disp">George</span> <em>&</em> <span id="p-name-disp">Teresa</span></div>
+    <div class="side-toggle">
+      <button class="side-btn act-g" id="btn-g" onclick="setSide('george')">George</button>
+      <button class="side-btn" id="btn-b" onclick="setSide('both')">Both</button>
+      <button class="side-btn" id="btn-r" onclick="setSide('partner')" id="btn-p">Teresa</button>
+    </div>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="stat-n gold" id="st-total">0</div><div class="stat-l">Total</div></div>
+    <div class="stat"><div class="stat-n blue" id="st-in">0</div><div class="stat-l">In</div></div>
+    <div class="stat"><div class="stat-n green" id="st-yes">0</div><div class="stat-l">Confirmed</div></div>
+    <div class="stat"><div class="stat-n rose" id="st-wait">0</div><div class="stat-l">Waitlist</div></div>
+    <div class="stat"><div class="stat-n orange" id="st-kids">0</div><div class="stat-l">Kids</div></div>
+    <div class="stat"><div class="stat-n muted" id="st-arch">0</div><div class="stat-l">Archived</div></div>
+  </div>
+  <div class="tabs">
+    <div class="tab on" id="tab-list" onclick="switchTab('list')">Guest List</div>
+    <div class="tab" id="tab-settings" onclick="switchTab('settings')">Settings</div>
+  </div>
+</div>
+
+<!-- GUEST LIST PANEL -->
+<div class="panel on" id="panel-list">
+  <div class="main">
+    <div class="ctrl-row">
+      <div class="search-wrap">
+        <span class="search-ico">⌕</span>
+        <input type="text" id="search" placeholder="Search guests…" oninput="render()">
+      </div>
+      <button class="btn" id="filter-btn" onclick="toggleFilters()">Filter</button>
+      <button class="btn gold" onclick="openAdd()">+ Add</button>
+      <button class="btn blue" onclick="openImport()">↑ CSV</button>
+    </div>
+    <div class="chips" id="chips" style="display:none"></div>
+    <div class="cutoff-bar">
+      <label>Cutoff</label>
+      <span class="dot g"></span>
+      <input type="number" id="cut-g" class="g-inp" value="52" min="1" max="999" onchange="render()">
+      <span class="dot r"></span>
+      <input type="number" id="cut-r" class="r-inp" value="50" min="1" max="999" onchange="render()">
+      <div class="cutoff-note">Must-invite groups auto-pull together.</div>
+    </div>
+    <div id="list"></div>
+  </div>
+</div>
+
+<!-- SETTINGS PANEL -->
+<div class="panel" id="panel-settings">
+  <div class="main">
+    <div class="set-section">
+      <div class="set-title">Password</div>
+      <div class="set-row">
+        <label>App password</label>
+        <input type="password" id="pw-set-inp" placeholder="Enter a new password">
+        <div class="set-note">Shared with anyone you give access to the app.</div>
+      </div>
+    </div>
+    <div class="set-section">
+      <div class="set-title">Names</div>
+      <div class="set-row">
+        <label>Your name</label>
+        <input type="text" id="g-name-inp" value="George" oninput="updateNames()">
+      </div>
+      <div class="set-row">
+        <label>Fiancée's name</label>
+        <input type="text" id="p-name-inp" value="Teresa" oninput="updateNames()">
+      </div>
+    </div>
+    <div class="set-section">
+      <div class="set-title">George's Google Sheet</div>
+      <div class="set-row">
+        <label>CSV Publish URL</label>
+        <input type="text" id="url-g" placeholder="https://docs.google.com/spreadsheets/d/…/pub?output=csv">
+        <div class="set-note">File → Share → Publish to web → CSV → Copy link</div>
+      </div>
+    </div>
+    <div class="set-section">
+      <div class="set-title">Teresa's Google Sheet</div>
+      <div class="set-row">
+        <label>CSV Publish URL</label>
+        <input type="text" id="url-r" placeholder="https://docs.google.com/spreadsheets/d/…/pub?output=csv">
+      </div>
+    </div>
+    <div class="set-section">
+      <div class="set-note" style="line-height:1.8">All changes save automatically in your browser.<br>To share: upload this file to GitHub Pages (free) and share the link.<br><strong>Version 3.0</strong></div>
+    </div>
+    <button class="set-save" onclick="saveSettings()">Save Settings</button>
+  </div>
+</div>
+
+<!-- GUEST DETAIL MODAL -->
+<div class="overlay" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+
+    <!-- Name with edit -->
+    <div class="name-row">
+      <div class="sheet-title" id="m-name" style="flex:1;cursor:pointer" onclick="startEdit()"></div>
+      <button class="edit-lbl-btn" onclick="startEdit()">Edit</button>
+    </div>
+    <div class="name-edit-row" id="m-edit-row">
+      <input class="name-edit-input" id="m-name-inp" onkeydown="if(event.key==='Enter')saveEdit();if(event.key==='Escape')cancelEdit();">
+      <button class="mini gold" onclick="saveEdit()">Save</button>
+      <button class="edit-lbl-btn" onclick="cancelEdit()">✕</button>
+    </div>
+    <div class="sheet-sub" id="m-meta"></div>
+
+    <!-- RSVP -->
+    <div class="sheet-sec">
+      <div class="sheet-sec-title">RSVP</div>
+      <div class="rsvp-opts">
+        <div class="rsvp-opt yes" onclick="setRsvp('Yes')">✓ Yes</div>
+        <div class="rsvp-opt maybe" onclick="setRsvp('Maybe')">? Maybe</div>
+        <div class="rsvp-opt no" onclick="setRsvp('No')">✕ No</div>
+        <div class="rsvp-opt none" onclick="setRsvp('')">— Clear</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- AGE GROUP -->
+    <div class="sheet-sec">
+      <div class="sheet-sec-title">Age group</div>
+      <div class="age-opts">
+        <div class="age-opt adult" onclick="setAge('adult')">👤 Adult</div>
+        <div class="age-opt kid" onclick="setAge('kid')">🧒 Kid</div>
+        <div class="age-opt clear" onclick="setAge('')">— Clear</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- RANK (waitlist only) -->
+    <div class="sheet-sec" id="m-rank-sec">
+      <div class="sheet-sec-title">Waitlist Rank</div>
+      <div class="rank-row">
+        <input type="number" id="m-rank-inp" min="1">
+        <button class="mini gold" onclick="applyRank()">Set</button>
+        <span style="font-size:12px;color:var(--ink-muted)">Current: <strong id="m-rank-cur"></strong></span>
+      </div>
+    </div>
+
+    <div class="divider" id="m-rank-div"></div>
+
+    <!-- MUST-INVITE GROUP -->
+    <div class="sheet-sec">
+      <div class="sheet-sec-title">🔒 Must invite together</div>
+      <div id="m-must"></div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- SOFT GROUP -->
+    <div class="sheet-sec">
+      <div class="sheet-sec-title">👥 Friend / Work group</div>
+      <div id="m-soft"></div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- PINNED ORDER -->
+    <div class="sheet-sec">
+      <div class="sheet-sec-title">📌 Always rank above someone</div>
+      <div id="m-pins"></div>
+      <div class="rel-row" style="margin-top:8px">
+        <div class="ac-wrap">
+          <input type="text" id="pin-inp" placeholder="Always above this person…" oninput="ac('pin-inp','pin-ac')" autocomplete="off">
+          <div class="ac-list" id="pin-ac"></div>
+        </div>
+        <button class="mini amber" onclick="addPin()">Pin</button>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ACTIONS -->
+    <div class="modal-actions">
+      <div class="act-btn archive" id="m-arch-btn" onclick="toggleArchive()">Not Making List</div>
+      <div class="act-btn done" onclick="closeModal()">Done</div>
+    </div>
+  </div>
+</div>
+
+<!-- ADD GUEST MODAL -->
+<div class="overlay" id="add-modal" onclick="if(event.target===this)closeAdd()">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title" style="margin-bottom:14px">Add Guest</div>
+    <div class="form-row">
+      <label>Full Name</label>
+      <input type="text" id="add-name" placeholder="First Last">
+    </div>
+    <div class="form-2">
+      <div class="form-row" style="margin-bottom:0">
+        <label>Side</label>
+        <select id="add-side"><option value="george">George's</option><option value="partner">Teresa's</option></select>
+      </div>
+      <div class="form-row" style="margin-bottom:0">
+        <label>Status</label>
+        <select id="add-status"><option value="waitlist">Waitlist</option><option value="locked">Locked In</option><option value="archived">Archived</option></select>
+      </div>
+    </div>
+    <div class="form-row">
+      <label>Group / Category</label>
+      <input type="text" id="add-group" placeholder="e.g. Tesla 2, Family…">
+    </div>
+    <div class="form-2">
+      <div class="form-row" style="margin-bottom:0">
+        <label>Age group</label>
+        <select id="add-age"><option value="">Unknown</option><option value="adult">Adult</option><option value="kid">Kid</option></select>
+      </div>
+      <div class="form-row" style="margin-bottom:0">
+        <label>RSVP</label>
+        <select id="add-rsvp"><option value="">No response</option><option value="Yes">Yes</option><option value="Maybe">Maybe</option><option value="No">No</option></select>
+      </div>
+    </div>
+    <button class="submit-btn" onclick="submitAdd()">Add to List</button>
+  </div>
+</div>
+
+<!-- IMPORT CSV MODAL -->
+<div class="overlay" id="import-modal" onclick="if(event.target===this)closeImport()">
+  <div class="sheet" style="max-height:92vh">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title" style="margin-bottom:4px">Import CSV</div>
+    <div style="font-size:12px;color:var(--ink-muted);margin-bottom:14px">Headers auto-detected. Duplicates are skipped.</div>
+
+    <div id="imp-step1">
+      <div class="form-row">
+        <label>Import to</label>
+        <select id="imp-side"><option value="george">George's list</option><option value="partner">Teresa's list</option></select>
+      </div>
+      <div class="form-row">
+        <label>Default status</label>
+        <select id="imp-status"><option value="waitlist">Waitlist</option><option value="locked">Locked In</option><option value="archived">Archived</option></select>
+      </div>
+      <div class="drop-zone" id="drop-zone" onclick="document.getElementById('file-inp').click()">
+        <div style="font-size:28px;margin-bottom:8px">📂</div>
+        <div style="font-size:14px;font-weight:500;color:var(--ink-soft)">Tap to choose a CSV file</div>
+        <div style="font-size:12px;color:var(--ink-muted);margin-top:4px">or drag and drop here</div>
+        <input type="file" id="file-inp" accept=".csv" style="display:none" onchange="handleFile(event)">
+      </div>
+      <div class="import-hint">
+        <strong style="color:var(--ink-soft)">Expected columns (any order):</strong><br>
+        Guest Name (required) · Invited · Able to Come · Rank · Group · Age
+      </div>
+    </div>
+
+    <div id="imp-step2" style="display:none">
+      <div id="imp-summary" style="margin-bottom:10px"></div>
+      <div style="max-height:260px;overflow-y:auto;border:1px solid var(--border);border-radius:8px;margin-bottom:12px">
+        <table class="preview-table">
+          <thead><tr>
+            <th>Name</th><th>Group</th><th>Rank</th><th>Age</th><th>Status</th>
+          </tr></thead>
+          <tbody id="imp-tbody"></tbody>
+        </table>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button onclick="resetImport()" style="flex:1;padding:11px;background:var(--cream);border:1px solid var(--border-strong);border-radius:8px;font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;color:var(--ink-soft)">Back</button>
+        <button onclick="confirmImport()" id="imp-confirm" style="flex:2;padding:11px;background:var(--gold);border:none;border-radius:8px;font-size:14px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;color:white">Import</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+</div><!-- end #app -->
+
+<script>
+// ═══════════════════════════════════════════
+// DEFAULT DATA
+// ═══════════════════════════════════════════
+const DEFAULT_GUESTS = [
+  {name:"Catherine Yao Ma Evans",invited:true,rsvp:"Yes",rank:1,group:"GE Parents",side:"george",ageGroup:"adult"},
+  {name:"Mark Grey",invited:true,rsvp:"Yes",rank:2,group:"GE Parents",side:"george",ageGroup:"adult"},
+  {name:"Kristina Evans",invited:true,rsvp:"Yes",rank:3,group:"GE Sibling",side:"george",ageGroup:"adult"},
+  {name:"Garrett Petersen",invited:true,rsvp:"Yes",rank:4,group:"GE Sibling",side:"george",ageGroup:"adult"},
+  {name:"Theo",invited:true,rsvp:"Yes",rank:5,group:"GE Sibling",side:"george",ageGroup:"kid"},
+  {name:"Jasper",invited:true,rsvp:"Yes",rank:6,group:"GE Sibling",side:"george",ageGroup:"kid"},
+  {name:"Barry Evans",invited:true,rsvp:"",rank:7,group:"GE Sibling",side:"george",ageGroup:"adult"},
+  {name:"Pam Evans",invited:true,rsvp:"",rank:8,group:"GE Sibling",side:"george",ageGroup:"adult"},
+  {name:"Ben Austin",invited:true,rsvp:"",rank:9,group:"GE Wedding Party",side:"george",ageGroup:"adult"},
+  {name:"Elizabeth Krusemark",invited:true,rsvp:"",rank:10,group:"GE Wedding Party",side:"george",ageGroup:"adult"},
+  {name:"Chris Hitesman",invited:true,rsvp:"Yes",rank:11,group:"GE Wedding Party",side:"george",ageGroup:"adult"},
+  {name:"Shelby Hitesman",invited:true,rsvp:"Yes",rank:12,group:"GE Wedding Party",side:"george",ageGroup:"adult"},
+  {name:"David Wann",invited:true,rsvp:"",rank:13,group:"GE Wedding Party",side:"george",ageGroup:"adult"},
+  {name:"Laura Wann",invited:true,rsvp:"",rank:14,group:"GE Wedding Party",side:"george",ageGroup:"adult"},
+  {name:"Eric Murray",invited:true,rsvp:"",rank:15,group:"GE Wedding Party",side:"george",ageGroup:"adult"},
+  {name:"Katie Murray",invited:true,rsvp:"",rank:16,group:"GE Wedding Party",side:"george",ageGroup:"adult"},
+  {name:"James Nichols",invited:true,rsvp:"Yes",rank:17,group:"GE Wedding Party",side:"george",ageGroup:"adult"},
+  {name:"Susan Preske",invited:true,rsvp:"Yes",rank:18,group:"GE Wedding Party",side:"george",ageGroup:"adult"},
+  {name:"Jordan Brown",invited:true,rsvp:"",rank:19,group:"GE Wedding Party",side:"george",ageGroup:"adult"},
+  {name:"Michelle Brown",invited:true,rsvp:"",rank:20,group:"GE Wedding Party",side:"george",ageGroup:"adult"},
+  {name:"Juriaan Barker",invited:true,rsvp:"",rank:21,group:"GE Wedding Party",side:"george",ageGroup:"adult"},
+  {name:"Kulab Pitaksin Barker",invited:true,rsvp:"",rank:22,group:"GE Wedding Party",side:"george",ageGroup:"adult"},
+  {name:"Kollan Lam",invited:true,rsvp:"Yes",rank:23,group:"GE Wedding Party",side:"george",ageGroup:"adult"},
+  {name:"Amy Lam",invited:true,rsvp:"Yes",rank:24,group:"GE Wedding Party",side:"george",ageGroup:"adult"},
+  {name:"Nathan Swallow",invited:true,rsvp:"",rank:25,group:"GE Wedding Party",side:"george",ageGroup:"adult"},
+  {name:"Christina Swallow",invited:true,rsvp:"",rank:26,group:"GE Wedding Party",side:"george",ageGroup:"adult"},
+  {name:"Todd Bradley",invited:true,rsvp:"",rank:27,group:"GE Wedding Party",side:"george",ageGroup:"adult"},
+  {name:"Sara Gorr",invited:true,rsvp:"",rank:28,group:"Extend Fam Evans",side:"george",ageGroup:"adult"},
+  {name:"Matthew Jervis",invited:true,rsvp:"",rank:29,group:"Extend Fam Evans",side:"george",ageGroup:"adult"},
+  {name:"Yifan Hopper",invited:true,rsvp:"",rank:30,group:"Extend Fam Ma",side:"george",ageGroup:"adult"},
+  {name:"Michael Hopper",invited:true,rsvp:"",rank:31,group:"Extend Fam Ma",side:"george",ageGroup:"adult"},
+  {name:"Dong Dong Cai",invited:true,rsvp:"Yes",rank:32,group:"Extend Fam Cai",side:"george",ageGroup:"adult"},
+  {name:"Charles Cai",invited:true,rsvp:"Yes",rank:33,group:"Extend Fam Cai",side:"george",ageGroup:"adult"},
+  {name:"David Mar",invited:true,rsvp:"",rank:34,group:"Fam Mar",side:"george",ageGroup:"adult"},
+  {name:"Francesca Mar",invited:true,rsvp:"",rank:35,group:"Fam Mar",side:"george",ageGroup:"adult"},
+  {name:"Mary Mar",invited:true,rsvp:"",rank:36,group:"Fam Mar",side:"george",ageGroup:"adult"},
+  {name:"Nelson Mar",invited:true,rsvp:"",rank:37,group:"Extend Fam Mar",side:"george",ageGroup:"adult"},
+  {name:"Sarah Mar",invited:true,rsvp:"",rank:38,group:"Extend Fam Mar",side:"george",ageGroup:"adult"},
+  {name:"Robert",invited:true,rsvp:"",rank:39,group:"Extend Fam Mar",side:"george",ageGroup:"adult"},
+  {name:"Dixie Evans Schulz",invited:true,rsvp:"Maybe",rank:40,group:"Extend Fam Evans",side:"george",ageGroup:"adult"},
+  {name:"Rocky",invited:true,rsvp:"Maybe",rank:41,group:"Extend Fam Evans",side:"george",ageGroup:"adult"},
+  {name:"Peach Evans",invited:true,rsvp:"",rank:42,group:"Extend Fam Evans",side:"george",ageGroup:"adult"},
+  {name:"Sunny",invited:true,rsvp:"",rank:43,group:"Extend Fam Evans",side:"george",ageGroup:"adult"},
+  {name:"Alex Cai",invited:true,rsvp:"",rank:44,group:"Extend Fam Cai",side:"george",ageGroup:"adult"},
+  {name:"Gaylord Smith",invited:true,rsvp:"",rank:45,group:"Fam Friend 1",side:"george",ageGroup:"adult"},
+  {name:"Dixie Smith",invited:true,rsvp:"",rank:46,group:"Fam Friend 1",side:"george",ageGroup:"adult"},
+  {name:"Tom Ekstrom",invited:true,rsvp:"",rank:47,group:"24",side:"george",ageGroup:"adult"},
+  {name:"Emily Judd Ekstrom",invited:true,rsvp:"",rank:48,group:"24",side:"george",ageGroup:"adult"},
+  {name:"RJ Martinez",invited:true,rsvp:"",rank:49,group:"Tesla 2",side:"george",ageGroup:"adult"},
+  {name:"Mayo Martinez",invited:true,rsvp:"",rank:50,group:"Tesla 2",side:"george",ageGroup:"adult"},
+  {name:"Jeff Crutchfield",invited:true,rsvp:"",rank:51,group:"45",side:"george",ageGroup:"adult"},
+  {name:"Kristin Olson",invited:true,rsvp:"",rank:52,group:"45",side:"george",ageGroup:"adult"},
+  {name:"Warren Curry",invited:false,rsvp:"",rank:53,group:"Sky 1",side:"george",ageGroup:"adult"},
+  {name:"Warren's Wife",invited:false,rsvp:"",rank:54,group:"Sky 1",side:"george",ageGroup:"adult"},
+  {name:"Nicole Ryan",invited:false,rsvp:"",rank:55,group:"Sky 2",side:"george",ageGroup:"adult"},
+  {name:"Nicole's Husband",invited:false,rsvp:"",rank:56,group:"Sky 2",side:"george",ageGroup:"adult"},
+  {name:"Remy Labesque",invited:false,rsvp:"",rank:57,group:"Tesla 1",side:"george",ageGroup:"adult"},
+  {name:"Remy's Wife",invited:false,rsvp:"",rank:58,group:"Tesla 1",side:"george",ageGroup:"adult"},
+  {name:"Alexander Yoo",invited:false,rsvp:"",rank:59,group:"Tesla 3",side:"george",ageGroup:"adult"},
+  {name:"Nathan Allen",invited:false,rsvp:"",rank:60,group:"Tesla 4",side:"george",ageGroup:"adult"},
+  {name:"Simon Turac",invited:false,rsvp:"",rank:61,group:"Tesla 5",side:"george",ageGroup:"adult"},
+  {name:"Maja Bjorkqvist",invited:false,rsvp:"",rank:62,group:"Tesla 5",side:"george",ageGroup:"adult"},
+  {name:"Simon Sebastian",invited:false,rsvp:"",rank:63,group:"Tesla 6",side:"george",ageGroup:"adult"},
+  {name:"Corinna Sebastian",invited:false,rsvp:"",rank:64,group:"Tesla 6",side:"george",ageGroup:"adult"},
+  {name:"Elizabeth Romero",invited:false,rsvp:"",rank:65,group:"33",side:"george",ageGroup:"adult"},
+  {name:"Josh Ayala",invited:false,rsvp:"",rank:66,group:"33",side:"george",ageGroup:"adult"},
+  {name:"Shannon Faltys",invited:false,rsvp:"",rank:67,group:"34",side:"george",ageGroup:"adult"},
+  {name:"Christine Millian",invited:false,rsvp:"",rank:68,group:"35",side:"george",ageGroup:"adult"},
+  {name:"Christine's BF",invited:false,rsvp:"",rank:69,group:"35",side:"george",ageGroup:"adult"},
+  {name:"Grace Guo",invited:false,rsvp:"",rank:70,group:"36",side:"george",ageGroup:"adult"},
+  {name:"Kouhei Kawakami",invited:false,rsvp:"",rank:71,group:"37",side:"george",ageGroup:"adult"},
+  {name:"Ellie",invited:false,rsvp:"",rank:72,group:"37",side:"george",ageGroup:"adult"},
+  {name:"Lizzie Hubler",invited:false,rsvp:"",rank:73,group:"38",side:"george",ageGroup:"adult"},
+  {name:"Eva Joy Ross",invited:false,rsvp:"",rank:74,group:"38",side:"george",ageGroup:"adult"},
+  {name:"Eva's BF",invited:false,rsvp:"",rank:75,group:"38",side:"george",ageGroup:"adult"},
+  {name:"Julian Bilodeau",invited:false,rsvp:"",rank:76,group:"39",side:"george",ageGroup:"adult"},
+  {name:"Cara Chang",invited:false,rsvp:"",rank:77,group:"39",side:"george",ageGroup:"adult"},
+  {name:"Ankit Ukil",invited:false,rsvp:"",rank:78,group:"40",side:"george",ageGroup:"adult"},
+  {name:"Ryan Kitchens",invited:false,rsvp:"",rank:79,group:"41",side:"george",ageGroup:"adult"},
+  {name:"Emily Kitchens",invited:false,rsvp:"",rank:80,group:"41",side:"george",ageGroup:"adult"},
+  {name:"Ian Kettle",invited:false,rsvp:"",rank:81,group:"42",side:"george",ageGroup:"adult"},
+  {name:"Liz Kettle",invited:false,rsvp:"",rank:82,group:"42",side:"george",ageGroup:"adult"},
+  {name:"Grant Ritter",invited:false,rsvp:"",rank:83,group:"43",side:"george",ageGroup:"adult"},
+  {name:"Sam Ritter",invited:false,rsvp:"",rank:84,group:"43",side:"george",ageGroup:"adult"},
+  {name:"Juan Cortes",invited:false,rsvp:"",rank:85,group:"44",side:"george",ageGroup:"adult"},
+  {name:"Juan's Wife",invited:false,rsvp:"",rank:86,group:"44",side:"george",ageGroup:"adult"},
+  {name:"Samuel Poznanovich",invited:false,rsvp:"",rank:87,group:"46",side:"george",ageGroup:"adult"},
+  {name:"Sebastian Bauco",invited:false,rsvp:"",rank:88,group:"47",side:"george",ageGroup:"adult"},
+  {name:"Sebastian's Wife",invited:false,rsvp:"",rank:89,group:"47",side:"george",ageGroup:"adult"},
+  {name:"Raunaq Kumaran",invited:false,rsvp:"",rank:90,group:"48",side:"george",ageGroup:"adult"},
+  {name:"Adam Oliver",invited:false,rsvp:"",rank:91,group:"49",side:"george",ageGroup:"adult"},
+  {name:"Adam's Wife",invited:false,rsvp:"",rank:92,group:"49",side:"george",ageGroup:"adult"},
+  {name:"Nik Sartain",invited:false,rsvp:"",rank:93,group:"50",side:"george",ageGroup:"adult"},
+  {name:"Whittney Sartain",invited:false,rsvp:"",rank:94,group:"50",side:"george",ageGroup:"adult"},
+  {name:"Ronit Mukherjii",invited:false,rsvp:"",rank:95,group:"51",side:"george",ageGroup:"adult"},
+  {name:"Ronit's Wife",invited:false,rsvp:"",rank:96,group:"51",side:"george",ageGroup:"adult"},
+  {name:"Janice Madsen",invited:false,rsvp:"",rank:97,group:"52",side:"george",ageGroup:"adult"},
+  {name:"Chuck Madsen",invited:false,rsvp:"",rank:98,group:"52",side:"george",ageGroup:"adult"},
+  {name:"Joe Carter",invited:false,rsvp:"",rank:99,group:"53",side:"george",ageGroup:"adult"},
+  {name:"Jane Carter",invited:false,rsvp:"",rank:100,group:"53",side:"george",ageGroup:"adult"},
+  {name:"Richard Burdette",invited:false,rsvp:"",rank:101,group:"54",side:"george",ageGroup:"adult"},
+  {name:"Allene Burdette",invited:false,rsvp:"",rank:102,group:"54",side:"george",ageGroup:"adult"},
+  {name:"Takayuki Makioka",invited:false,rsvp:"",rank:103,group:"56",side:"george",ageGroup:"adult"},
+  {name:"Maki-san's Wife",invited:false,rsvp:"",rank:104,group:"56",side:"george",ageGroup:"adult"},
+  {name:"Patrick Garrett",invited:false,rsvp:"",rank:105,group:"57",side:"george",ageGroup:"adult"},
+  {name:"Patrick's Wife",invited:false,rsvp:"",rank:106,group:"57",side:"george",ageGroup:"adult"},
+  {name:"Christoph Kuttner",invited:false,rsvp:"",rank:107,group:"58",side:"george",ageGroup:"adult"},
+  {name:"Christoph's Wife",invited:false,rsvp:"",rank:108,group:"58",side:"george",ageGroup:"adult"},
+  {name:"Brian Lew",invited:false,rsvp:"",rank:109,group:"59",side:"george",ageGroup:"adult"},
+  {name:"Steve Xiao",invited:false,rsvp:"",rank:110,group:"60",side:"george",ageGroup:"adult"},
+  {name:"Songlin He",invited:false,rsvp:"",rank:111,group:"61",side:"george",ageGroup:"adult"},
+  {name:"Songlin's GF",invited:false,rsvp:"",rank:112,group:"61",side:"george",ageGroup:"adult"},
+  {name:"Peter Rupkey",invited:false,rsvp:"",rank:113,group:"62",side:"george",ageGroup:"adult"},
+  {name:"Peter's GF",invited:false,rsvp:"",rank:114,group:"62",side:"george",ageGroup:"adult"},
+  {name:"Christina Hicks",invited:false,rsvp:"",rank:115,group:"63",side:"george",ageGroup:"adult"},
+  {name:"Christina's Partner",invited:false,rsvp:"",rank:116,group:"63",side:"george",ageGroup:"adult"},
+  {name:"Kentaro Lunn",invited:false,rsvp:"",rank:117,group:"64",side:"george",ageGroup:"adult"},
+  {name:"Emily Mukai",invited:false,rsvp:"",rank:118,group:"64",side:"george",ageGroup:"adult"},
+  {name:"Mark Benton",invited:false,rsvp:"",rank:119,group:"65",side:"george",ageGroup:"adult"},
+  {name:"Mark's Wife",invited:false,rsvp:"",rank:120,group:"65",side:"george",ageGroup:"adult"},
+  {name:"Connor Whalen",invited:false,rsvp:"",rank:121,group:"66",side:"george",ageGroup:"adult"},
+  {name:"Connor's GF",invited:false,rsvp:"",rank:122,group:"66",side:"george",ageGroup:"adult"},
+  {name:"Dominic Hollingdale",invited:false,rsvp:"",rank:123,group:"67",side:"george",ageGroup:"adult"},
+  {name:"Dominic's GF",invited:false,rsvp:"",rank:124,group:"67",side:"george",ageGroup:"adult"},
+  {name:"Andy Caponetti",invited:false,rsvp:"",rank:125,group:"",side:"george",ageGroup:"adult"},
+  {name:"Cesar Trujilo",invited:false,rsvp:"",rank:126,group:"",side:"george",ageGroup:"adult"},
+  {name:"Walter",invited:false,rsvp:"",rank:127,group:"",side:"george",ageGroup:"adult"},
+  {name:"Woo Kim",invited:false,rsvp:"",rank:128,group:"",side:"george",ageGroup:"adult"},
+  {name:"Laura Correa",invited:false,rsvp:"",rank:129,group:"",side:"george",ageGroup:"adult"},
+  {name:"Lori Trosch-Whitton",invited:false,rsvp:"",rank:130,group:"",side:"george",ageGroup:"adult"},
+  {name:"Randy Stephens",invited:false,rsvp:"",rank:131,group:"",side:"george",ageGroup:"adult"},
+  {name:"Alexandre Laloum",invited:false,rsvp:"",rank:132,group:"",side:"george",ageGroup:"adult"},
+  {name:"Bernie Lee",invited:false,rsvp:"",rank:133,group:"",side:"george",ageGroup:"adult"},
+  {name:"Brandon Jones",invited:false,rsvp:"",rank:134,group:"",side:"george",ageGroup:"adult"},
+  {name:"Perry Ng",invited:false,rsvp:"",rank:135,group:"Ng/Chan",side:"george",ageGroup:"adult"},
+  {name:"Lay Leng Chan",invited:false,rsvp:"",rank:136,group:"Ng/Chan",side:"george",ageGroup:"adult"},
+  {name:"Alec Freddrickson",invited:false,rsvp:"",rank:137,group:"",side:"george",ageGroup:"adult"},
+  {name:"Katie R. Crezee",invited:false,rsvp:"",rank:138,group:"Creeze",side:"george",ageGroup:"adult"},
+  {name:"Devin Creeze",invited:false,rsvp:"",rank:139,group:"Creeze",side:"george",ageGroup:"adult"},
+  {name:"Andrew Harvey",invited:false,rsvp:"",rank:140,group:"",side:"george",ageGroup:"adult"},
+  {name:"Chris Amos",invited:false,rsvp:"",rank:141,group:"Amos",side:"george",ageGroup:"adult"},
+  {name:"Dianne Tykoski",invited:false,rsvp:"",rank:142,group:"Tykoski",side:"george",ageGroup:"adult"},
+  {name:"Jake Kaufman",invited:false,rsvp:"",rank:143,group:"",side:"george",ageGroup:"adult"},
+  {name:"Katryce Anne Saville",invited:false,rsvp:"",rank:144,group:"",side:"george",ageGroup:"adult"},
+  {name:"Lauren Denomme",invited:false,rsvp:"",rank:145,group:"",side:"george",ageGroup:"adult"},
+  {name:"Lucas Jarmello",invited:false,rsvp:"",rank:146,group:"",side:"george",ageGroup:"adult"},
+  {name:"Marie Burgos",invited:false,rsvp:"",rank:147,group:"",side:"george",ageGroup:"adult"},
+  {name:"Matt Boyer",invited:false,rsvp:"",rank:148,group:"",side:"george",ageGroup:"adult"},
+  {name:"Reid Randolph",invited:false,rsvp:"",rank:149,group:"",side:"george",ageGroup:"adult"},
+  {name:"Sahm Jafari",invited:false,rsvp:"",rank:150,group:"",side:"george",ageGroup:"adult"},
+  {name:"CEO Mark Groden",invited:false,rsvp:"",rank:151,group:"",side:"george",ageGroup:"adult"},
+  {name:"Warren Terrell",invited:false,rsvp:"",rank:152,group:"",side:"george",ageGroup:"adult"},
+  {name:"Zida Ren",invited:false,rsvp:"",rank:153,group:"",side:"george",ageGroup:"adult"},
+  {name:"Daniel Garza",invited:false,rsvp:"",rank:154,group:"",side:"george",ageGroup:"adult"},
+  {name:"Jenn Baugher",invited:false,rsvp:"",rank:155,group:"",side:"george",ageGroup:"adult"},
+  {name:"Joe Robinson",invited:false,rsvp:"",rank:156,group:"",side:"george",ageGroup:"adult"},
+  {name:"John Pittman",invited:false,rsvp:"",rank:157,group:"",side:"george",ageGroup:"adult"},
+  {name:"Greg Valdez",invited:false,rsvp:"",rank:158,group:"",side:"george",ageGroup:"adult"},
+  {name:"Patricia J. Bugher Peterson",invited:false,rsvp:"",rank:159,group:"Peterson",side:"george",ageGroup:"adult"},
+  {name:"Spencer Peterson",invited:false,rsvp:"",rank:160,group:"Peterson",side:"george",ageGroup:"adult"},
+  {name:"Dave Maasberg",invited:false,rsvp:"",rank:161,group:"Maasberg",side:"george",ageGroup:"adult"},
+  {name:"Danielle Walton Caldwell",invited:false,rsvp:"",rank:162,group:"Caldwell",side:"george",ageGroup:"adult"},
+  {name:"Adam Caldwell",invited:false,rsvp:"",rank:163,group:"Caldwell",side:"george",ageGroup:"adult"},
+  {name:"Cherrie Bacon",invited:false,rsvp:"",rank:164,group:"Bacon",side:"george",ageGroup:"adult"},
+  {name:"Phil Bubin",invited:false,rsvp:"",rank:165,group:"Bacon",side:"george",ageGroup:"adult"},
+  {name:"Becky Kirschweng",invited:false,rsvp:"",rank:166,group:"",side:"george",ageGroup:"adult"},
+  {name:"Jacob Blaharski",invited:false,rsvp:"",rank:167,group:"",side:"george",ageGroup:"adult"},
+  {name:"Kevin Aguirre",invited:false,rsvp:"",rank:168,group:"",side:"george",ageGroup:"adult"},
+  {name:"Takeshi Yoshida",invited:false,rsvp:"",rank:169,group:"",side:"george",ageGroup:"adult"},
+  {name:"David Sweeney",invited:false,rsvp:"",rank:170,group:"",side:"george",ageGroup:"adult"},
+  {name:"Hailey CMA",invited:false,rsvp:"",rank:171,group:"",side:"george",ageGroup:"adult"},
+  {name:"John Baque",invited:false,rsvp:"",rank:172,group:"",side:"george",ageGroup:"adult"},
+  {name:"Kirill Chernyavskiy",invited:false,rsvp:"",rank:173,group:"",side:"george",ageGroup:"adult"},
+  {name:"Marco Mattei",invited:false,rsvp:"",rank:174,group:"",side:"george",ageGroup:"adult"},
+  {name:"Rodrigo Cunille",invited:false,rsvp:"",rank:175,group:"",side:"george",ageGroup:"adult"},
+  {name:"Michelle Crandall",invited:false,rsvp:"",rank:176,group:"Crandall",side:"george",ageGroup:"adult"},
+  {name:"Bryan Crandall",invited:false,rsvp:"",rank:177,group:"Crandall",side:"george",ageGroup:"adult"},
+  {name:"Ryan Sturgeon",invited:false,rsvp:"",rank:178,group:"",side:"george",ageGroup:"adult"},
+  {name:"Bobby Sakaki",invited:false,rsvp:"",rank:179,group:"",side:"george",ageGroup:"adult"},
+  {name:"Jesse Jorgensen",invited:false,rsvp:"",rank:180,group:"",side:"george",ageGroup:"adult"},
+  {name:"Carolina Perez",invited:false,rsvp:"",rank:181,group:"",side:"george",ageGroup:"adult"},
+  {name:"Cathy Wann",invited:false,rsvp:"",rank:182,group:"",side:"george",ageGroup:"adult"},
+  {name:"Ryan Nguyen",invited:false,rsvp:"",rank:183,group:"",side:"george",ageGroup:"adult"},
+  {name:"Matt Bailey",invited:false,rsvp:"",rank:184,group:"",side:"george",ageGroup:"adult"},
+  {name:"Sean Wilson",invited:false,rsvp:"",rank:185,group:"",side:"george",ageGroup:"adult"},
+  {name:"Anna Maasberg",invited:false,rsvp:"",rank:186,group:"Massberg",side:"george",ageGroup:"adult"},
+  {name:"Erica Petersen",invited:false,rsvp:"",rank:187,group:"",side:"george",ageGroup:"adult"},
+  {name:"Sabrina Nicacio",invited:false,rsvp:"",rank:188,group:"Intern",side:"george",ageGroup:"adult"},
+  {name:"Ashmit Dewan",invited:false,rsvp:"",rank:189,group:"Intern",side:"george",ageGroup:"adult"},
+  {name:"Ronni Sharpe",invited:false,rsvp:"",rank:190,group:"Intern",side:"george",ageGroup:"adult"},
+];
+
+// ═══════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════
+let G = [];           // guests array
+let mustGroups = [];  // [{name, members[]}] — all must be invited together
+let softGroups = [];  // [{name, members[]}] — prefer together, can split
+let pinned = [];      // [{before, after}] — before always ranked above after
+let sideView = 'george';
+let groupFilter = 'all';
+let filtersOpen = false;
+let archiveOpen = false;
+let dragName = null;
+let activeGuest = null;
+
+// ═══════════════════════════════════════════
+// PERSISTENCE
+// ═══════════════════════════════════════════
+function save() {
+  try {
+    localStorage.setItem('wv3', JSON.stringify({
+      G, mustGroups, softGroups, pinned,
+      gName: document.getElementById('g-name-inp').value,
+      pName: document.getElementById('p-name-inp').value,
+      cutG: document.getElementById('cut-g').value,
+      cutR: document.getElementById('cut-r').value,
+    }));
+  } catch(e) {}
+}
+
+function load() {
+  try {
+    const raw = localStorage.getItem('wv3');
+    if (raw) {
+      const d = JSON.parse(raw);
+      G = d.G && d.G.length ? d.G : seed();
+      mustGroups = d.mustGroups || [];
+      softGroups = d.softGroups && d.softGroups.length ? d.softGroups : buildSoftGroups(G);
+      pinned = d.pinned || [];
+      if (d.gName) document.getElementById('g-name-inp').value = d.gName;
+      if (d.pName) document.getElementById('p-name-inp').value = d.pName;
+      if (d.cutG) document.getElementById('cut-g').value = d.cutG;
+      if (d.cutR) document.getElementById('cut-r').value = d.cutR;
+    } else {
+      G = seed();
+      softGroups = buildSoftGroups(G);
+    }
+  } catch(e) {
+    G = seed();
+    softGroups = buildSoftGroups(G);
+  }
+  updateNames();
+}
+
+function seed() {
+  return JSON.parse(JSON.stringify(DEFAULT_GUESTS));
+}
+
+function buildSoftGroups(gList) {
+  const map = {};
+  gList.forEach(g => {
+    if (!g.group) return;
+    if (!map[g.group]) map[g.group] = { name: g.group, members: [] };
+    map[g.group].members.push(g.name);
+  });
+  return Object.values(map);
+}
+
+// ═══════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════
+const cutG = () => parseInt(document.getElementById('cut-g').value) || 52;
+const cutR = () => parseInt(document.getElementById('cut-r').value) || 50;
+const cutOf = g => g.side === 'george' ? cutG() : cutR();
+const getMust = name => mustGroups.find(m => m.members.includes(name)) || null;
+const getSoft = name => softGroups.find(s => s.members.includes(name)) || null;
+const getPinsBefore = name => pinned.filter(p => p.after === name).map(p => p.before);
+const esc = s => (s || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+
+function updateNames() {
+  const g = document.getElementById('g-name-inp').value || 'George';
+  const p = document.getElementById('p-name-inp').value || 'Teresa';
+  document.getElementById('g-name-disp').textContent = g;
+  document.getElementById('p-name-disp').textContent = p;
+  document.getElementById('btn-g').textContent = g.split(' ')[0];
+  document.getElementById('btn-r').textContent = p.split(' ')[0];
+  document.querySelector('#add-side option[value="george"]').textContent = g + "'s";
+  document.querySelector('#add-side option[value="partner"]').textContent = p + "'s";
+  document.querySelector('#imp-side option[value="george"]').textContent = g + "'s list";
+  document.querySelector('#imp-side option[value="partner"]').textContent = p + "'s list";
+  document.title = g + ' & ' + p + ' — Wedding List';
+}
+
+// ═══════════════════════════════════════════
+// MUST-GROUP RULES
+// ═══════════════════════════════════════════
+function applyMustRules() {
+  for (const mg of mustGroups) {
+    const active = mg.members.map(n => G.find(g => g.name === n)).filter(g => g && !g.invited && !g.archived);
+    if (active.length < 2) continue;
+    const anyIn = active.some(g => g.rank <= cutOf(g));
+    if (!anyIn) continue;
+    const minRank = Math.min(...active.map(g => g.rank));
+    active.forEach((g, i) => {
+      if (g.rank > cutOf(g)) {
+        g.rank = minRank + 0.01 * (i + 1);
+        renumber(g.side);
+      }
+    });
+  }
+}
+
+function renumber(side) {
+  const base = side === 'george' ? 53 : 51;
+  G.filter(g => g.side === side && !g.invited && !g.archived)
+   .sort((a, b) => a.rank - b.rank)
+   .forEach((g, i) => { g.rank = base + i; });
+}
+
+// ═══════════════════════════════════════════
+// STATS
+// ═══════════════════════════════════════════
+function updateStats() {
+  const vis = sideView === 'both' ? G : G.filter(g => g.side === sideView);
+  const active = vis.filter(g => !g.archived);
+  document.getElementById('st-total').textContent = active.length;
+  document.getElementById('st-in').textContent = active.filter(g => g.invited || g.rank <= cutOf(g)).length;
+  document.getElementById('st-yes').textContent = active.filter(g => g.rsvp === 'Yes').length;
+  document.getElementById('st-wait').textContent = active.filter(g => !g.invited && g.rank > cutOf(g)).length;
+  document.getElementById('st-kids').textContent = active.filter(g => g.ageGroup === 'kid').length;
+  document.getElementById('st-arch').textContent = vis.filter(g => g.archived).length;
+}
+
+// ═══════════════════════════════════════════
+// SIDE VIEW
+// ═══════════════════════════════════════════
+function setSide(v) {
+  sideView = v;
+  ['george','both','partner'].forEach((s, i) => {
+    const ids = ['btn-g','btn-b','btn-r'];
+    const btn = document.getElementById(ids[i]);
+    btn.className = 'side-btn' + (s === v ? (v==='george' ? ' act-g' : v==='partner' ? ' act-r' : ' act-b') : '');
+  });
+  groupFilter = 'all';
+  buildChips();
+  render();
+}
+
+// ═══════════════════════════════════════════
+// FILTER CHIPS
+// ═══════════════════════════════════════════
+function buildChips() {
+  const vis = sideView === 'both' ? G : G.filter(g => g.side === sideView);
+  const groups = [...new Set(vis.map(g => g.group).filter(Boolean))].sort();
+  let h = `<div class="chip on" onclick="setFilter('all')" data-v="all">All</div>`;
+  if (sideView === 'both') {
+    h += `<div class="chip" onclick="setFilter('__g')" data-v="__g">George's</div>`;
+    h += `<div class="chip" onclick="setFilter('__r')" data-v="__r">Teresa's</div>`;
+  }
+  groups.forEach(g => { h += `<div class="chip" onclick="setFilter('${esc(g)}')" data-v="${esc(g)}">${g}</div>`; });
+  document.getElementById('chips').innerHTML = h;
+}
+
+function setFilter(v) {
+  groupFilter = v;
+  document.querySelectorAll('.chip').forEach(c => c.classList.toggle('on', c.dataset.v === v));
+  render();
+}
+
+function toggleFilters() {
+  filtersOpen = !filtersOpen;
+  document.getElementById('chips').style.display = filtersOpen ? 'flex' : 'none';
+  document.getElementById('filter-btn').classList.toggle('on', filtersOpen);
+}
+
+// ═══════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════
+function render() {
+  applyMustRules();
+  updateStats();
+  const cg = cutG(), cr = cutR();
+  const q = document.getElementById('search').value.toLowerCase();
+
+  function visible(g) {
+    if (g.archived) return false;
+    if (q && !g.name.toLowerCase().includes(q)) return false;
+    if (sideView !== 'both' && g.side !== sideView) return false;
+    if (groupFilter === '__g' && g.side !== 'george') return false;
+    if (groupFilter === '__r' && g.side !== 'partner') return false;
+    if (groupFilter !== 'all' && !groupFilter.startsWith('__') && g.group !== groupFilter) return false;
+    return true;
+  }
+
+  const locked = G.filter(g => g.invited && visible(g)).sort((a,b) => a.rank - b.rank);
+  const waitlist = G.filter(g => !g.invited && visible(g)).sort((a,b) => a.rank - b.rank);
+  const archived = G.filter(g => g.archived && (sideView === 'both' || g.side === sideView) && (!q || g.name.toLowerCase().includes(q)));
+
+  let html = '';
+
+  // Locked section
+  html += secHdr('Locked In', locked.length);
+  if (!locked.length) html += `<div style="font-size:13px;color:var(--ink-muted);padding:6px 2px">None in this view</div>`;
+  locked.forEach(g => { html += card(g, true, false, false); });
+
+  // Waitlist section
+  html += `<div style="margin-top:18px">` + secHdr('Waitlist', waitlist.length) + `</div>`;
+  let shownGCut = false, shownRCut = false;
+  waitlist.forEach(g => {
+    const isBelow = g.rank > cutOf(g);
+    if (!shownGCut && g.side === 'george' && isBelow) {
+      shownGCut = true;
+      html += cutDiv(cg, 'g', sideView === 'both' ? "George's cutoff" : 'Cutoff');
+    }
+    if (!shownRCut && g.side === 'partner' && isBelow) {
+      shownRCut = true;
+      html += cutDiv(cr, 'r', sideView === 'both' ? "Teresa's cutoff" : 'Cutoff');
+    }
+    html += card(g, false, isBelow, false);
+  });
+  if (!shownGCut && (sideView === 'george' || sideView === 'both')) html += cutDiv(cg, 'g', sideView === 'both' ? "George's cutoff" : 'Cutoff');
+  if (!shownRCut && (sideView === 'partner' || sideView === 'both')) html += cutDiv(cr, 'r', sideView === 'both' ? "Teresa's cutoff" : 'Cutoff');
+
+  // Archive section
+  if (archived.length > 0) {
+    html += `<div class="arch-toggle" onclick="toggleArch()">
+      <span class="arch-lbl">Not Making the List</span>
+      <span class="arch-cnt">${archived.length}</span>
+      <span class="arch-arrow${archiveOpen ? ' open' : ''}">▼</span>
+    </div>
+    <div class="arch-body${archiveOpen ? ' open' : ''}">`;
+    archived.forEach(g => { html += card(g, false, false, true); });
+    html += '</div>';
+  }
+
+  document.getElementById('list').innerHTML = html;
+  attachDrag();
+}
+
+function secHdr(label, count) {
+  return `<div class="sec-hdr"><div class="sec-lbl">${label}</div><div class="sec-cnt">${count}</div><div class="sec-line"></div></div>`;
+}
+
+function cutDiv(n, cls, label) {
+  return `<div class="cut-div"><div class="cut-line ${cls}"></div><div class="cut-pill ${cls}">${label} #${n}</div><div class="cut-line ${cls}"></div></div>`;
+}
+
+function card(g, isLocked, isBelow, isArchived) {
+  const mg = getMust(g.name);
+  const sg = getSoft(g.name);
+  const isPinned = getPinsBefore(g.name).length > 0;
+  const rc = g.rsvp === 'Yes' ? 'yes' : g.rsvp === 'Maybe' ? 'maybe' : g.rsvp === 'No' ? 'no' : 'none';
+
+  let cc = 'card';
+  if (mg) cc += ' must';
+  else if (sg) cc += ' soft';
+  if (isBelow) cc += ' dim';
+  if (isArchived) cc += ' archived';
+
+  const rankCls = isArchived ? 'rank arch' : isLocked ? (g.side === 'george' ? 'rank locked-g' : 'rank locked-r') : 'rank';
+  const rankVal = isArchived ? '—' : g.rank;
+
+  let tags = '';
+  if (sideView === 'both') tags += `<span class="tag ${g.side === 'partner' ? 'rose' : ''}">${g.side === 'george' ? "George's" : "Teresa's"}</span>`;
+  if (mg) tags += `<span class="tag must">🔒 ${mg.name}</span>`;
+  else if (sg) tags += `<span class="tag soft">👥 ${sg.name}</span>`;
+  else if (g.group) tags += `<span class="tag">${g.group}</span>`;
+  if (isPinned) tags += `<span class="tag pin">📌</span>`;
+  if (g.ageGroup === 'kid') tags += `<span class="tag kid">🧒 kid</span>`;
+  if (isArchived) tags += `<span class="tag arch">not invited</span>`;
+
+  const nm = esc(g.name);
+  const draggable = (!isLocked && !isArchived) ? `draggable="true" data-name="${g.name}"` : '';
+  const handle = (!isLocked && !isArchived) ? `<div class="drag-hdl">⠿</div>` : `<div style="width:14px"></div>`;
+  const arrows = (!isLocked && !isArchived) ? `<div class="arrow-col">
+    <div class="arr" onclick="event.stopPropagation();move('${nm}',-1)">▲</div>
+    <div class="arr" onclick="event.stopPropagation();move('${nm}',1)">▼</div>
+  </div>` : '';
+
+  return `<div class="${cc}" ${draggable} onclick="openModal('${nm}')">
+    ${handle}
+    <div class="${rankCls}">${rankVal}</div>
+    <div class="card-body">
+      <div class="card-name">${g.name}</div>
+      ${tags ? `<div class="card-tags">${tags}</div>` : ''}
+    </div>
+    ${arrows}
+    <div class="rsvp ${rc}" onclick="event.stopPropagation();cycleRsvp('${nm}')">${g.rsvp || '—'}</div>
+  </div>`;
+}
+
+function toggleArch() { archiveOpen = !archiveOpen; render(); }
+
+// ═══════════════════════════════════════════
+// MOVE / DRAG
+// ═══════════════════════════════════════════
+function move(name, dir) {
+  const g = G.find(x => x.name === name);
+  if (!g) return;
+  const wl = G.filter(x => !x.invited && !x.archived && x.side === g.side).sort((a,b) => a.rank - b.rank);
+  const idx = wl.findIndex(x => x.name === name);
+  if (idx === -1) return;
+  const ni = idx + dir;
+  if (ni < 0 || ni >= wl.length) return;
+  const nb = wl[ni];
+  if (dir === -1 && getPinsBefore(g.name).includes(nb.name)) { toast('📌 Pinned order prevents this'); return; }
+  [g.rank, nb.rank] = [nb.rank, g.rank];
+  save(); render();
+}
+
+function attachDrag() {
+  document.querySelectorAll('.card[draggable]').forEach(el => {
+    el.addEventListener('dragstart', e => {
+      dragName = e.currentTarget.dataset.name;
+      setTimeout(() => e.currentTarget.classList.add('dragging'), 0);
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    el.addEventListener('dragend', e => {
+      e.currentTarget.classList.remove('dragging');
+      document.querySelectorAll('.drag-over').forEach(c => c.classList.remove('drag-over'));
+    });
+    el.addEventListener('dragover', e => {
+      e.preventDefault();
+      document.querySelectorAll('.drag-over').forEach(c => c.classList.remove('drag-over'));
+      e.currentTarget.classList.add('drag-over');
+    });
+    el.addEventListener('drop', e => {
+      e.preventDefault();
+      const src = G.find(g => g.name === dragName);
+      const dst = G.find(g => g.name === e.currentTarget.dataset.name);
+      if (!src || !dst || src === dst) return;
+      if (getPinsBefore(src.name).includes(dst.name) && src.rank > dst.rank) { toast('📌 Pinned order prevents this'); return; }
+      [src.rank, dst.rank] = [dst.rank, src.rank];
+      save(); render();
+    });
+  });
+}
+
+// ═══════════════════════════════════════════
+// RSVP
+// ═══════════════════════════════════════════
+function cycleRsvp(name) {
+  const g = G.find(x => x.name === name);
+  if (!g) return;
+  const cycle = ['', 'Yes', 'Maybe', 'No'];
+  g.rsvp = cycle[(cycle.indexOf(g.rsvp) + 1) % cycle.length];
+  save(); render();
+}
+
+function setRsvp(val) {
+  if (!activeGuest) return;
+  activeGuest.rsvp = val;
+  document.querySelectorAll('.rsvp-opt').forEach(b => b.classList.remove('sel'));
+  const cls = val === 'Yes' ? 'yes' : val === 'Maybe' ? 'maybe' : val === 'No' ? 'no' : 'none';
+  document.querySelector(`.rsvp-opt.${cls}`)?.classList.add('sel');
+  save(); render();
+}
+
+function setAge(val) {
+  if (!activeGuest) return;
+  activeGuest.ageGroup = val;
+  document.querySelectorAll('.age-opt').forEach(b => b.classList.remove('sel'));
+  if (val) document.querySelector(`.age-opt.${val || 'clear'}`)?.classList.add('sel');
+  else document.querySelector('.age-opt.clear')?.classList.add('sel');
+  save(); render();
+}
+
+// ═══════════════════════════════════════════
+// MODAL
+// ═══════════════════════════════════════════
+function openModal(name) {
+  const g = G.find(x => x.name === name);
+  if (!g) return;
+  activeGuest = g;
+
+  document.getElementById('m-name').textContent = g.name;
+  cancelEdit();
+
+  const cut = cutOf(g);
+  let meta = [];
+  if (g.group) meta.push(g.group);
+  meta.push(g.side === 'george' ? "George's side" : "Teresa's side");
+  if (g.invited) meta.push('Locked in');
+  else if (g.archived) meta.push('Not making the list');
+  else meta.push(`Rank #${g.rank} — ${g.rank <= cut ? 'above cutoff' : 'below cutoff'}`);
+  document.getElementById('m-meta').textContent = meta.join(' · ');
+
+  // RSVP
+  document.querySelectorAll('.rsvp-opt').forEach(b => b.classList.remove('sel'));
+  const rc = g.rsvp === 'Yes' ? 'yes' : g.rsvp === 'Maybe' ? 'maybe' : g.rsvp === 'No' ? 'no' : 'none';
+  document.querySelector(`.rsvp-opt.${rc}`)?.classList.add('sel');
+
+  // Age
+  document.querySelectorAll('.age-opt').forEach(b => b.classList.remove('sel'));
+  const ac = g.ageGroup === 'adult' ? 'adult' : g.ageGroup === 'kid' ? 'kid' : 'clear';
+  document.querySelector(`.age-opt.${ac}`)?.classList.add('sel');
+
+  // Rank
+  const rs = document.getElementById('m-rank-sec');
+  const rd = document.getElementById('m-rank-div');
+  if (!g.invited && !g.archived) {
+    rs.style.display = 'block'; rd.style.display = 'block';
+    document.getElementById('m-rank-inp').value = g.rank;
+    document.getElementById('m-rank-cur').textContent = g.rank;
+  } else { rs.style.display = 'none'; rd.style.display = 'none'; }
+
+  // Archive btn
+  const ab = document.getElementById('m-arch-btn');
+  if (g.invited) { ab.style.display = 'none'; }
+  else if (g.archived) { ab.className = 'act-btn restore'; ab.textContent = 'Restore to Waitlist'; ab.style.display = ''; }
+  else { ab.className = 'act-btn archive'; ab.textContent = 'Not Making List'; ab.style.display = ''; }
+
+  renderMust(); renderSoft(); renderPins();
+  document.getElementById('modal').classList.add('on');
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('on');
+  cancelEdit();
+  activeGuest = null;
+}
+
+// ── Name edit ──
+function startEdit() {
+  if (!activeGuest) return;
+  document.getElementById('m-name').style.display = 'none';
+  document.querySelector('.edit-lbl-btn').style.display = 'none';
+  document.getElementById('m-name-inp').value = activeGuest.name;
+  document.getElementById('m-edit-row').classList.add('on');
+  document.getElementById('m-name-inp').focus();
+  document.getElementById('m-name-inp').select();
+}
+function cancelEdit() {
+  document.getElementById('m-name').style.display = '';
+  const eb = document.querySelector('.edit-lbl-btn');
+  if (eb) eb.style.display = '';
+  document.getElementById('m-edit-row').classList.remove('on');
+}
+function saveEdit() {
+  if (!activeGuest) return;
+  const val = document.getElementById('m-name-inp').value.trim();
+  if (!val) { toast('Name cannot be empty'); return; }
+  if (val === activeGuest.name) { cancelEdit(); return; }
+  if (G.find(g => g.name === val && g !== activeGuest)) { toast('That name already exists'); return; }
+  const old = activeGuest.name;
+  activeGuest.name = val;
+  mustGroups.forEach(m => { const i = m.members.indexOf(old); if (i > -1) m.members[i] = val; });
+  softGroups.forEach(s => { const i = s.members.indexOf(old); if (i > -1) s.members[i] = val; });
+  pinned.forEach(p => { if (p.before === old) p.before = val; if (p.after === old) p.after = val; });
+  document.getElementById('m-name').textContent = val;
+  cancelEdit();
+  save(); render();
+  toast(`✓ Renamed to ${val}`);
+}
+
+// ── Rank ──
+function applyRank() {
+  if (!activeGuest || activeGuest.invited) return;
+  const nr = parseInt(document.getElementById('m-rank-inp').value);
+  if (!nr || nr < 1) return;
+  const target = G.find(g => g.rank === nr && g.name !== activeGuest.name && g.side === activeGuest.side && !g.invited && !g.archived);
+  if (target) target.rank = activeGuest.rank;
+  activeGuest.rank = nr;
+  document.getElementById('m-rank-cur').textContent = nr;
+  save(); render(); toast(`✓ Moved to rank ${nr}`);
+}
+
+// ── Archive ──
+function toggleArchive() {
+  if (!activeGuest || activeGuest.invited) return;
+  activeGuest.archived = !activeGuest.archived;
+  if (activeGuest.archived) {
+    activeGuest.rank = 9999;
+    toast('Moved to "Not Making the List"');
+  } else {
+    const max = Math.max(0, ...G.filter(g => !g.invited && !g.archived && g.side === activeGuest.side).map(g => g.rank));
+    activeGuest.rank = max + 1;
+    toast('Restored to waitlist');
+  }
+  save(); closeModal(); render();
+}
+
+// ── Must group ──
+function renderMust() {
+  const g = activeGuest;
+  const mg = getMust(g.name);
+  const el = document.getElementById('m-must');
+  if (mg) {
+    const others = mg.members.filter(m => m !== g.name);
+    el.innerHTML = `
+      <div class="linked">
+        <div style="flex:1">
+          <div class="linked-name blue" style="margin-bottom:6px">${mg.name}</div>
+          <div style="display:flex;flex-wrap:wrap;gap:4px">
+            ${others.map(m => `<span style="font-size:11px;background:var(--blue-lt);color:var(--blue);border:1px solid #C5D8EE;border-radius:4px;padding:2px 8px">${m}</span>`).join('')}
+          </div>
+        </div>
+        <button class="unlink-btn" onclick="leaveMust()">Leave</button>
+      </div>
+      <div class="rel-row">
+        <div class="ac-wrap"><input type="text" id="must-add" placeholder="Add another member…" oninput="ac('must-add','must-add-ac')" autocomplete="off"><div class="ac-list" id="must-add-ac"></div></div>
+        <button class="mini blue" onclick="addToMust()">Add</button>
+      </div>`;
+  } else {
+    el.innerHTML = `
+      <div style="font-size:12px;color:var(--ink-muted);margin-bottom:8px">Link with others who must all be invited together</div>
+      <div class="rel-row">
+        <input type="text" id="must-gname" placeholder="Group name (e.g. Martinez Family)" list="must-dl" style="flex:1.2">
+        <datalist id="must-dl">${mustGroups.map(m => `<option value="${esc(m.name)}">`).join('')}</datalist>
+        <div class="ac-wrap"><input type="text" id="must-member" placeholder="First other member…" oninput="ac('must-member','must-member-ac')" autocomplete="off"><div class="ac-list" id="must-member-ac"></div></div>
+        <button class="mini blue" onclick="joinMust()">Link</button>
+      </div>`;
+  }
+}
+function joinMust() {
+  const name = document.getElementById('must-gname')?.value.trim();
+  const member = document.getElementById('must-member')?.value.trim();
+  if (!name || !activeGuest) { toast('Enter a group name'); return; }
+  let mg = mustGroups.find(m => m.name === name);
+  if (!mg) {
+    if (!member) { toast('Add at least one other person'); return; }
+    if (!G.find(g => g.name === member)) { toast(`"${member}" not found`); return; }
+    mg = { name, members: [activeGuest.name, member] };
+    mustGroups.push(mg);
+  } else {
+    if (!mg.members.includes(activeGuest.name)) mg.members.push(activeGuest.name);
+    if (member && !mg.members.includes(member)) {
+      if (!G.find(g => g.name === member)) { toast(`"${member}" not found`); return; }
+      mg.members.push(member);
+    }
+  }
+  save(); renderMust(); render(); toast(`🔒 Added to "${name}"`);
+}
+function addToMust() {
+  const person = document.getElementById('must-add')?.value.trim();
+  if (!person || !activeGuest) return;
+  if (!G.find(g => g.name === person)) { toast(`"${person}" not found`); return; }
+  const mg = getMust(activeGuest.name);
+  if (!mg) return;
+  if (mg.members.includes(person)) { toast('Already in group'); return; }
+  mg.members.push(person);
+  save(); renderMust(); render(); toast(`🔒 ${person} added`);
+}
+function leaveMust() {
+  if (!activeGuest) return;
+  mustGroups.forEach(m => { m.members = m.members.filter(x => x !== activeGuest.name); });
+  mustGroups = mustGroups.filter(m => m.members.length > 1);
+  save(); renderMust(); render(); toast('Removed from must-invite group');
+}
+
+// ── Soft group ──
+function renderSoft() {
+  const g = activeGuest;
+  const sg = getSoft(g.name);
+  const el = document.getElementById('m-soft');
+  if (sg) {
+    el.innerHTML = `<div class="linked">
+      <span>In group <span class="linked-name green">${sg.name}</span></span>
+      <button class="unlink-btn" onclick="leaveSoft()">Remove</button>
+    </div>`;
+  } else {
+    el.innerHTML = `<div class="rel-row">
+      <input type="text" id="soft-name" placeholder="Group name…" list="soft-dl">
+      <datalist id="soft-dl">${softGroups.map(s => `<option value="${esc(s.name)}">`).join('')}</datalist>
+      <button class="mini green" onclick="joinSoft()">Add</button>
+    </div>`;
+  }
+}
+function joinSoft() {
+  const name = document.getElementById('soft-name')?.value.trim();
+  if (!name || !activeGuest) { toast('Enter a group name'); return; }
+  let sg = softGroups.find(s => s.name === name);
+  if (!sg) { sg = { name, members: [] }; softGroups.push(sg); }
+  if (!sg.members.includes(activeGuest.name)) sg.members.push(activeGuest.name);
+  save(); renderSoft(); render(); toast(`👥 Added to "${name}"`);
+}
+function leaveSoft() {
+  if (!activeGuest) return;
+  softGroups.forEach(s => { s.members = s.members.filter(x => x !== activeGuest.name); });
+  softGroups = softGroups.filter(s => s.members.length > 0);
+  save(); renderSoft(); render(); toast('Removed from group');
+}
+
+// ── Pins ──
+function renderPins() {
+  const g = activeGuest;
+  const pins = pinned.filter(p => p.before === g.name || p.after === g.name);
+  const el = document.getElementById('m-pins');
+  if (!pins.length) { el.innerHTML = ''; return; }
+  el.innerHTML = pins.map(p =>
+    `<div class="linked" style="margin-bottom:5px">
+      <span style="font-size:12px"><strong>${p.before}</strong> <span style="color:var(--ink-muted)">always before</span> <strong>${p.after}</strong></span>
+      <button class="unlink-btn" onclick="removePin('${esc(p.before)}','${esc(p.after)}')">Remove</button>
+    </div>`
+  ).join('');
+}
+function addPin() {
+  const below = document.getElementById('pin-inp')?.value.trim();
+  if (!below || !activeGuest) return;
+  if (!G.find(g => g.name === below)) { toast(`"${below}" not found`); return; }
+  pinned.push({ before: activeGuest.name, after: below });
+  document.getElementById('pin-inp').value = '';
+  save(); renderPins(); toast(`📌 ${activeGuest.name} always before ${below}`);
+}
+function removePin(before, after) {
+  pinned = pinned.filter(p => !(p.before === before && p.after === after));
+  save(); renderPins();
+}
+
+// ═══════════════════════════════════════════
+// ADD GUEST
+// ═══════════════════════════════════════════
+function openAdd() { document.getElementById('add-modal').classList.add('on'); }
+function closeAdd() { document.getElementById('add-modal').classList.remove('on'); }
+function submitAdd() {
+  const name = document.getElementById('add-name').value.trim();
+  if (!name) { toast('Enter a name'); return; }
+  if (G.find(g => g.name === name)) { toast('Name already exists'); return; }
+  const side = document.getElementById('add-side').value;
+  const status = document.getElementById('add-status').value;
+  const group = document.getElementById('add-group').value.trim();
+  const ageGroup = document.getElementById('add-age').value;
+  const rsvp = document.getElementById('add-rsvp').value;
+  const sideG = G.filter(g => g.side === side && !g.archived);
+  const maxR = status === 'locked'
+    ? Math.max(0, ...sideG.filter(g => g.invited).map(g => g.rank)) + 1
+    : Math.max(0, ...sideG.filter(g => !g.invited).map(g => g.rank)) + 1;
+  G.push({ name, invited: status === 'locked', archived: status === 'archived', rsvp, rank: status === 'archived' ? 9999 : maxR, group, side, ageGroup });
+  if (group) {
+    let sg = softGroups.find(s => s.name === group);
+    if (!sg) { sg = { name: group, members: [] }; softGroups.push(sg); }
+    if (!sg.members.includes(name)) sg.members.push(name);
+  }
+  document.getElementById('add-name').value = '';
+  document.getElementById('add-group').value = '';
+  closeAdd();
+  save(); buildChips(); render(); toast(`✓ ${name} added`);
+}
+
+// ═══════════════════════════════════════════
+// IMPORT CSV
+// ═══════════════════════════════════════════
+let importRows = [];
+
+function openImport() {
+  resetImport();
+  document.getElementById('import-modal').classList.add('on');
+  const dz = document.getElementById('drop-zone');
+  dz.ondragover = e => { e.preventDefault(); dz.classList.add('over'); };
+  dz.ondragleave = () => dz.classList.remove('over');
+  dz.ondrop = e => { e.preventDefault(); dz.classList.remove('over'); handleFile({ target: { files: e.dataTransfer.files } }); };
+}
+function closeImport() { document.getElementById('import-modal').classList.remove('on'); }
+function resetImport() {
+  importRows = [];
+  document.getElementById('imp-step1').style.display = 'block';
+  document.getElementById('imp-step2').style.display = 'none';
+  const fi = document.getElementById('file-inp');
+  if (fi) fi.value = '';
+}
+
+function handleFile(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => parseCSV(ev.target.result);
+  reader.readAsText(file);
+}
+
+function parseCSV(text) {
+  const lines = text.trim().split(/\r?\n/).filter(l => l.trim());
+  if (lines.length < 2) { toast('CSV appears empty'); return; }
+  const headers = splitCSVRow(lines[0]).map(h => h.trim().replace(/^"|"$/g, '').toLowerCase());
+  const col = (...variants) => { for (const v of variants) { const i = headers.indexOf(v); if (i > -1) return i; } return -1; };
+  const nameCol = col('guest name', 'name', 'full name', 'guest');
+  if (nameCol === -1) { toast('No "Guest Name" column found'); return; }
+  const invCol = col('invited');
+  const rsvpCol = col('able to come', 'rsvp', 'response');
+  const rankCol = col('rank', 'priority');
+  const groupCol = col('group', 'category');
+  const ageCol = col('age', 'age group', 'type');
+  const side = document.getElementById('imp-side').value;
+  const defStatus = document.getElementById('imp-status').value;
+  const existing = new Set(G.map(g => g.name.toLowerCase()));
+  const sideGuests = G.filter(g => g.side === side && !g.archived);
+  let maxR = Math.max(0, ...sideGuests.filter(g => !g.invited).map(g => g.rank));
+  importRows = [];
+  let dupes = 0;
+  for (let i = 1; i < lines.length; i++) {
+    const row = splitCSVRow(lines[i]);
+    const name = (row[nameCol] || '').trim().replace(/^"|"$/g, '');
+    if (!name) continue;
+    const isDupe = existing.has(name.toLowerCase());
+    if (isDupe) dupes++;
+    const invRaw = invCol > -1 ? (row[invCol] || '').trim().toUpperCase() : '';
+    const invited = invRaw === 'TRUE' || invRaw === 'YES' || invRaw === '1';
+    const rsvp = rsvpCol > -1 ? normalizeRsvp((row[rsvpCol] || '').trim()) : '';
+    const rankRaw = rankCol > -1 ? parseInt(row[rankCol]) : NaN;
+    const rank = !isNaN(rankRaw) ? rankRaw : ++maxR;
+    const group = groupCol > -1 ? (row[groupCol] || '').trim().replace(/^"|"$/g, '') : '';
+    const ageRaw = ageCol > -1 ? (row[ageCol] || '').trim().toLowerCase() : '';
+    const ageGroup = ageRaw === 'kid' || ageRaw === 'child' ? 'kid' : ageRaw === 'adult' ? 'adult' : '';
+    const status = invited ? 'locked' : defStatus;
+    importRows.push({ name, invited, rsvp, rank, group, ageGroup, side, status, isDupe });
+  }
+  showPreview(dupes);
+}
+
+function splitCSVRow(line) {
+  const r = []; let cur = '', inQ = false;
+  for (const c of line) {
+    if (c === '"') inQ = !inQ;
+    else if (c === ',' && !inQ) { r.push(cur); cur = ''; }
+    else cur += c;
+  }
+  r.push(cur);
+  return r;
+}
+
+function normalizeRsvp(r) {
+  const l = r.toLowerCase();
+  if (l === 'yes' || l === 'true') return 'Yes';
+  if (l === 'maybe') return 'Maybe';
+  if (l === 'no') return 'No';
+  return '';
+}
+
+function showPreview(dupes) {
+  const newCount = importRows.filter(r => !r.isDupe).length;
+  const pName = document.getElementById('p-name-inp').value || 'Teresa';
+  const gName = document.getElementById('g-name-inp').value || 'George';
+  const sideName = document.getElementById('imp-side').value === 'george' ? gName + "'s" : pName + "'s";
+  document.getElementById('imp-summary').innerHTML = `
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:4px">
+      <span style="font-size:13px;background:var(--green-lt);color:var(--green);border-radius:6px;padding:4px 10px;font-weight:500">${newCount} new guests</span>
+      ${dupes > 0 ? `<span style="font-size:13px;background:var(--amber-lt);color:var(--amber);border-radius:6px;padding:4px 10px;font-weight:500">${dupes} duplicates skipped</span>` : ''}
+    </div>
+    <div style="font-size:11px;color:var(--ink-muted)">Importing to ${sideName} list</div>`;
+  document.getElementById('imp-tbody').innerHTML = importRows.map(r => {
+    const sc = r.isDupe ? 'var(--amber)' : r.status === 'locked' ? 'var(--gold)' : r.status === 'archived' ? 'var(--ink-muted)' : 'var(--green)';
+    const sl = r.isDupe ? 'skip' : r.status === 'locked' ? 'Locked' : r.status === 'archived' ? 'Archived' : 'Waitlist';
+    return `<tr class="${r.isDupe ? 'dupe' : ''}">
+      <td>${r.name}</td>
+      <td>${r.group || '—'}</td>
+      <td style="text-align:center">${r.rank}</td>
+      <td style="text-align:center">${r.ageGroup || '—'}</td>
+      <td style="text-align:center;font-weight:500;color:${sc}">${sl}</td>
+    </tr>`;
+  }).join('');
+  const btn = document.getElementById('imp-confirm');
+  btn.textContent = `Import ${newCount} guest${newCount !== 1 ? 's' : ''}`;
+  btn.style.opacity = newCount === 0 ? '0.4' : '1';
+  btn.disabled = newCount === 0;
+  document.getElementById('imp-step1').style.display = 'none';
+  document.getElementById('imp-step2').style.display = 'block';
+}
+
+function confirmImport() {
+  const toAdd = importRows.filter(r => !r.isDupe);
+  if (!toAdd.length) { toast('Nothing to import'); return; }
+  toAdd.forEach(r => {
+    G.push({ name: r.name, invited: r.status === 'locked', archived: r.status === 'archived', rsvp: r.rsvp, rank: r.rank, group: r.group, side: r.side, ageGroup: r.ageGroup });
+    if (r.group) {
+      let sg = softGroups.find(s => s.name === r.group);
+      if (!sg) { sg = { name: r.group, members: [] }; softGroups.push(sg); }
+      if (!sg.members.includes(r.name)) sg.members.push(r.name);
+    }
+  });
+  save(); buildChips(); render();
+  closeImport();
+  toast(`✓ ${toAdd.length} guest${toAdd.length !== 1 ? 's' : ''} imported`);
+}
+
+// ═══════════════════════════════════════════
+// AUTOCOMPLETE
+// ═══════════════════════════════════════════
+function ac(inputId, listId) {
+  const inp = document.getElementById(inputId);
+  const list = document.getElementById(listId);
+  if (!inp || !list) return;
+  const val = inp.value.toLowerCase();
+  if (!val) { list.style.display = 'none'; return; }
+  const matches = G.map(g => g.name).filter(n => n.toLowerCase().includes(val) && n !== activeGuest?.name).slice(0, 8);
+  if (!matches.length) { list.style.display = 'none'; return; }
+  list.innerHTML = matches.map(n =>
+    `<div class="ac-item" onclick="document.getElementById('${inputId}').value='${esc(n)}';document.getElementById('${listId}').style.display='none'">${n}</div>`
+  ).join('');
+  list.style.display = 'block';
+}
+document.addEventListener('click', e => {
+  document.querySelectorAll('.ac-list').forEach(l => { if (!l.contains(e.target)) l.style.display = 'none'; });
+});
+
+// ═══════════════════════════════════════════
+// TABS
+// ═══════════════════════════════════════════
+function switchTab(t) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('on'));
+  document.getElementById('panel-' + t).classList.add('on');
+  document.getElementById('tab-' + t).classList.add('on');
+}
+
+// ═══════════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════════
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('on');
+  setTimeout(() => el.classList.remove('on'), 2400);
+}
+
+// ═══════════════════════════════════════════
+// PASSWORD
+// ═══════════════════════════════════════════
+const DEFAULT_PW = 'wedding2025';
+
+function getStoredPw() {
+  try { return localStorage.getItem('wv3_pw') || DEFAULT_PW; } catch(e) { return DEFAULT_PW; }
+}
+
+function checkPw() {
+  const val = document.getElementById('pw-input').value;
+  if (!val) return;
+  if (val === getStoredPw()) {
+    try { sessionStorage.setItem('wv3_auth', '1'); } catch(e) {}
+    document.getElementById('pw-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    load(); buildChips(); render();
+  } else {
+    const inp = document.getElementById('pw-input');
+    inp.classList.add('shake');
+    setTimeout(() => inp.classList.remove('shake'), 400);
+    document.getElementById('pw-err').textContent = 'Incorrect password';
+    inp.value = '';
+    inp.focus();
+  }
+}
+
+function saveSettings() {
+  const newPw = document.getElementById('pw-set-inp').value.trim();
+  if (newPw) {
+    try { localStorage.setItem('wv3_pw', newPw); } catch(e) {}
+    document.getElementById('pw-set-inp').value = '';
+    toast('✓ Settings saved — new password set');
+  } else {
+    toast('✓ Settings saved');
+  }
+  save();
+}
+
+// ═══════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════
+(function init() {
+  // Check if already authenticated this session
+  try {
+    if (sessionStorage.getItem('wv3_auth') === '1') {
+      document.getElementById('pw-screen').style.display = 'none';
+      document.getElementById('app').style.display = 'block';
+      load(); buildChips(); render();
+      return;
+    }
+  } catch(e) {}
+  // Show password screen — focus input
+  setTimeout(() => document.getElementById('pw-input').focus(), 100);
+})();
+
+</script>
+</body>
+</html>
