@@ -571,200 +571,8 @@ body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(
 
 <script>
 // ═══════════════════════════════════════════
-// DEFAULT DATA
+// DEFAULT DATA — removed. Use CSV import or add guests manually.
 // ═══════════════════════════════════════════
-const DEFAULT_GUESTS = [
-  {name:"Catherine Yao Ma Evans",invited:true,rsvp:"Yes",rank:1,group:"GE Parents",side:"george",ageGroup:"adult"},
-  {name:"Mark Grey",invited:true,rsvp:"Yes",rank:2,group:"GE Parents",side:"george",ageGroup:"adult"},
-  {name:"Kristina Evans",invited:true,rsvp:"Yes",rank:3,group:"GE Sibling",side:"george",ageGroup:"adult"},
-  {name:"Garrett Petersen",invited:true,rsvp:"Yes",rank:4,group:"GE Sibling",side:"george",ageGroup:"adult"},
-  {name:"Theo",invited:true,rsvp:"Yes",rank:5,group:"GE Sibling",side:"george",ageGroup:"kid"},
-  {name:"Jasper",invited:true,rsvp:"Yes",rank:6,group:"GE Sibling",side:"george",ageGroup:"kid"},
-  {name:"Barry Evans",invited:true,rsvp:"",rank:7,group:"GE Sibling",side:"george",ageGroup:"adult"},
-  {name:"Pam Evans",invited:true,rsvp:"",rank:8,group:"GE Sibling",side:"george",ageGroup:"adult"},
-  {name:"Ben Austin",invited:true,rsvp:"",rank:9,group:"GE Wedding Party",side:"george",ageGroup:"adult"},
-  {name:"Elizabeth Krusemark",invited:true,rsvp:"",rank:10,group:"GE Wedding Party",side:"george",ageGroup:"adult"},
-  {name:"Chris Hitesman",invited:true,rsvp:"Yes",rank:11,group:"GE Wedding Party",side:"george",ageGroup:"adult"},
-  {name:"Shelby Hitesman",invited:true,rsvp:"Yes",rank:12,group:"GE Wedding Party",side:"george",ageGroup:"adult"},
-  {name:"David Wann",invited:true,rsvp:"",rank:13,group:"GE Wedding Party",side:"george",ageGroup:"adult"},
-  {name:"Laura Wann",invited:true,rsvp:"",rank:14,group:"GE Wedding Party",side:"george",ageGroup:"adult"},
-  {name:"Eric Murray",invited:true,rsvp:"",rank:15,group:"GE Wedding Party",side:"george",ageGroup:"adult"},
-  {name:"Katie Murray",invited:true,rsvp:"",rank:16,group:"GE Wedding Party",side:"george",ageGroup:"adult"},
-  {name:"James Nichols",invited:true,rsvp:"Yes",rank:17,group:"GE Wedding Party",side:"george",ageGroup:"adult"},
-  {name:"Susan Preske",invited:true,rsvp:"Yes",rank:18,group:"GE Wedding Party",side:"george",ageGroup:"adult"},
-  {name:"Jordan Brown",invited:true,rsvp:"",rank:19,group:"GE Wedding Party",side:"george",ageGroup:"adult"},
-  {name:"Michelle Brown",invited:true,rsvp:"",rank:20,group:"GE Wedding Party",side:"george",ageGroup:"adult"},
-  {name:"Juriaan Barker",invited:true,rsvp:"",rank:21,group:"GE Wedding Party",side:"george",ageGroup:"adult"},
-  {name:"Kulab Pitaksin Barker",invited:true,rsvp:"",rank:22,group:"GE Wedding Party",side:"george",ageGroup:"adult"},
-  {name:"Kollan Lam",invited:true,rsvp:"Yes",rank:23,group:"GE Wedding Party",side:"george",ageGroup:"adult"},
-  {name:"Amy Lam",invited:true,rsvp:"Yes",rank:24,group:"GE Wedding Party",side:"george",ageGroup:"adult"},
-  {name:"Nathan Swallow",invited:true,rsvp:"",rank:25,group:"GE Wedding Party",side:"george",ageGroup:"adult"},
-  {name:"Christina Swallow",invited:true,rsvp:"",rank:26,group:"GE Wedding Party",side:"george",ageGroup:"adult"},
-  {name:"Todd Bradley",invited:true,rsvp:"",rank:27,group:"GE Wedding Party",side:"george",ageGroup:"adult"},
-  {name:"Sara Gorr",invited:true,rsvp:"",rank:28,group:"Extend Fam Evans",side:"george",ageGroup:"adult"},
-  {name:"Matthew Jervis",invited:true,rsvp:"",rank:29,group:"Extend Fam Evans",side:"george",ageGroup:"adult"},
-  {name:"Yifan Hopper",invited:true,rsvp:"",rank:30,group:"Extend Fam Ma",side:"george",ageGroup:"adult"},
-  {name:"Michael Hopper",invited:true,rsvp:"",rank:31,group:"Extend Fam Ma",side:"george",ageGroup:"adult"},
-  {name:"Dong Dong Cai",invited:true,rsvp:"Yes",rank:32,group:"Extend Fam Cai",side:"george",ageGroup:"adult"},
-  {name:"Charles Cai",invited:true,rsvp:"Yes",rank:33,group:"Extend Fam Cai",side:"george",ageGroup:"adult"},
-  {name:"David Mar",invited:true,rsvp:"",rank:34,group:"Fam Mar",side:"george",ageGroup:"adult"},
-  {name:"Francesca Mar",invited:true,rsvp:"",rank:35,group:"Fam Mar",side:"george",ageGroup:"adult"},
-  {name:"Mary Mar",invited:true,rsvp:"",rank:36,group:"Fam Mar",side:"george",ageGroup:"adult"},
-  {name:"Nelson Mar",invited:true,rsvp:"",rank:37,group:"Extend Fam Mar",side:"george",ageGroup:"adult"},
-  {name:"Sarah Mar",invited:true,rsvp:"",rank:38,group:"Extend Fam Mar",side:"george",ageGroup:"adult"},
-  {name:"Robert",invited:true,rsvp:"",rank:39,group:"Extend Fam Mar",side:"george",ageGroup:"adult"},
-  {name:"Dixie Evans Schulz",invited:true,rsvp:"Maybe",rank:40,group:"Extend Fam Evans",side:"george",ageGroup:"adult"},
-  {name:"Rocky",invited:true,rsvp:"Maybe",rank:41,group:"Extend Fam Evans",side:"george",ageGroup:"adult"},
-  {name:"Peach Evans",invited:true,rsvp:"",rank:42,group:"Extend Fam Evans",side:"george",ageGroup:"adult"},
-  {name:"Sunny",invited:true,rsvp:"",rank:43,group:"Extend Fam Evans",side:"george",ageGroup:"adult"},
-  {name:"Alex Cai",invited:true,rsvp:"",rank:44,group:"Extend Fam Cai",side:"george",ageGroup:"adult"},
-  {name:"Gaylord Smith",invited:true,rsvp:"",rank:45,group:"Fam Friend 1",side:"george",ageGroup:"adult"},
-  {name:"Dixie Smith",invited:true,rsvp:"",rank:46,group:"Fam Friend 1",side:"george",ageGroup:"adult"},
-  {name:"Tom Ekstrom",invited:true,rsvp:"",rank:47,group:"24",side:"george",ageGroup:"adult"},
-  {name:"Emily Judd Ekstrom",invited:true,rsvp:"",rank:48,group:"24",side:"george",ageGroup:"adult"},
-  {name:"RJ Martinez",invited:true,rsvp:"",rank:49,group:"Tesla 2",side:"george",ageGroup:"adult"},
-  {name:"Mayo Martinez",invited:true,rsvp:"",rank:50,group:"Tesla 2",side:"george",ageGroup:"adult"},
-  {name:"Jeff Crutchfield",invited:true,rsvp:"",rank:51,group:"45",side:"george",ageGroup:"adult"},
-  {name:"Kristin Olson",invited:true,rsvp:"",rank:52,group:"45",side:"george",ageGroup:"adult"},
-  {name:"Warren Curry",invited:false,rsvp:"",rank:53,group:"Sky 1",side:"george",ageGroup:"adult"},
-  {name:"Warren's Wife",invited:false,rsvp:"",rank:54,group:"Sky 1",side:"george",ageGroup:"adult"},
-  {name:"Nicole Ryan",invited:false,rsvp:"",rank:55,group:"Sky 2",side:"george",ageGroup:"adult"},
-  {name:"Nicole's Husband",invited:false,rsvp:"",rank:56,group:"Sky 2",side:"george",ageGroup:"adult"},
-  {name:"Remy Labesque",invited:false,rsvp:"",rank:57,group:"Tesla 1",side:"george",ageGroup:"adult"},
-  {name:"Remy's Wife",invited:false,rsvp:"",rank:58,group:"Tesla 1",side:"george",ageGroup:"adult"},
-  {name:"Alexander Yoo",invited:false,rsvp:"",rank:59,group:"Tesla 3",side:"george",ageGroup:"adult"},
-  {name:"Nathan Allen",invited:false,rsvp:"",rank:60,group:"Tesla 4",side:"george",ageGroup:"adult"},
-  {name:"Simon Turac",invited:false,rsvp:"",rank:61,group:"Tesla 5",side:"george",ageGroup:"adult"},
-  {name:"Maja Bjorkqvist",invited:false,rsvp:"",rank:62,group:"Tesla 5",side:"george",ageGroup:"adult"},
-  {name:"Simon Sebastian",invited:false,rsvp:"",rank:63,group:"Tesla 6",side:"george",ageGroup:"adult"},
-  {name:"Corinna Sebastian",invited:false,rsvp:"",rank:64,group:"Tesla 6",side:"george",ageGroup:"adult"},
-  {name:"Elizabeth Romero",invited:false,rsvp:"",rank:65,group:"33",side:"george",ageGroup:"adult"},
-  {name:"Josh Ayala",invited:false,rsvp:"",rank:66,group:"33",side:"george",ageGroup:"adult"},
-  {name:"Shannon Faltys",invited:false,rsvp:"",rank:67,group:"34",side:"george",ageGroup:"adult"},
-  {name:"Christine Millian",invited:false,rsvp:"",rank:68,group:"35",side:"george",ageGroup:"adult"},
-  {name:"Christine's BF",invited:false,rsvp:"",rank:69,group:"35",side:"george",ageGroup:"adult"},
-  {name:"Grace Guo",invited:false,rsvp:"",rank:70,group:"36",side:"george",ageGroup:"adult"},
-  {name:"Kouhei Kawakami",invited:false,rsvp:"",rank:71,group:"37",side:"george",ageGroup:"adult"},
-  {name:"Ellie",invited:false,rsvp:"",rank:72,group:"37",side:"george",ageGroup:"adult"},
-  {name:"Lizzie Hubler",invited:false,rsvp:"",rank:73,group:"38",side:"george",ageGroup:"adult"},
-  {name:"Eva Joy Ross",invited:false,rsvp:"",rank:74,group:"38",side:"george",ageGroup:"adult"},
-  {name:"Eva's BF",invited:false,rsvp:"",rank:75,group:"38",side:"george",ageGroup:"adult"},
-  {name:"Julian Bilodeau",invited:false,rsvp:"",rank:76,group:"39",side:"george",ageGroup:"adult"},
-  {name:"Cara Chang",invited:false,rsvp:"",rank:77,group:"39",side:"george",ageGroup:"adult"},
-  {name:"Ankit Ukil",invited:false,rsvp:"",rank:78,group:"40",side:"george",ageGroup:"adult"},
-  {name:"Ryan Kitchens",invited:false,rsvp:"",rank:79,group:"41",side:"george",ageGroup:"adult"},
-  {name:"Emily Kitchens",invited:false,rsvp:"",rank:80,group:"41",side:"george",ageGroup:"adult"},
-  {name:"Ian Kettle",invited:false,rsvp:"",rank:81,group:"42",side:"george",ageGroup:"adult"},
-  {name:"Liz Kettle",invited:false,rsvp:"",rank:82,group:"42",side:"george",ageGroup:"adult"},
-  {name:"Grant Ritter",invited:false,rsvp:"",rank:83,group:"43",side:"george",ageGroup:"adult"},
-  {name:"Sam Ritter",invited:false,rsvp:"",rank:84,group:"43",side:"george",ageGroup:"adult"},
-  {name:"Juan Cortes",invited:false,rsvp:"",rank:85,group:"44",side:"george",ageGroup:"adult"},
-  {name:"Juan's Wife",invited:false,rsvp:"",rank:86,group:"44",side:"george",ageGroup:"adult"},
-  {name:"Samuel Poznanovich",invited:false,rsvp:"",rank:87,group:"46",side:"george",ageGroup:"adult"},
-  {name:"Sebastian Bauco",invited:false,rsvp:"",rank:88,group:"47",side:"george",ageGroup:"adult"},
-  {name:"Sebastian's Wife",invited:false,rsvp:"",rank:89,group:"47",side:"george",ageGroup:"adult"},
-  {name:"Raunaq Kumaran",invited:false,rsvp:"",rank:90,group:"48",side:"george",ageGroup:"adult"},
-  {name:"Adam Oliver",invited:false,rsvp:"",rank:91,group:"49",side:"george",ageGroup:"adult"},
-  {name:"Adam's Wife",invited:false,rsvp:"",rank:92,group:"49",side:"george",ageGroup:"adult"},
-  {name:"Nik Sartain",invited:false,rsvp:"",rank:93,group:"50",side:"george",ageGroup:"adult"},
-  {name:"Whittney Sartain",invited:false,rsvp:"",rank:94,group:"50",side:"george",ageGroup:"adult"},
-  {name:"Ronit Mukherjii",invited:false,rsvp:"",rank:95,group:"51",side:"george",ageGroup:"adult"},
-  {name:"Ronit's Wife",invited:false,rsvp:"",rank:96,group:"51",side:"george",ageGroup:"adult"},
-  {name:"Janice Madsen",invited:false,rsvp:"",rank:97,group:"52",side:"george",ageGroup:"adult"},
-  {name:"Chuck Madsen",invited:false,rsvp:"",rank:98,group:"52",side:"george",ageGroup:"adult"},
-  {name:"Joe Carter",invited:false,rsvp:"",rank:99,group:"53",side:"george",ageGroup:"adult"},
-  {name:"Jane Carter",invited:false,rsvp:"",rank:100,group:"53",side:"george",ageGroup:"adult"},
-  {name:"Richard Burdette",invited:false,rsvp:"",rank:101,group:"54",side:"george",ageGroup:"adult"},
-  {name:"Allene Burdette",invited:false,rsvp:"",rank:102,group:"54",side:"george",ageGroup:"adult"},
-  {name:"Takayuki Makioka",invited:false,rsvp:"",rank:103,group:"56",side:"george",ageGroup:"adult"},
-  {name:"Maki-san's Wife",invited:false,rsvp:"",rank:104,group:"56",side:"george",ageGroup:"adult"},
-  {name:"Patrick Garrett",invited:false,rsvp:"",rank:105,group:"57",side:"george",ageGroup:"adult"},
-  {name:"Patrick's Wife",invited:false,rsvp:"",rank:106,group:"57",side:"george",ageGroup:"adult"},
-  {name:"Christoph Kuttner",invited:false,rsvp:"",rank:107,group:"58",side:"george",ageGroup:"adult"},
-  {name:"Christoph's Wife",invited:false,rsvp:"",rank:108,group:"58",side:"george",ageGroup:"adult"},
-  {name:"Brian Lew",invited:false,rsvp:"",rank:109,group:"59",side:"george",ageGroup:"adult"},
-  {name:"Steve Xiao",invited:false,rsvp:"",rank:110,group:"60",side:"george",ageGroup:"adult"},
-  {name:"Songlin He",invited:false,rsvp:"",rank:111,group:"61",side:"george",ageGroup:"adult"},
-  {name:"Songlin's GF",invited:false,rsvp:"",rank:112,group:"61",side:"george",ageGroup:"adult"},
-  {name:"Peter Rupkey",invited:false,rsvp:"",rank:113,group:"62",side:"george",ageGroup:"adult"},
-  {name:"Peter's GF",invited:false,rsvp:"",rank:114,group:"62",side:"george",ageGroup:"adult"},
-  {name:"Christina Hicks",invited:false,rsvp:"",rank:115,group:"63",side:"george",ageGroup:"adult"},
-  {name:"Christina's Partner",invited:false,rsvp:"",rank:116,group:"63",side:"george",ageGroup:"adult"},
-  {name:"Kentaro Lunn",invited:false,rsvp:"",rank:117,group:"64",side:"george",ageGroup:"adult"},
-  {name:"Emily Mukai",invited:false,rsvp:"",rank:118,group:"64",side:"george",ageGroup:"adult"},
-  {name:"Mark Benton",invited:false,rsvp:"",rank:119,group:"65",side:"george",ageGroup:"adult"},
-  {name:"Mark's Wife",invited:false,rsvp:"",rank:120,group:"65",side:"george",ageGroup:"adult"},
-  {name:"Connor Whalen",invited:false,rsvp:"",rank:121,group:"66",side:"george",ageGroup:"adult"},
-  {name:"Connor's GF",invited:false,rsvp:"",rank:122,group:"66",side:"george",ageGroup:"adult"},
-  {name:"Dominic Hollingdale",invited:false,rsvp:"",rank:123,group:"67",side:"george",ageGroup:"adult"},
-  {name:"Dominic's GF",invited:false,rsvp:"",rank:124,group:"67",side:"george",ageGroup:"adult"},
-  {name:"Andy Caponetti",invited:false,rsvp:"",rank:125,group:"",side:"george",ageGroup:"adult"},
-  {name:"Cesar Trujilo",invited:false,rsvp:"",rank:126,group:"",side:"george",ageGroup:"adult"},
-  {name:"Walter",invited:false,rsvp:"",rank:127,group:"",side:"george",ageGroup:"adult"},
-  {name:"Woo Kim",invited:false,rsvp:"",rank:128,group:"",side:"george",ageGroup:"adult"},
-  {name:"Laura Correa",invited:false,rsvp:"",rank:129,group:"",side:"george",ageGroup:"adult"},
-  {name:"Lori Trosch-Whitton",invited:false,rsvp:"",rank:130,group:"",side:"george",ageGroup:"adult"},
-  {name:"Randy Stephens",invited:false,rsvp:"",rank:131,group:"",side:"george",ageGroup:"adult"},
-  {name:"Alexandre Laloum",invited:false,rsvp:"",rank:132,group:"",side:"george",ageGroup:"adult"},
-  {name:"Bernie Lee",invited:false,rsvp:"",rank:133,group:"",side:"george",ageGroup:"adult"},
-  {name:"Brandon Jones",invited:false,rsvp:"",rank:134,group:"",side:"george",ageGroup:"adult"},
-  {name:"Perry Ng",invited:false,rsvp:"",rank:135,group:"Ng/Chan",side:"george",ageGroup:"adult"},
-  {name:"Lay Leng Chan",invited:false,rsvp:"",rank:136,group:"Ng/Chan",side:"george",ageGroup:"adult"},
-  {name:"Alec Freddrickson",invited:false,rsvp:"",rank:137,group:"",side:"george",ageGroup:"adult"},
-  {name:"Katie R. Crezee",invited:false,rsvp:"",rank:138,group:"Creeze",side:"george",ageGroup:"adult"},
-  {name:"Devin Creeze",invited:false,rsvp:"",rank:139,group:"Creeze",side:"george",ageGroup:"adult"},
-  {name:"Andrew Harvey",invited:false,rsvp:"",rank:140,group:"",side:"george",ageGroup:"adult"},
-  {name:"Chris Amos",invited:false,rsvp:"",rank:141,group:"Amos",side:"george",ageGroup:"adult"},
-  {name:"Dianne Tykoski",invited:false,rsvp:"",rank:142,group:"Tykoski",side:"george",ageGroup:"adult"},
-  {name:"Jake Kaufman",invited:false,rsvp:"",rank:143,group:"",side:"george",ageGroup:"adult"},
-  {name:"Katryce Anne Saville",invited:false,rsvp:"",rank:144,group:"",side:"george",ageGroup:"adult"},
-  {name:"Lauren Denomme",invited:false,rsvp:"",rank:145,group:"",side:"george",ageGroup:"adult"},
-  {name:"Lucas Jarmello",invited:false,rsvp:"",rank:146,group:"",side:"george",ageGroup:"adult"},
-  {name:"Marie Burgos",invited:false,rsvp:"",rank:147,group:"",side:"george",ageGroup:"adult"},
-  {name:"Matt Boyer",invited:false,rsvp:"",rank:148,group:"",side:"george",ageGroup:"adult"},
-  {name:"Reid Randolph",invited:false,rsvp:"",rank:149,group:"",side:"george",ageGroup:"adult"},
-  {name:"Sahm Jafari",invited:false,rsvp:"",rank:150,group:"",side:"george",ageGroup:"adult"},
-  {name:"CEO Mark Groden",invited:false,rsvp:"",rank:151,group:"",side:"george",ageGroup:"adult"},
-  {name:"Warren Terrell",invited:false,rsvp:"",rank:152,group:"",side:"george",ageGroup:"adult"},
-  {name:"Zida Ren",invited:false,rsvp:"",rank:153,group:"",side:"george",ageGroup:"adult"},
-  {name:"Daniel Garza",invited:false,rsvp:"",rank:154,group:"",side:"george",ageGroup:"adult"},
-  {name:"Jenn Baugher",invited:false,rsvp:"",rank:155,group:"",side:"george",ageGroup:"adult"},
-  {name:"Joe Robinson",invited:false,rsvp:"",rank:156,group:"",side:"george",ageGroup:"adult"},
-  {name:"John Pittman",invited:false,rsvp:"",rank:157,group:"",side:"george",ageGroup:"adult"},
-  {name:"Greg Valdez",invited:false,rsvp:"",rank:158,group:"",side:"george",ageGroup:"adult"},
-  {name:"Patricia J. Bugher Peterson",invited:false,rsvp:"",rank:159,group:"Peterson",side:"george",ageGroup:"adult"},
-  {name:"Spencer Peterson",invited:false,rsvp:"",rank:160,group:"Peterson",side:"george",ageGroup:"adult"},
-  {name:"Dave Maasberg",invited:false,rsvp:"",rank:161,group:"Maasberg",side:"george",ageGroup:"adult"},
-  {name:"Danielle Walton Caldwell",invited:false,rsvp:"",rank:162,group:"Caldwell",side:"george",ageGroup:"adult"},
-  {name:"Adam Caldwell",invited:false,rsvp:"",rank:163,group:"Caldwell",side:"george",ageGroup:"adult"},
-  {name:"Cherrie Bacon",invited:false,rsvp:"",rank:164,group:"Bacon",side:"george",ageGroup:"adult"},
-  {name:"Phil Bubin",invited:false,rsvp:"",rank:165,group:"Bacon",side:"george",ageGroup:"adult"},
-  {name:"Becky Kirschweng",invited:false,rsvp:"",rank:166,group:"",side:"george",ageGroup:"adult"},
-  {name:"Jacob Blaharski",invited:false,rsvp:"",rank:167,group:"",side:"george",ageGroup:"adult"},
-  {name:"Kevin Aguirre",invited:false,rsvp:"",rank:168,group:"",side:"george",ageGroup:"adult"},
-  {name:"Takeshi Yoshida",invited:false,rsvp:"",rank:169,group:"",side:"george",ageGroup:"adult"},
-  {name:"David Sweeney",invited:false,rsvp:"",rank:170,group:"",side:"george",ageGroup:"adult"},
-  {name:"Hailey CMA",invited:false,rsvp:"",rank:171,group:"",side:"george",ageGroup:"adult"},
-  {name:"John Baque",invited:false,rsvp:"",rank:172,group:"",side:"george",ageGroup:"adult"},
-  {name:"Kirill Chernyavskiy",invited:false,rsvp:"",rank:173,group:"",side:"george",ageGroup:"adult"},
-  {name:"Marco Mattei",invited:false,rsvp:"",rank:174,group:"",side:"george",ageGroup:"adult"},
-  {name:"Rodrigo Cunille",invited:false,rsvp:"",rank:175,group:"",side:"george",ageGroup:"adult"},
-  {name:"Michelle Crandall",invited:false,rsvp:"",rank:176,group:"Crandall",side:"george",ageGroup:"adult"},
-  {name:"Bryan Crandall",invited:false,rsvp:"",rank:177,group:"Crandall",side:"george",ageGroup:"adult"},
-  {name:"Ryan Sturgeon",invited:false,rsvp:"",rank:178,group:"",side:"george",ageGroup:"adult"},
-  {name:"Bobby Sakaki",invited:false,rsvp:"",rank:179,group:"",side:"george",ageGroup:"adult"},
-  {name:"Jesse Jorgensen",invited:false,rsvp:"",rank:180,group:"",side:"george",ageGroup:"adult"},
-  {name:"Carolina Perez",invited:false,rsvp:"",rank:181,group:"",side:"george",ageGroup:"adult"},
-  {name:"Cathy Wann",invited:false,rsvp:"",rank:182,group:"",side:"george",ageGroup:"adult"},
-  {name:"Ryan Nguyen",invited:false,rsvp:"",rank:183,group:"",side:"george",ageGroup:"adult"},
-  {name:"Matt Bailey",invited:false,rsvp:"",rank:184,group:"",side:"george",ageGroup:"adult"},
-  {name:"Sean Wilson",invited:false,rsvp:"",rank:185,group:"",side:"george",ageGroup:"adult"},
-  {name:"Anna Maasberg",invited:false,rsvp:"",rank:186,group:"Massberg",side:"george",ageGroup:"adult"},
-  {name:"Erica Petersen",invited:false,rsvp:"",rank:187,group:"",side:"george",ageGroup:"adult"},
-  {name:"Sabrina Nicacio",invited:false,rsvp:"",rank:188,group:"Intern",side:"george",ageGroup:"adult"},
-  {name:"Ashmit Dewan",invited:false,rsvp:"",rank:189,group:"Intern",side:"george",ageGroup:"adult"},
-  {name:"Ronni Sharpe",invited:false,rsvp:"",rank:190,group:"Intern",side:"george",ageGroup:"adult"},
-];
 
 // ═══════════════════════════════════════════
 // STATE
@@ -785,7 +593,7 @@ let activeGuest = null;
 // ═══════════════════════════════════════════
 
 // ▼▼▼ PASTE YOUR APPS SCRIPT URL HERE ▼▼▼
-const DEFAULT_SYNC_URL = 'https://script.google.com/macros/s/AKfycbyxI31Lw6o7OTreN3LTTMUQWedmZDTL3N1FuoLCk9u1CvFNt8lJ5q5CTfkFT38pUbTZnA/exec';
+const DEFAULT_SYNC_URL = 'https://script.google.com/macros/s/AKfycbzfeHcLHSTUOHAJuPfjL7aQuzjazJvoA-1ktq9e3F3dKZ9rwIZHXKWd-NtvvaoazKlfnA/exec';
 // ▲▲▲ After deploying the Apps Script, paste the URL between the quotes above,
 //     then upload this file to GitHub. Every device will use it automatically.
 
@@ -885,7 +693,7 @@ async function loadFromSheets() {
         try { sessionStorage.setItem('wv3_remote_pw', d.password); } catch(e) {}
       }
       updateNames();
-      saveLocal(); // cache to localStorage only — no remote sync on load
+      // Do NOT call saveLocal() or save() here — loading must never trigger a write
       updateSyncIndicator('synced');
     } else {
       loadLocal();
@@ -922,10 +730,6 @@ function loadLocal() {
   if (!G.length) { G = []; softGroups = []; }
   updateSyncIndicator(getSyncUrl() ? 'error' : 'local');
   // Caller is responsible for calling buildChips() and render()
-}
-
-function seed() {
-  return JSON.parse(JSON.stringify(DEFAULT_GUESTS));
 }
 
 function buildSoftGroups(gList) {
@@ -1628,8 +1432,9 @@ function showPreview(dupes) {
 }
 
 function confirmImport() {
-  const toAdd = importRows.filter(r => !r.isDupe);
-  if (!toAdd.length) { toast('Nothing to import'); return; }
+  const existingNames = new Set(G.map(g => g.name.toLowerCase()));
+  const toAdd = importRows.filter(r => !r.isDupe && !existingNames.has(r.name.toLowerCase()));
+  if (!toAdd.length) { toast('Nothing new to import'); return; }
   toAdd.forEach(r => {
     G.push({ name: r.name, invited: r.status === 'locked', archived: r.status === 'archived', rsvp: r.rsvp, rank: r.rank, group: r.group, side: r.side, ageGroup: r.ageGroup });
     if (r.group) {
