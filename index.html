@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Wedding Guest List — V6</title>
+<title>Wedding Guest List — V7</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -395,7 +395,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(
       <button onclick="testSync()" style="width:100%;padding:9px;background:var(--blue-lt);color:var(--blue);border:1px solid #C5D8EE;border-radius:8px;font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;margin-top:4px">Test Connection</button>
     </div>
     <div class="set-section">
-      <div class="set-note" style="line-height:1.8">All changes save automatically and sync to Google Sheets.<br>To update: upload this file to GitHub Pages as index.html.<br><strong>Version 6.0</strong></div>
+      <div class="set-note" style="line-height:1.8">All changes save automatically and sync to Google Sheets.<br>To update: upload this file to GitHub Pages as index.html.<br><strong>Version 7.0</strong></div>
     </div>
     <button class="set-save" onclick="saveSettings()">Save Settings</button>
   </div>
@@ -776,13 +776,11 @@ function insertBlock(names, targetRank, side) {
 }
 
 function renumber(side) {
-  const base = side === 'george' ? 1 : 1; // use 1-based within waitlist
-  // Actually keep locked items separate
   const wl = G.filter(g => g.side===side && !g.invited && !g.archived)
                .sort((a,b) => a.rank - b.rank);
-  const lockedMin = Math.min(...G.filter(g=>g.side===side&&g.invited).map(g=>g.rank).concat([999]));
-  const startRank = lockedMin === 999 ? 1 : lockedMin + 1;
-  wl.forEach((g,i) => { g.rank = startRank + i; });
+  const lockedRanks = G.filter(g => g.side===side && g.invited).map(g => g.rank);
+  const startRank = lockedRanks.length ? Math.max(...lockedRanks) + 1 : 1;
+  wl.forEach((g, i) => { g.rank = startRank + i; });
 }
 
 // Main move function — handles groups + priority enforcement
@@ -872,15 +870,17 @@ function applyMustRules() {
   for (const mg of mustGroups) {
     const active = mg.members.map(n=>G.find(g=>g.name===n)).filter(g=>g&&!g.invited&&!g.archived);
     if (active.length < 2) continue;
-    const anyIn = active.some(g => g.rank <= cutOf(g));
+    const side = active[0].side;
+    const { lastInRank } = calcCutoffLine(side);
+    const anyIn = active.some(g => g.rank <= lastInRank);
     if (!anyIn) continue;
     const minRank = Math.min(...active.map(g=>g.rank));
     active.forEach((g,i) => {
-      if (g.rank > cutOf(g)) {
+      if (g.rank > lastInRank) {
         g.rank = minRank + 0.01*(i+1);
       }
     });
-    renumber(active[0].side);
+    renumber(side);
   }
 }
 
@@ -1067,17 +1067,124 @@ function renderPriorityPanel() {
 }
 
 // ═══════════════════════════════════════════════════════
+// DYNAMIC CUTOFF CALCULATION
+// ═══════════════════════════════════════════════════════
+// Returns the effective "in" group for a given side, accounting for No RSVPs
+// opening spots and must-invite groups pulling extras across the line.
+function calcEffectiveIn(side) {
+  const target = side === 'george' ? cutG() : cutR();
+  const wl = G.filter(g => g.side === side && !g.invited && !g.archived)
+               .sort((a, b) => a.rank - b.rank);
+
+  let activeCount = 0;
+  let inNames = new Set();
+
+  for (let i = 0; i < wl.length; i++) {
+    const g = wl[i];
+    if (inNames.has(g.name)) continue; // already pulled in by group
+
+    // If this person is a No (locked in and said no), skip — they don't count
+    if (g.invited && g.rsvp === 'No') continue;
+
+    // Would adding this person/group push us to or past target?
+    const mg = getMust(g.name);
+    const groupMembers = mg
+      ? mg.members.filter(n => { const m = G.find(x => x.name === n); return m && !m.invited && !m.archived; })
+      : [g.name];
+
+    // Count how many of this group aren't already in
+    const newMembers = groupMembers.filter(n => !inNames.has(n));
+
+    // Add them all
+    newMembers.forEach(n => inNames.add(n));
+    // Only count non-No members toward the active total
+    const nonNo = newMembers.filter(n => {
+      const m = G.find(x => x.name === n);
+      return m && !(m.invited && m.rsvp === 'No');
+    });
+    activeCount += nonNo.length;
+
+    // Stop once we've hit or passed the target
+    if (activeCount >= target) break;
+  }
+
+  return { inNames, activeCount };
+}
+
+// Compute the effective cutoff rank — the rank of the last person in the "in" group,
+// accounting for No RSVPs and must-invite groups.
+function calcCutoffLine(side) {
+  const target = side === 'george' ? cutG() : cutR();
+  const wl = G.filter(g => g.side === side && !g.invited && !g.archived)
+               .sort((a, b) => a.rank - b.rank);
+
+  // Count Locked In + No RSVPs within the top [target] ranked people
+  // Walk down the list accumulating active slots until we reach target
+  let activeCount = 0;
+  let lastInRank = 0;
+  let inNames = new Set();
+
+  for (let i = 0; i < wl.length; i++) {
+    const g = wl[i];
+    if (inNames.has(g.name)) {
+      // Already pulled in by group — update lastInRank
+      lastInRank = Math.max(lastInRank, g.rank);
+      continue;
+    }
+    if (g.invited && g.rsvp === 'No') continue;
+
+    const mg = getMust(g.name);
+    const groupMembers = mg
+      ? mg.members.filter(n => { const m = G.find(x => x.name === n); return m && !m.invited && !m.archived; })
+      : [g.name];
+
+    const newMembers = groupMembers.filter(n => !inNames.has(n));
+    newMembers.forEach(n => inNames.add(n));
+    const nonNo = newMembers.filter(n => {
+      const m = G.find(x => x.name === n);
+      return m && !(m.invited && m.rsvp === 'No');
+    });
+    activeCount += nonNo.length;
+
+    // Track the highest rank in this group
+    const groupRanks = newMembers.map(n => { const m = G.find(x => x.name === n); return m ? m.rank : 0; });
+    lastInRank = Math.max(lastInRank, ...groupRanks);
+
+    if (activeCount >= target) break;
+  }
+
+  return { lastInRank, activeCount, inNames };
+}
+
+// ═══════════════════════════════════════════════════════
 // STATS
 // ═══════════════════════════════════════════════════════
 function updateStats() {
+  const sides = sideView === 'both' ? ['george', 'partner'] : [sideView];
   const vis    = sideView === 'both' ? G : G.filter(g => g.side === sideView);
   const active = vis.filter(g => !g.archived);
+
+  // Build the combined "in" set across selected sides
+  let inNames = new Set();
+  sides.forEach(s => {
+    const { inNames: sideIn } = calcCutoffLine(s);
+    sideIn.forEach(n => inNames.add(n));
+  });
+  // Also include locked-in guests who haven't said No
+  vis.filter(g => g.invited && g.rsvp !== 'No').forEach(g => inNames.add(g.name));
+
+  const inCount   = [...inNames].filter(n => { const g = G.find(x => x.name === n); return g && !g.archived; }).length;
+  const confirmed = active.filter(g => g.rsvp === 'Yes').length;
+  const waitlist  = active.filter(g => !g.invited && !inNames.has(g.name)).length;
+  const kids      = active.filter(g => g.ageGroup === 'kid').length;
+  const archived  = vis.filter(g => g.archived).length;
+
   document.getElementById('st-total').textContent = active.length;
-  document.getElementById('st-in').textContent    = active.filter(g => g.invited || g.rank <= cutOf(g)).length;
-  document.getElementById('st-yes').textContent   = active.filter(g => g.rsvp === 'Yes').length;
-  document.getElementById('st-wait').textContent  = active.filter(g => !g.invited && g.rank > cutOf(g)).length;
-  document.getElementById('st-kids').textContent  = active.filter(g => g.ageGroup === 'kid').length;
-  document.getElementById('st-arch').textContent  = vis.filter(g => g.archived).length;
+  document.getElementById('st-in').textContent    = inCount;
+  document.getElementById('st-yes').textContent   = confirmed;
+  document.getElementById('st-wait').textContent  = waitlist;
+  document.getElementById('st-kids').textContent  = kids;
+  document.getElementById('st-arch').textContent  = archived;
 }
 
 // ═══════════════════════════════════════════════════════
@@ -1143,6 +1250,10 @@ function render() {
   const waitlist = G.filter(g => !g.invited && visible(g)).sort((a,b) => a.rank-b.rank);
   const archived = G.filter(g => g.archived && (sideView==='both'||g.side===sideView) && (!q||g.name.toLowerCase().includes(q)));
 
+  // Compute dynamic cutoff lines per side
+  const gCutoff = calcCutoffLine('george');
+  const rCutoff = calcCutoffLine('partner');
+
   let html = '';
   html += secHdr('Locked In', locked.length);
   if (!locked.length) html += `<div style="font-size:13px;color:var(--ink-muted);padding:6px 2px">None in this view</div>`;
@@ -1151,13 +1262,22 @@ function render() {
   html += `<div style="margin-top:18px">` + secHdr('Waitlist', waitlist.length) + `</div>`;
   let shownGCut = false, shownRCut = false;
   waitlist.forEach(g => {
-    const isBelow = g.rank > cutOf(g);
-    if (!shownGCut && g.side==='george' && isBelow) { shownGCut=true; html+=cutDiv(cg,'g',sideView==='both'?"George's cutoff":'Cutoff'); }
-    if (!shownRCut && g.side==='partner' && isBelow) { shownRCut=true; html+=cutDiv(cr,'r',sideView==='both'?"Teresa's cutoff":'Cutoff'); }
+    // Show cutoff line just after the last "in" person for each side
+    if (!shownGCut && g.side === 'george' && g.rank > gCutoff.lastInRank) {
+      shownGCut = true;
+      html += cutDiv(gCutoff.activeCount, 'g', sideView === 'both' ? "George's cutoff" : 'Cutoff');
+    }
+    if (!shownRCut && g.side === 'partner' && g.rank > rCutoff.lastInRank) {
+      shownRCut = true;
+      html += cutDiv(rCutoff.activeCount, 'r', sideView === 'both' ? "Teresa's cutoff" : 'Cutoff');
+    }
+    const effCut = g.side === 'george' ? gCutoff : rCutoff;
+    const isBelow = !effCut.inNames.has(g.name);
     html += cardHtml(g, false, isBelow, false);
   });
-  if (!shownGCut && (sideView==='george'||sideView==='both')) html += cutDiv(cg,'g',sideView==='both'?"George's cutoff":'Cutoff');
-  if (!shownRCut && (sideView==='partner'||sideView==='both')) html += cutDiv(cr,'r',sideView==='both'?"Teresa's cutoff":'Cutoff');
+  // Show cutoff line at end if no one is below it yet
+  if (!shownGCut && (sideView === 'george' || sideView === 'both')) html += cutDiv(gCutoff.activeCount, 'g', sideView === 'both' ? "George's cutoff" : 'Cutoff');
+  if (!shownRCut && (sideView === 'partner' || sideView === 'both')) html += cutDiv(rCutoff.activeCount, 'r', sideView === 'both' ? "Teresa's cutoff" : 'Cutoff');
 
   if (archived.length > 0) {
     html += `<div class="arch-toggle" onclick="toggleArch()">
