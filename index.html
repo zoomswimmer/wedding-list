@@ -3,42 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Wedding Guest List — V5</title>
+<title>Wedding Guest List — V6</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --cream: #F8F5F0;
-  --warm: #FDFBF8;
-  --ink: #1C1917;
-  --ink-soft: #44403C;
-  --ink-muted: #78716C;
-  --ink-faint: #C8C2BA;
-  --border: #EAE5DE;
-  --border-strong: #CCC5BB;
-  --gold: #A87422;
-  --gold-lt: #FBF3E3;
-  --gold-mid: #D4A855;
-  --green: #2D6645;
-  --green-lt: #E6F2EB;
-  --red: #8B3030;
-  --red-lt: #F5E8E8;
-  --amber: #7A5210;
-  --amber-lt: #FEF3DC;
-  --blue: #1F4E7A;
-  --blue-lt: #E5EEF8;
-  --purple: #5B3B8C;
-  --purple-lt: #EEE8F8;
-  --rose: #8B2F52;
-  --rose-lt: #F8EBF1;
-  --rose-mid: #D4829F;
-  --orange: #9B5A1A;
-  --orange-lt: #FFF0E6;
+  --cream: #F8F5F0; --warm: #FDFBF8; --ink: #1C1917; --ink-soft: #44403C;
+  --ink-muted: #78716C; --ink-faint: #C8C2BA; --border: #EAE5DE; --border-strong: #CCC5BB;
+  --gold: #A87422; --gold-lt: #FBF3E3; --gold-mid: #D4A855;
+  --green: #2D6645; --green-lt: #E6F2EB;
+  --red: #8B3030; --red-lt: #F5E8E8;
+  --amber: #7A5210; --amber-lt: #FEF3DC;
+  --blue: #1F4E7A; --blue-lt: #E5EEF8;
+  --purple: #5B3B8C; --purple-lt: #EEE8F8;
+  --rose: #8B2F52; --rose-lt: #F8EBF1; --rose-mid: #D4829F;
+  --orange: #9B5A1A; --orange-lt: #FFF0E6;
   --r: 10px;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); min-height: 100vh; }
 
-/* ── HEADER ── */
+/* HEADER */
 .hdr { background: var(--warm); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 200; }
 .hdr-top { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px 8px; }
 .hdr-title { font-family: 'DM Serif Display', serif; font-size: 20px; letter-spacing: -0.2px; }
@@ -49,45 +33,42 @@ body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(
 .side-btn.act-r { background: var(--rose); color: white; }
 .side-btn.act-b { background: var(--ink); color: white; }
 
-/* ── STATS ── */
+/* STATS */
 .stats { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1px; background: var(--border); border-top: 1px solid var(--border); }
 .stat { background: var(--warm); padding: 7px 4px; text-align: center; }
 .stat-n { font-size: 15px; font-weight: 600; line-height: 1; }
-.stat-n.gold { color: var(--gold); }
-.stat-n.blue { color: var(--blue); }
-.stat-n.green { color: var(--green); }
-.stat-n.rose { color: var(--rose); }
-.stat-n.orange { color: var(--orange); }
-.stat-n.muted { color: var(--ink-muted); }
+.stat-n.gold { color: var(--gold); } .stat-n.blue { color: var(--blue); }
+.stat-n.green { color: var(--green); } .stat-n.rose { color: var(--rose); }
+.stat-n.orange { color: var(--orange); } .stat-n.muted { color: var(--ink-muted); }
 .stat-l { font-size: 9px; color: var(--ink-muted); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.4px; }
 
-/* ── TABS ── */
+/* TABS */
 .tabs { display: flex; background: var(--warm); border-bottom: 1px solid var(--border); }
 .tab { flex: 1; padding: 10px 4px; text-align: center; font-size: 11px; font-weight: 500; color: var(--ink-muted); cursor: pointer; border-bottom: 2px solid transparent; }
 .tab.on { color: var(--gold); border-bottom-color: var(--gold); }
 
-/* ── PANELS ── */
+/* PANELS */
 .panel { display: none; }
 .panel.on { display: block; }
 .main { padding: 12px 16px 100px; max-width: 600px; margin: 0 auto; }
 
-/* ── CONTROLS ── */
-.ctrl-row { display: flex; gap: 6px; margin-bottom: 10px; align-items: center; }
-.search-wrap { flex: 1; position: relative; }
+/* CONTROLS */
+.ctrl-row { display: flex; gap: 6px; margin-bottom: 10px; align-items: center; flex-wrap: wrap; }
+.search-wrap { flex: 1; min-width: 120px; position: relative; }
 .search-wrap input { width: 100%; padding: 8px 10px 8px 30px; border: 1px solid var(--border-strong); border-radius: 8px; font-size: 14px; font-family: 'DM Sans', sans-serif; background: var(--warm); color: var(--ink); outline: none; }
 .search-wrap input:focus { border-color: var(--gold-mid); }
 .search-ico { position: absolute; left: 9px; top: 50%; transform: translateY(-50%); color: var(--ink-faint); font-size: 13px; pointer-events: none; }
-.btn { padding: 8px 10px; border: 1px solid var(--border-strong); border-radius: 8px; background: var(--warm); font-size: 12px; font-family: 'DM Sans', sans-serif; font-weight: 500; color: var(--ink-soft); cursor: pointer; white-space: nowrap; }
+.btn { padding: 7px 10px; border: 1px solid var(--border-strong); border-radius: 8px; background: var(--warm); font-size: 12px; font-family: 'DM Sans', sans-serif; font-weight: 500; color: var(--ink-soft); cursor: pointer; white-space: nowrap; }
 .btn.on { background: var(--ink); color: white; border-color: var(--ink); }
 .btn.gold { background: var(--gold-lt); color: var(--gold); border-color: var(--gold-mid); }
 .btn.blue { background: var(--blue-lt); color: var(--blue); border-color: #C5D8EE; }
 
-/* ── FILTER CHIPS ── */
+/* FILTER CHIPS */
 .chips { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
 .chip { font-size: 11px; padding: 4px 10px; border-radius: 99px; border: 1px solid var(--border-strong); background: var(--warm); color: var(--ink-soft); cursor: pointer; white-space: nowrap; }
 .chip.on { background: var(--ink); color: white; border-color: var(--ink); }
 
-/* ── CUTOFF BAR ── */
+/* CUTOFF BAR */
 .cutoff-bar { background: var(--warm); border: 1px solid var(--border); border-radius: var(--r); padding: 9px 12px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .cutoff-bar label { font-size: 11px; font-weight: 600; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.3px; white-space: nowrap; }
 .cutoff-bar input[type=number] { width: 54px; padding: 5px 6px; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 14px; font-weight: 600; font-family: 'DM Sans', sans-serif; text-align: center; outline: none; }
@@ -95,26 +76,24 @@ body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(
 .cutoff-bar input.r-inp { color: var(--rose); background: var(--rose-lt); }
 .cutoff-note { font-size: 11px; color: var(--ink-muted); flex: 1; min-width: 80px; }
 .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
-.dot.g { background: var(--gold-mid); }
-.dot.r { background: var(--rose-mid); }
+.dot.g { background: var(--gold-mid); } .dot.r { background: var(--rose-mid); }
 
-/* ── SECTION HEADER ── */
+/* SECTION HEADER */
 .sec-hdr { display: flex; align-items: center; gap: 8px; margin: 14px 0 8px; }
 .sec-lbl { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: var(--ink-muted); white-space: nowrap; }
 .sec-cnt { font-size: 10px; background: var(--border); color: var(--ink-soft); border-radius: 99px; padding: 1px 7px; }
 .sec-line { flex: 1; height: 1px; background: var(--border); }
 
-/* ── CUTOFF DIVIDER ── */
+/* CUTOFF DIVIDER */
 .cut-div { display: flex; align-items: center; gap: 8px; margin: 8px 0; }
 .cut-line { flex: 1; height: 2px; border-radius: 2px; }
-.cut-line.g { background: var(--gold-mid); }
-.cut-line.r { background: var(--rose-mid); }
+.cut-line.g { background: var(--gold-mid); } .cut-line.r { background: var(--rose-mid); }
 .cut-pill { font-size: 11px; font-weight: 600; border-radius: 99px; padding: 3px 12px; white-space: nowrap; }
 .cut-pill.g { color: var(--gold); background: var(--gold-lt); border: 1px solid var(--gold-mid); }
 .cut-pill.r { color: var(--rose); background: var(--rose-lt); border: 1px solid var(--rose-mid); }
 
-/* ── GUEST CARD ── */
-.card { background: var(--warm); border: 1px solid var(--border); border-radius: var(--r); padding: 9px 10px; margin-bottom: 5px; display: flex; align-items: center; gap: 8px; cursor: pointer; position: relative; }
+/* GUEST CARD */
+.card { background: var(--warm); border: 1px solid var(--border); border-radius: var(--r); padding: 9px 10px; margin-bottom: 5px; display: flex; align-items: center; gap: 6px; cursor: pointer; position: relative; }
 .card:hover { border-color: var(--border-strong); }
 .card.must { border-left: 3px solid var(--blue); }
 .card.soft { border-left: 3px solid var(--green); }
@@ -127,32 +106,32 @@ body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(
 .rank.locked-g { background: var(--gold-lt); border-color: var(--gold-mid); color: var(--gold); }
 .rank.locked-r { background: var(--rose-lt); border-color: var(--rose-mid); color: var(--rose); }
 .rank.arch { background: var(--border); border-color: var(--border); color: var(--ink-faint); }
-
 .drag-hdl { color: var(--ink-faint); font-size: 16px; cursor: grab; flex-shrink: 0; }
-.drag-hdl:active { cursor: grabbing; }
-
 .card-body { flex: 1; min-width: 0; }
 .card-name { font-size: 14px; font-weight: 500; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .card-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 3px; }
 .tag { font-size: 10px; border-radius: 4px; padding: 1px 5px; border: 1px solid var(--border); background: var(--cream); color: var(--ink-muted); }
 .tag.must { background: var(--blue-lt); color: var(--blue); border-color: #C5D8EE; }
 .tag.soft { background: var(--green-lt); color: var(--green); border-color: #C0D9C9; }
-.tag.pin { background: var(--amber-lt); color: var(--amber); border-color: #F0D9A0; }
+.tag.pri { background: var(--purple-lt); color: var(--purple); border-color: #D4C7EE; }
 .tag.kid { background: var(--orange-lt); color: var(--orange); border-color: #F5C99A; }
 .tag.rose { background: var(--rose-lt); color: var(--rose); border-color: var(--rose-mid); }
 .tag.arch { background: var(--border); color: var(--ink-muted); border-color: var(--border-strong); }
 
-.arrow-col { display: flex; flex-direction: column; gap: 2px; flex-shrink: 0; }
-.arr { background: var(--cream); border: 1px solid var(--border-strong); border-radius: 4px; width: 22px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 10px; color: var(--ink-soft); cursor: pointer; }
+/* CARD CONTROLS — arrows + top/bottom */
+.card-ctrl { display: flex; flex-direction: column; gap: 2px; flex-shrink: 0; }
+.arr { background: var(--cream); border: 1px solid var(--border-strong); border-radius: 4px; width: 22px; height: 16px; display: flex; align-items: center; justify-content: center; font-size: 9px; color: var(--ink-soft); cursor: pointer; }
 .arr:active { background: var(--border); }
+.arr.top { background: var(--gold-lt); color: var(--gold); border-color: var(--gold-mid); font-size: 8px; font-weight: 600; }
+.arr.bot { background: var(--gold-lt); color: var(--gold); border-color: var(--gold-mid); font-size: 8px; font-weight: 600; }
 
-.rsvp { font-size: 11px; font-weight: 600; border-radius: 99px; padding: 4px 9px; flex-shrink: 0; cursor: pointer; border: 1px solid transparent; font-family: 'DM Sans', sans-serif; }
+.rsvp { font-size: 11px; font-weight: 600; border-radius: 99px; padding: 4px 8px; flex-shrink: 0; cursor: pointer; border: 1px solid transparent; font-family: 'DM Sans', sans-serif; }
 .rsvp.yes { background: var(--green-lt); color: var(--green); border-color: #C0D9C9; }
 .rsvp.maybe { background: var(--amber-lt); color: var(--amber); border-color: #F0D9A0; }
 .rsvp.no { background: var(--red-lt); color: var(--red); border-color: #DDBBBB; }
 .rsvp.none { background: var(--cream); color: var(--ink-muted); border-color: var(--border-strong); }
 
-/* ── ARCHIVE SECTION ── */
+/* ARCHIVE SECTION */
 .arch-toggle { display: flex; align-items: center; justify-content: space-between; cursor: pointer; padding: 10px 14px; background: var(--warm); border: 1px solid var(--border); border-radius: var(--r); margin: 16px 0 6px; }
 .arch-lbl { font-size: 11px; font-weight: 600; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.5px; }
 .arch-cnt { font-size: 11px; background: var(--border); color: var(--ink-soft); border-radius: 99px; padding: 1px 8px; }
@@ -161,7 +140,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(
 .arch-body { display: none; }
 .arch-body.open { display: block; }
 
-/* ── MODAL OVERLAY ── */
+/* MODAL OVERLAY */
 .overlay { position: fixed; inset: 0; background: rgba(28,25,23,0.5); z-index: 500; display: flex; align-items: flex-end; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
 .overlay.on { opacity: 1; pointer-events: all; }
 .sheet { background: var(--warm); border-radius: 16px 16px 0 0; width: 100%; max-width: 600px; padding: 20px 20px 44px; transform: translateY(100%); transition: transform 0.25s cubic-bezier(0.32,0.72,0,1); max-height: 90vh; overflow-y: auto; }
@@ -173,59 +152,59 @@ body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(
 .sheet-sec-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--ink-muted); margin-bottom: 8px; }
 .divider { height: 1px; background: var(--border); margin: 12px 0; }
 
-/* ── RSVP OPTIONS ── */
+/* RSVP / AGE OPTIONS */
 .rsvp-opts { display: grid; grid-template-columns: repeat(4,1fr); gap: 6px; }
 .rsvp-opt { padding: 9px 4px; border: 1px solid var(--border-strong); border-radius: 8px; text-align: center; cursor: pointer; font-size: 12px; font-weight: 500; font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink-soft); }
 .rsvp-opt.yes.sel { background: var(--green-lt); color: var(--green); border-color: #C0D9C9; }
 .rsvp-opt.maybe.sel { background: var(--amber-lt); color: var(--amber); border-color: #F0D9A0; }
 .rsvp-opt.no.sel { background: var(--red-lt); color: var(--red); border-color: #DDBBBB; }
-.rsvp-opt.none.sel { background: var(--border); color: var(--ink-muted); border-color: var(--border-strong); }
-
-/* ── AGE OPTIONS ── */
+.rsvp-opt.none.sel { background: var(--border); color: var(--ink-muted); }
 .age-opts { display: flex; gap: 8px; }
 .age-opt { flex: 1; padding: 10px; border: 1px solid var(--border-strong); border-radius: 8px; text-align: center; cursor: pointer; font-size: 12px; font-weight: 500; font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink-soft); }
 .age-opt.adult.sel { background: var(--blue-lt); color: var(--blue); border-color: #C5D8EE; }
 .age-opt.kid.sel { background: var(--orange-lt); color: var(--orange); border-color: #F5C99A; }
 .age-opt.clear.sel { background: var(--border); color: var(--ink-muted); }
 
-/* ── NAME EDIT ── */
+/* NAME EDIT */
 .name-row { display: flex; align-items: center; gap: 8px; margin-bottom: 3px; }
 .name-edit-row { display: none; gap: 6px; align-items: center; margin-bottom: 3px; }
 .name-edit-row.on { display: flex; }
 .name-edit-input { flex: 1; padding: 7px 10px; border: 1px solid var(--gold-mid); border-radius: 8px; font-size: 16px; font-family: 'DM Serif Display', serif; color: var(--ink); background: var(--gold-lt); outline: none; }
 .edit-lbl-btn { background: var(--cream); border: 1px solid var(--border-strong); border-radius: 6px; padding: 4px 9px; font-size: 11px; color: var(--ink-muted); font-family: 'DM Sans', sans-serif; cursor: pointer; }
 
-/* ── LINKED DISPLAY ── */
+/* LINKED DISPLAY */
 .linked { background: var(--cream); border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; font-size: 13px; display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 6px; flex-wrap: wrap; }
 .linked-name { font-weight: 500; }
 .linked-name.blue { color: var(--blue); }
 .linked-name.green { color: var(--green); }
+.linked-name.purple { color: var(--purple); }
 .unlink-btn { font-size: 11px; color: var(--red); cursor: pointer; background: var(--red-lt); border: none; border-radius: 4px; padding: 3px 8px; font-family: 'DM Sans', sans-serif; flex-shrink: 0; }
 
-/* ── MINI BUTTONS ── */
+/* MINI BUTTONS */
 .mini { padding: 7px 12px; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; font-family: 'DM Sans', sans-serif; cursor: pointer; flex-shrink: 0; }
 .mini.blue { background: var(--blue-lt); color: var(--blue); }
 .mini.green { background: var(--green-lt); color: var(--green); }
 .mini.amber { background: var(--amber-lt); color: var(--amber); }
 .mini.gold { background: var(--gold); color: white; }
+.mini.purple { background: var(--purple-lt); color: var(--purple); }
 
-/* ── REL ROW ── */
+/* REL ROW */
 .rel-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 6px; }
 .rel-row input { flex: 1; min-width: 120px; padding: 7px 10px; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 13px; font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); outline: none; }
 .rel-row input:focus { border-color: var(--gold-mid); }
 
-/* ── RANK ROW ── */
+/* RANK ROW */
 .rank-row { display: flex; gap: 8px; align-items: center; }
 .rank-row input { width: 70px; padding: 7px 8px; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 14px; font-weight: 600; font-family: 'DM Sans', sans-serif; text-align: center; color: var(--gold); background: var(--gold-lt); outline: none; }
 
-/* ── MODAL ACTIONS ── */
+/* MODAL ACTIONS */
 .modal-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
 .act-btn { padding: 11px; border: 1px solid var(--border-strong); border-radius: 8px; font-size: 13px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; text-align: center; background: var(--cream); color: var(--ink-soft); }
 .act-btn.archive { color: var(--red); border-color: #DDBBBB; background: var(--red-lt); }
 .act-btn.restore { color: var(--green); border-color: #C0D9C9; background: var(--green-lt); }
 .act-btn.done { background: var(--ink); color: white; border-color: var(--ink); grid-column: span 2; padding: 13px; font-size: 14px; font-weight: 600; }
 
-/* ── FORM ── */
+/* FORM */
 .form-row { margin-bottom: 12px; }
 .form-row label { display: block; font-size: 11px; font-weight: 600; color: var(--ink-soft); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.3px; }
 .form-row input, .form-row select { width: 100%; padding: 9px 12px; border: 1px solid var(--border-strong); border-radius: 8px; font-size: 14px; font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); outline: none; }
@@ -233,7 +212,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(
 .form-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
 .submit-btn { width: 100%; padding: 13px; background: var(--gold); color: white; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; font-family: 'DM Sans', sans-serif; cursor: pointer; margin-top: 4px; }
 
-/* ── IMPORT ── */
+/* IMPORT */
 .drop-zone { border: 2px dashed var(--border-strong); border-radius: 10px; padding: 28px 20px; text-align: center; cursor: pointer; margin-bottom: 12px; }
 .drop-zone:hover, .drop-zone.over { border-color: var(--gold-mid); background: var(--gold-lt); }
 .import-hint { background: var(--cream); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; font-size: 11px; color: var(--ink-muted); line-height: 1.7; }
@@ -242,7 +221,22 @@ body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(
 .preview-table td { padding: 6px 8px; border-bottom: 1px solid var(--border); color: var(--ink-soft); }
 .preview-table tr.dupe td { background: var(--amber-lt); }
 
-/* ── SETTINGS ── */
+/* PRIORITY PANEL */
+.pri-rule { background: var(--warm); border: 1px solid var(--border); border-radius: var(--r); padding: 12px 14px; margin-bottom: 8px; }
+.pri-rule-hdr { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
+.pri-rule-label { font-size: 13px; font-weight: 500; color: var(--ink); }
+.pri-rule-meta { font-size: 11px; color: var(--ink-muted); margin-top: 2px; }
+.pri-rule-badge { font-size: 10px; background: var(--purple-lt); color: var(--purple); border: 1px solid #D4C7EE; border-radius: 4px; padding: 2px 7px; }
+.pri-conflict { background: var(--red-lt); border: 1px solid #DDBBBB; border-radius: var(--r); padding: 12px 14px; margin-bottom: 8px; }
+.pri-conflict-title { font-size: 13px; font-weight: 600; color: var(--red); margin-bottom: 6px; }
+.pri-conflict-body { font-size: 12px; color: var(--ink-soft); margin-bottom: 10px; line-height: 1.5; }
+.pri-conflict-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+.pri-conflict-btn { padding: 7px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; font-family: 'DM Sans', sans-serif; cursor: pointer; border: 1px solid var(--border-strong); background: var(--warm); color: var(--ink-soft); }
+.pri-conflict-btn.suggest { background: var(--green-lt); color: var(--green); border-color: #C0D9C9; }
+.pri-add-section { background: var(--warm); border: 1px solid var(--border); border-radius: var(--r); padding: 14px; margin-bottom: 10px; }
+.pri-add-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--ink-muted); margin-bottom: 10px; }
+
+/* SETTINGS */
 .set-section { background: var(--warm); border: 1px solid var(--border); border-radius: var(--r); padding: 14px; margin-bottom: 10px; }
 .set-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--ink-muted); margin-bottom: 10px; }
 .set-row { margin-bottom: 10px; }
@@ -252,13 +246,13 @@ body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(
 .set-note { font-size: 11px; color: var(--ink-muted); line-height: 1.5; margin-top: 4px; }
 .set-save { width: 100%; padding: 11px; background: var(--gold); color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; font-family: 'DM Sans', sans-serif; cursor: pointer; }
 
-/* ── AUTOCOMPLETE ── */
+/* AUTOCOMPLETE */
 .ac-wrap { position: relative; flex: 1; min-width: 120px; }
 .ac-list { position: absolute; top: 100%; left: 0; right: 0; background: var(--warm); border: 1px solid var(--border-strong); border-radius: 6px; max-height: 150px; overflow-y: auto; z-index: 600; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: none; }
 .ac-item { padding: 8px 10px; font-size: 13px; cursor: pointer; color: var(--ink); }
 .ac-item:hover { background: var(--cream); }
 
-/* ── PASSWORD SCREEN ── */
+/* PASSWORD SCREEN */
 #pw-screen { position: fixed; inset: 0; background: var(--cream); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px 24px; }
 .pw-card { background: var(--warm); border: 1px solid var(--border); border-radius: 16px; padding: 32px 28px; width: 100%; max-width: 360px; text-align: center; }
 .pw-title { font-family: 'DM Serif Display', serif; font-size: 26px; margin-bottom: 4px; }
@@ -268,18 +262,10 @@ body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(
 .pw-input:focus { border-color: var(--gold-mid); }
 .pw-input.shake { animation: shake 0.35s; border-color: var(--red) !important; }
 .pw-btn { width: 100%; padding: 13px; background: var(--gold); color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; font-family: 'DM Sans', sans-serif; cursor: pointer; }
-.pw-btn:active { opacity: 0.85; }
 .pw-err { font-size: 13px; color: var(--red); margin-top: 10px; min-height: 18px; }
-@keyframes shake {
-  0%,100% { transform: translateX(0); }
-  20% { transform: translateX(-8px); }
-  40% { transform: translateX(8px); }
-  60% { transform: translateX(-6px); }
-  80% { transform: translateX(6px); }
-}
+@keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)} 40%{transform:translateX(8px)} 60%{transform:translateX(-6px)} 80%{transform:translateX(6px)} }
 #app { display: none; }
-
-.toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--ink); color: white; font-size: 13px; padding: 8px 16px; border-radius: 99px; opacity: 0; transition: all 0.2s; z-index: 999; white-space: nowrap; pointer-events: none; }
+.toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--ink); color: white; font-size: 13px; padding: 8px 16px; border-radius: 99px; opacity: 0; transition: all 0.2s; z-index: 999; white-space: nowrap; pointer-events: none; max-width: 90vw; text-align: center; }
 .toast.on { opacity: 1; transform: translateX(-50%) translateY(0); }
 </style>
 </head>
@@ -301,14 +287,13 @@ body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(
 <!-- MAIN APP -->
 <div id="app">
 
-<!-- HEADER -->
 <div class="hdr">
   <div class="hdr-top">
     <div class="hdr-title"><span id="g-name-disp">George</span> <em>&</em> <span id="p-name-disp">Teresa</span></div>
     <div class="side-toggle">
       <button class="side-btn act-g" id="btn-g" onclick="setSide('george')">George</button>
       <button class="side-btn" id="btn-b" onclick="setSide('both')">Both</button>
-      <button class="side-btn" id="btn-r" onclick="setSide('partner')" id="btn-p">Teresa</button>
+      <button class="side-btn" id="btn-r" onclick="setSide('partner')">Teresa</button>
     </div>
   </div>
   <div class="stats">
@@ -321,11 +306,12 @@ body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(
   </div>
   <div class="tabs">
     <div class="tab on" id="tab-list" onclick="switchTab('list')">Guest List</div>
+    <div class="tab" id="tab-priority" onclick="switchTab('priority')">Priority Rules</div>
     <div class="tab" id="tab-settings" onclick="switchTab('settings')">Settings</div>
   </div>
 </div>
 
-<!-- GUEST LIST PANEL -->
+<!-- GUEST LIST -->
 <div class="panel on" id="panel-list">
   <div class="main">
     <div class="ctrl-row">
@@ -344,13 +330,39 @@ body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(
       <input type="number" id="cut-g" class="g-inp" value="52" min="1" max="999" onchange="render()">
       <span class="dot r"></span>
       <input type="number" id="cut-r" class="r-inp" value="50" min="1" max="999" onchange="render()">
-      <div class="cutoff-note">Must-invite groups auto-pull together.</div>
+      <div class="cutoff-note">Groups move as a block. Priority rules enforced.</div>
     </div>
     <div id="list"></div>
   </div>
 </div>
 
-<!-- SETTINGS PANEL -->
+<!-- PRIORITY RULES PANEL -->
+<div class="panel" id="panel-priority">
+  <div class="main">
+    <div id="conflict-zone"></div>
+    <div class="pri-add-section">
+      <div class="pri-add-title">Add Priority Rule</div>
+      <div style="font-size:12px;color:var(--ink-muted);margin-bottom:10px;line-height:1.5">
+        Set that one person (or group) must always rank above another. The rule locks in and can be deleted at any time.
+      </div>
+      <div class="rel-row" style="margin-bottom:8px">
+        <div class="ac-wrap">
+          <input type="text" id="pri-above" placeholder="Always above…" oninput="ac('pri-above','pri-above-ac')" autocomplete="off">
+          <div class="ac-list" id="pri-above-ac"></div>
+        </div>
+        <div style="font-size:12px;color:var(--ink-muted);flex-shrink:0">must be above</div>
+        <div class="ac-wrap">
+          <input type="text" id="pri-below" placeholder="This person…" oninput="ac('pri-below','pri-below-ac')" autocomplete="off">
+          <div class="ac-list" id="pri-below-ac"></div>
+        </div>
+      </div>
+      <button onclick="addPriorityRule()" style="width:100%;padding:10px;background:var(--purple);color:white;border:none;border-radius:8px;font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer">Lock in Rule</button>
+    </div>
+    <div id="priority-list"></div>
+  </div>
+</div>
+
+<!-- SETTINGS -->
 <div class="panel" id="panel-settings">
   <div class="main">
     <div class="set-section">
@@ -378,12 +390,12 @@ body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(
       <div class="set-row">
         <label>Apps Script Web App URL</label>
         <input type="text" id="sync-url-inp" placeholder="https://script.google.com/macros/s/…/exec">
-        <div class="set-note">Paste the URL from your Google Apps Script deployment here. See the included <strong>wedding-apps-script.js</strong> file for setup instructions.</div>
+        <div class="set-note">Paste the URL from your Google Apps Script deployment here.</div>
       </div>
       <button onclick="testSync()" style="width:100%;padding:9px;background:var(--blue-lt);color:var(--blue);border:1px solid #C5D8EE;border-radius:8px;font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;margin-top:4px">Test Connection</button>
     </div>
     <div class="set-section">
-      <div class="set-note" style="line-height:1.8">All changes save automatically and sync to Google Sheets.<br>To update: upload this file to GitHub Pages as index.html.<br><strong>Version 5.0</strong></div>
+      <div class="set-note" style="line-height:1.8">All changes save automatically and sync to Google Sheets.<br>To update: upload this file to GitHub Pages as index.html.<br><strong>Version 6.0</strong></div>
     </div>
     <button class="set-save" onclick="saveSettings()">Save Settings</button>
   </div>
@@ -393,8 +405,6 @@ body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(
 <div class="overlay" id="modal" onclick="if(event.target===this)closeModal()">
   <div class="sheet">
     <div class="sheet-handle"></div>
-
-    <!-- Name with edit -->
     <div class="name-row">
       <div class="sheet-title" id="m-name" style="flex:1;cursor:pointer" onclick="startEdit()"></div>
       <button class="edit-lbl-btn" onclick="startEdit()">Edit</button>
@@ -405,8 +415,6 @@ body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(
       <button class="edit-lbl-btn" onclick="cancelEdit()">✕</button>
     </div>
     <div class="sheet-sub" id="m-meta"></div>
-
-    <!-- RSVP -->
     <div class="sheet-sec">
       <div class="sheet-sec-title">RSVP</div>
       <div class="rsvp-opts">
@@ -416,10 +424,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(
         <div class="rsvp-opt none" onclick="setRsvp('')">— Clear</div>
       </div>
     </div>
-
     <div class="divider"></div>
-
-    <!-- AGE GROUP -->
     <div class="sheet-sec">
       <div class="sheet-sec-title">Age group</div>
       <div class="age-opts">
@@ -428,10 +433,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(
         <div class="age-opt clear" onclick="setAge('')">— Clear</div>
       </div>
     </div>
-
     <div class="divider"></div>
-
-    <!-- RANK (waitlist only) -->
     <div class="sheet-sec" id="m-rank-sec">
       <div class="sheet-sec-title">Waitlist Rank</div>
       <div class="rank-row">
@@ -440,41 +442,23 @@ body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(
         <span style="font-size:12px;color:var(--ink-muted)">Current: <strong id="m-rank-cur"></strong></span>
       </div>
     </div>
-
     <div class="divider" id="m-rank-div"></div>
-
-    <!-- MUST-INVITE GROUP -->
     <div class="sheet-sec">
       <div class="sheet-sec-title">🔒 Must invite together</div>
       <div id="m-must"></div>
     </div>
-
     <div class="divider"></div>
-
-    <!-- SOFT GROUP -->
     <div class="sheet-sec">
       <div class="sheet-sec-title">👥 Friend / Work group</div>
       <div id="m-soft"></div>
     </div>
-
     <div class="divider"></div>
-
-    <!-- PINNED ORDER -->
     <div class="sheet-sec">
-      <div class="sheet-sec-title">📌 Always rank above someone</div>
-      <div id="m-pins"></div>
-      <div class="rel-row" style="margin-top:8px">
-        <div class="ac-wrap">
-          <input type="text" id="pin-inp" placeholder="Always above this person…" oninput="ac('pin-inp','pin-ac')" autocomplete="off">
-          <div class="ac-list" id="pin-ac"></div>
-        </div>
-        <button class="mini amber" onclick="addPin()">Pin</button>
-      </div>
+      <div class="sheet-sec-title">📌 Priority rules for this person</div>
+      <div id="m-pri-rules"></div>
+      <div style="font-size:11px;color:var(--ink-muted);margin-top:6px">Manage all priority rules in the Priority Rules tab.</div>
     </div>
-
     <div class="divider"></div>
-
-    <!-- ACTIONS -->
     <div class="modal-actions">
       <div class="act-btn archive" id="m-arch-btn" onclick="toggleArchive()">Not Making List</div>
       <div class="act-btn done" onclick="closeModal()">Done</div>
@@ -525,7 +509,6 @@ body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(
     <div class="sheet-handle"></div>
     <div class="sheet-title" style="margin-bottom:4px">Import CSV</div>
     <div style="font-size:12px;color:var(--ink-muted);margin-bottom:14px">Headers auto-detected. Duplicates are skipped.</div>
-
     <div id="imp-step1">
       <div class="form-row">
         <label>Import to</label>
@@ -546,14 +529,11 @@ body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(
         Guest Name (required) · Invited · Able to Come · Rank · Group · Age
       </div>
     </div>
-
     <div id="imp-step2" style="display:none">
       <div id="imp-summary" style="margin-bottom:10px"></div>
       <div style="max-height:260px;overflow-y:auto;border:1px solid var(--border);border-radius:8px;margin-bottom:12px">
         <table class="preview-table">
-          <thead><tr>
-            <th>Name</th><th>Group</th><th>Rank</th><th>Age</th><th>Status</th>
-          </tr></thead>
+          <thead><tr><th>Name</th><th>Group</th><th>Rank</th><th>Age</th><th>Status</th></tr></thead>
           <tbody id="imp-tbody"></tbody>
         </table>
       </div>
@@ -566,63 +546,43 @@ body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(
 </div>
 
 <div class="toast" id="toast"></div>
-
 </div><!-- end #app -->
 
 <script>
-// ═══════════════════════════════════════════
-// DEFAULT DATA — removed. Use CSV import or add guests manually.
-// ═══════════════════════════════════════════
-
-// ═══════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
 // STATE
-// ═══════════════════════════════════════════
-let G = [];           // guests array
-let mustGroups = [];  // [{name, members[]}] — all must be invited together
-let softGroups = [];  // [{name, members[]}] — prefer together, can split
-let pinned = [];      // [{before, after}] — before always ranked above after
-let sideView = 'george';
+// ═══════════════════════════════════════════════════════
+let G          = [];  // guests
+let mustGroups = [];  // [{name, members[]}]
+let softGroups = [];  // [{name, members[]}]
+let priRules   = [];  // [{id, above, below}] — above must always rank higher than below
+let sideView   = 'george';
 let groupFilter = 'all';
 let filtersOpen = false;
 let archiveOpen = false;
-let dragName = null;
+let dragName    = null;
 let activeGuest = null;
 
-// ═══════════════════════════════════════════
-// SYNC — Google Sheets
-// ═══════════════════════════════════════════
-
+// ═══════════════════════════════════════════════════════
+// SYNC
+// ═══════════════════════════════════════════════════════
 // ▼▼▼ PASTE YOUR APPS SCRIPT URL HERE ▼▼▼
-const DEFAULT_SYNC_URL = 'https://script.google.com/macros/s/AKfycbzfeHcLHSTUOHAJuPfjL7aQuzjazJvoA-1ktq9e3F3dKZ9rwIZHXKWd-NtvvaoazKlfnA/exec';
-// ▲▲▲ After deploying the Apps Script, paste the URL between the quotes above,
-//     then upload this file to GitHub. Every device will use it automatically.
+const DEFAULT_SYNC_URL = 'https://script.google.com/macros/s/AKfycbyxI31Lw6o7OTreN3LTTMUQWedmZDTL3N1FuoLCk9u1CvFNt8lJ5q5CTfkFT38pUbTZnA/exec';
+// ▲▲▲ Paste URL between quotes, upload to GitHub as index.html
 
 let syncTimer = null;
-let syncStatus = 'local';
 
 function getSyncUrl() {
-  // Use hardcoded default first, fall back to any locally saved URL
-  return DEFAULT_SYNC_URL || ((() => { try { return localStorage.getItem('wv3_sync') || ''; } catch(e) { return ''; } })());
+  return DEFAULT_SYNC_URL || (()=>{ try{return localStorage.getItem('wv3_sync')||'';}catch(e){return '';} })();
 }
-
-function setSyncUrl(url) {
-  try { localStorage.setItem('wv3_sync', url); } catch(e) {}
-}
+function setSyncUrl(url) { try{localStorage.setItem('wv3_sync',url);}catch(e){} }
 
 function updateSyncIndicator(status) {
-  syncStatus = status;
   const el = document.getElementById('sync-indicator');
   if (!el) return;
-  const states = {
-    local:   { text: '● Local only',   color: 'var(--ink-muted)' },
-    syncing: { text: '↻ Saving…',      color: 'var(--amber)' },
-    synced:  { text: '✓ Synced',       color: 'var(--green)' },
-    error:   { text: '✕ Sync failed',  color: 'var(--red)' },
-    loading: { text: '↻ Loading…',     color: 'var(--amber)' },
-  };
-  const s = states[status] || states.local;
-  el.textContent = s.text;
-  el.style.color = s.color;
+  const s = {local:'● Local only',syncing:'↻ Saving…',synced:'✓ Synced',error:'✕ Sync failed',loading:'↻ Loading…'};
+  const c = {local:'var(--ink-muted)',syncing:'var(--amber)',synced:'var(--green)',error:'var(--red)',loading:'var(--amber)'};
+  el.textContent = s[status]||s.local; el.style.color = c[status]||c.local;
 }
 
 function save() {
@@ -630,17 +590,13 @@ function save() {
   if (!getSyncUrl()) return;
   if (syncTimer) clearTimeout(syncTimer);
   updateSyncIndicator('syncing');
-  syncTimer = setTimeout(() => syncToSheets(), 2000);
+  syncTimer = setTimeout(syncToSheets, 2000);
 }
-
-// render() is display-only — it NEVER calls save()
-// applyMustRules() modifies ranks internally but does not persist —
-// save() must be called explicitly by user actions only
 
 function saveLocal() {
   try {
     localStorage.setItem('wv3', JSON.stringify({
-      G, mustGroups, softGroups, pinned,
+      G, mustGroups, softGroups, priRules,
       gName: document.getElementById('g-name-inp').value,
       pName: document.getElementById('p-name-inp').value,
       cutG:  document.getElementById('cut-g').value,
@@ -650,24 +606,23 @@ function saveLocal() {
 }
 
 async function syncToSheets() {
-  const url = getSyncUrl();
-  if (!url) return;
+  const url = getSyncUrl(); if (!url) return;
   try {
     updateSyncIndicator('syncing');
     const payload = {
-      guests: G, mustGroups, softGroups, pinned,
+      guests: G, mustGroups, softGroups, pinned: priRules,
       settings: {
         gName: document.getElementById('g-name-inp').value,
         pName: document.getElementById('p-name-inp').value,
-        cutG:  document.getElementById('cut-g').value,
-        cutR:  document.getElementById('cut-r').value,
+        cutG: document.getElementById('cut-g').value,
+        cutR: document.getElementById('cut-r').value,
       }
     };
-    const res  = await fetch(url, { method: 'POST', body: JSON.stringify({ action: 'save', payload }) });
+    const res = await fetch(url, {method:'POST', body:JSON.stringify({action:'save',payload})});
     const json = await res.json();
     if (json.ok) updateSyncIndicator('synced');
-    else { updateSyncIndicator('error'); console.error('Sync error:', json.error); }
-  } catch(ex) { updateSyncIndicator('error'); console.error('Sync failed:', ex); }
+    else { updateSyncIndicator('error'); }
+  } catch(ex) { updateSyncIndicator('error'); }
 }
 
 async function loadFromSheets() {
@@ -675,38 +630,26 @@ async function loadFromSheets() {
   if (!url) { loadLocal(); return; }
   try {
     updateSyncIndicator('loading');
-    const res  = await fetch(url + '?action=load');
+    const res = await fetch(url + '?action=load');
     const json = await res.json();
     if (json.ok && json.data) {
       const d = json.data;
       G          = d.guests     && d.guests.length     ? d.guests     : [];
       mustGroups = d.mustGroups || [];
       softGroups = d.softGroups && d.softGroups.length ? d.softGroups : buildSoftGroups(G);
-      pinned     = d.pinned     || [];
+      priRules   = d.pinned     || [];
       if (d.settings) {
         if (d.settings.gName) document.getElementById('g-name-inp').value = d.settings.gName;
         if (d.settings.pName) document.getElementById('p-name-inp').value = d.settings.pName;
         if (d.settings.cutG)  document.getElementById('cut-g').value      = d.settings.cutG;
         if (d.settings.cutR)  document.getElementById('cut-r').value      = d.settings.cutR;
       }
-      if (d.password) {
-        try { sessionStorage.setItem('wv3_remote_pw', d.password); } catch(e) {}
-      }
+      if (d.password) { try{sessionStorage.setItem('wv3_remote_pw',d.password);}catch(e){} }
       updateNames();
-      // Do NOT call saveLocal() or save() here — loading must never trigger a write
       updateSyncIndicator('synced');
-    } else {
-      loadLocal();
-      updateSyncIndicator('error');
-    }
-  } catch(ex) {
-    loadLocal();
-    updateSyncIndicator('error');
-    console.warn('Offline — using local data');
-  }
-  // Always render exactly once after load completes
-  buildChips();
-  render();
+    } else { loadLocal(); updateSyncIndicator('error'); }
+  } catch(ex) { loadLocal(); updateSyncIndicator('error'); }
+  buildChips(); render();
 }
 
 function load() { loadFromSheets(); }
@@ -719,7 +662,7 @@ function loadLocal() {
       G          = d.G          && d.G.length          ? d.G          : [];
       mustGroups = d.mustGroups || [];
       softGroups = d.softGroups && d.softGroups.length ? d.softGroups : buildSoftGroups(G);
-      pinned     = d.pinned     || [];
+      priRules   = d.priRules   || d.pinned             || [];
       if (d.gName) document.getElementById('g-name-inp').value = d.gName;
       if (d.pName) document.getElementById('p-name-inp').value = d.pName;
       if (d.cutG)  document.getElementById('cut-g').value      = d.cutG;
@@ -729,29 +672,43 @@ function loadLocal() {
   updateNames();
   if (!G.length) { G = []; softGroups = []; }
   updateSyncIndicator(getSyncUrl() ? 'error' : 'local');
-  // Caller is responsible for calling buildChips() and render()
 }
 
 function buildSoftGroups(gList) {
   const map = {};
   gList.forEach(g => {
     if (!g.group) return;
-    if (!map[g.group]) map[g.group] = { name: g.group, members: [] };
+    if (!map[g.group]) map[g.group] = {name:g.group, members:[]};
     map[g.group].members.push(g.name);
   });
   return Object.values(map);
 }
 
-// ═══════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
 // HELPERS
-// ═══════════════════════════════════════════
-const cutG = () => parseInt(document.getElementById('cut-g').value) || 52;
-const cutR = () => parseInt(document.getElementById('cut-r').value) || 50;
-const cutOf = g => g.side === 'george' ? cutG() : cutR();
+// ═══════════════════════════════════════════════════════
+const cutG   = () => parseInt(document.getElementById('cut-g').value) || 52;
+const cutR   = () => parseInt(document.getElementById('cut-r').value) || 50;
+const cutOf  = g => g.side === 'george' ? cutG() : cutR();
 const getMust = name => mustGroups.find(m => m.members.includes(name)) || null;
 const getSoft = name => softGroups.find(s => s.members.includes(name)) || null;
-const getPinsBefore = name => pinned.filter(p => p.after === name).map(p => p.before);
-const esc = s => (s || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+const esc    = s => (s||'').replace(/'/g,"\\'").replace(/"/g,'&quot;');
+
+// Get all priority rules involving this name (either side)
+function getPriRulesFor(name) {
+  const mg = getMust(name);
+  const memberNames = mg ? mg.members : [name];
+  return priRules.filter(r => memberNames.includes(r.above) || memberNames.includes(r.below));
+}
+
+// Get the "representative" name for a must-group (lowest ranked active member)
+function getGroupRep(name) {
+  const mg = getMust(name);
+  if (!mg) return name;
+  const active = mg.members.map(n => G.find(g => g.name===n)).filter(g => g && !g.invited && !g.archived);
+  if (!active.length) return name;
+  return active.sort((a,b) => a.rank-b.rank)[0].name;
+}
 
 function updateNames() {
   const g = document.getElementById('g-name-inp').value || 'George';
@@ -760,73 +717,387 @@ function updateNames() {
   document.getElementById('p-name-disp').textContent = p;
   document.getElementById('btn-g').textContent = g.split(' ')[0];
   document.getElementById('btn-r').textContent = p.split(' ')[0];
-  document.querySelector('#add-side option[value="george"]').textContent = g + "'s";
-  document.querySelector('#add-side option[value="partner"]').textContent = p + "'s";
-  document.querySelector('#imp-side option[value="george"]').textContent = g + "'s list";
-  document.querySelector('#imp-side option[value="partner"]').textContent = p + "'s list";
+  document.querySelector('#add-side option[value="george"]').textContent = g+"'s";
+  document.querySelector('#add-side option[value="partner"]').textContent = p+"'s";
+  document.querySelector('#imp-side option[value="george"]').textContent = g+"'s list";
+  document.querySelector('#imp-side option[value="partner"]').textContent = p+"'s list";
   document.title = g + ' & ' + p + ' — Wedding List';
 }
 
-// ═══════════════════════════════════════════
-// MUST-GROUP RULES
-// ═══════════════════════════════════════════
-function applyMustRules() {
-  for (const mg of mustGroups) {
-    const active = mg.members.map(n => G.find(g => g.name === n)).filter(g => g && !g.invited && !g.archived);
-    if (active.length < 2) continue;
-    const anyIn = active.some(g => g.rank <= cutOf(g));
-    if (!anyIn) continue;
-    const minRank = Math.min(...active.map(g => g.rank));
-    active.forEach((g, i) => {
-      if (g.rank > cutOf(g)) {
-        g.rank = minRank + 0.01 * (i + 1);
-        renumber(g.side);
-      }
-    });
-  }
+// ═══════════════════════════════════════════════════════
+// CORE MOVEMENT ENGINE
+// ═══════════════════════════════════════════════════════
+// All movement goes through moveTo(name, targetRank, side)
+// It handles: insert-not-swap, must-group blocks, priority constraints
+
+function getWaitlist(side) {
+  return G.filter(g => g.side === side && !g.invited && !g.archived)
+          .sort((a,b) => a.rank - b.rank);
+}
+
+// Insert a block of names at targetRank on a given side.
+// Everyone between old positions and target shifts to make room.
+function insertBlock(names, targetRank, side) {
+  const wl = getWaitlist(side);
+  // Current positions of the block
+  const blockItems = wl.filter(g => names.includes(g.name)).sort((a,b) => a.rank - b.rank);
+  if (!blockItems.length) return;
+  const blockSize = blockItems.length;
+  const firstRank = blockItems[0].rank;
+  const lastRank  = blockItems[blockItems.length-1].rank;
+
+  // Clamp target to valid range
+  const nonBlock = wl.filter(g => !names.includes(g.name));
+  const minRank = nonBlock.length ? nonBlock[0].rank : 1;
+  const maxRank = nonBlock.length ? nonBlock[nonBlock.length-1].rank + 1 : 1;
+  let tr = Math.max(minRank, Math.min(targetRank, maxRank));
+
+  // Remove block from list temporarily, then reinsert
+  // Assign temporary high ranks to block to get them out of the way
+  blockItems.forEach((g, i) => { g.rank = 90000 + i; });
+
+  // Reorder non-block items sequentially starting from their base
+  const base = wl[0].rank;
+  const remaining = getWaitlist(side); // re-fetch without block
+  remaining.sort((a,b) => a.rank - b.rank).forEach((g,i) => { g.rank = base + i; });
+
+  // Find insertion index in the refreshed list
+  const fresh = getWaitlist(side).sort((a,b) => a.rank - b.rank);
+  // Find the position to insert before
+  let insertIdx = fresh.findIndex(g => g.rank >= tr);
+  if (insertIdx === -1) insertIdx = fresh.length;
+  // Push everything from insertIdx up by blockSize
+  fresh.slice(insertIdx).forEach(g => { g.rank += blockSize; });
+  // Assign block ranks
+  blockItems.forEach((g, i) => { g.rank = (fresh[insertIdx] ? fresh[insertIdx].rank - blockSize : base + fresh.length) + i; });
+
+  // Final clean renumber from base
+  renumber(side);
 }
 
 function renumber(side) {
-  const base = side === 'george' ? 53 : 51;
-  G.filter(g => g.side === side && !g.invited && !g.archived)
-   .sort((a, b) => a.rank - b.rank)
-   .forEach((g, i) => { g.rank = base + i; });
+  const base = side === 'george' ? 1 : 1; // use 1-based within waitlist
+  // Actually keep locked items separate
+  const wl = G.filter(g => g.side===side && !g.invited && !g.archived)
+               .sort((a,b) => a.rank - b.rank);
+  const lockedMin = Math.min(...G.filter(g=>g.side===side&&g.invited).map(g=>g.rank).concat([999]));
+  const startRank = lockedMin === 999 ? 1 : lockedMin + 1;
+  wl.forEach((g,i) => { g.rank = startRank + i; });
 }
 
-// ═══════════════════════════════════════════
+// Main move function — handles groups + priority enforcement
+function moveTo(name, targetRank, side) {
+  const g = G.find(x => x.name === name);
+  if (!g || g.invited || g.archived) return;
+
+  // Determine the block to move (must-group or solo)
+  const mg = getMust(name);
+  let blockNames;
+  if (mg) {
+    blockNames = mg.members.filter(n => {
+      const m = G.find(x => x.name === n);
+      return m && !m.invited && !m.archived;
+    });
+  } else {
+    blockNames = [name];
+  }
+
+  // Step 1: Do the insert
+  insertBlock(blockNames, targetRank, side);
+
+  // Step 2: Enforce priority rules
+  enforcePriorityRules();
+
+  save(); render();
+}
+
+// Move by direction (arrow buttons) — insert one step at a time
+function moveDir(name, dir) {
+  const g = G.find(x => x.name === name);
+  if (!g) return;
+  const mg = getMust(name);
+  const blockNames = mg
+    ? mg.members.filter(n => { const m=G.find(x=>x.name===n); return m&&!m.invited&&!m.archived; })
+    : [name];
+  const wl = getWaitlist(g.side);
+  const blockItems = wl.filter(x => blockNames.includes(x.name)).sort((a,b)=>a.rank-b.rank);
+  if (!blockItems.length) return;
+  const firstRank = blockItems[0].rank;
+  const lastRank  = blockItems[blockItems.length-1].rank;
+  const nonBlock  = wl.filter(x => !blockNames.includes(x.name)).sort((a,b)=>a.rank-b.rank);
+  if (dir === -1) {
+    // Moving up — find first non-block item above the block
+    const above = nonBlock.filter(x => x.rank < firstRank);
+    if (!above.length) return;
+    const target = above[above.length-1];
+    const newRank = target.rank;
+    insertBlock(blockNames, newRank, g.side);
+  } else {
+    // Moving down — find first non-block item below the block
+    const below = nonBlock.filter(x => x.rank > lastRank);
+    if (!below.length) return;
+    const target = below[0];
+    const newRank = target.rank + 1;
+    insertBlock(blockNames, newRank, g.side);
+  }
+  enforcePriorityRules();
+  save(); render();
+}
+
+// Move to top of waitlist (respecting priority rules)
+function moveToTop(name) {
+  const g = G.find(x => x.name === name);
+  if (!g || g.invited || g.archived) return;
+  const wl = getWaitlist(g.side);
+  if (!wl.length) return;
+  const topRank = wl[0].rank;
+  moveTo(name, topRank, g.side);
+  // After insert, priority enforcement will push down if needed
+}
+
+// Move to bottom of waitlist
+function moveToBottom(name) {
+  const g = G.find(x => x.name === name);
+  if (!g || g.invited || g.archived) return;
+  const wl = getWaitlist(g.side);
+  if (!wl.length) return;
+  const bottomRank = wl[wl.length-1].rank + 1;
+  moveTo(name, bottomRank, g.side);
+}
+
+// ═══════════════════════════════════════════════════════
+// MUST-GROUP CUTOFF RULES (auto-pull across cutoff)
+// ═══════════════════════════════════════════════════════
+function applyMustRules() {
+  for (const mg of mustGroups) {
+    const active = mg.members.map(n=>G.find(g=>g.name===n)).filter(g=>g&&!g.invited&&!g.archived);
+    if (active.length < 2) continue;
+    const anyIn = active.some(g => g.rank <= cutOf(g));
+    if (!anyIn) continue;
+    const minRank = Math.min(...active.map(g=>g.rank));
+    active.forEach((g,i) => {
+      if (g.rank > cutOf(g)) {
+        g.rank = minRank + 0.01*(i+1);
+      }
+    });
+    renumber(active[0].side);
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// PRIORITY RULES ENGINE
+// ═══════════════════════════════════════════════════════
+
+// Detect circular dependencies using DFS
+function detectCycle(rules, testAbove, testBelow) {
+  // Build adjacency: above -> [below, below, ...]
+  const adj = {};
+  [...rules, {above: testAbove, below: testBelow}].forEach(r => {
+    if (!adj[r.above]) adj[r.above] = [];
+    adj[r.above].push(r.below);
+  });
+  // DFS from testBelow to see if we can reach testAbove
+  const visited = new Set();
+  function dfs(node) {
+    if (node === testAbove) return true;
+    if (visited.has(node)) return false;
+    visited.add(node);
+    for (const neighbor of (adj[node]||[])) { if (dfs(neighbor)) return true; }
+    return false;
+  }
+  return dfs(testBelow);
+}
+
+// Enforce all priority rules by adjusting ranks
+function enforcePriorityRules() {
+  // For each rule, ensure 'above' ranks higher (lower number) than 'below'
+  // Repeat until stable (handles chains)
+  let changed = true;
+  let iterations = 0;
+  while (changed && iterations < 20) {
+    changed = false;
+    iterations++;
+    for (const rule of priRules) {
+      const aboveGuest = G.find(g => g.name === rule.above);
+      const belowGuest = G.find(g => g.name === rule.below);
+      if (!aboveGuest || !belowGuest) continue;
+      if (aboveGuest.invited || aboveGuest.archived) continue;
+      if (belowGuest.invited || belowGuest.archived) continue;
+      if (aboveGuest.side !== belowGuest.side) continue;
+      // If above is not actually above below, fix it
+      if (aboveGuest.rank >= belowGuest.rank) {
+        // Move above to just before below
+        const mg = getMust(rule.above);
+        if (mg) {
+          const blockNames = mg.members.filter(n => { const m=G.find(x=>x.name===n); return m&&!m.invited&&!m.archived; });
+          insertBlock(blockNames, belowGuest.rank, aboveGuest.side);
+        } else {
+          insertBlock([rule.above], belowGuest.rank, aboveGuest.side);
+        }
+        changed = true;
+      }
+    }
+  }
+}
+
+// Add a new priority rule with conflict checking
+function addPriorityRule() {
+  const above = document.getElementById('pri-above').value.trim();
+  const below = document.getElementById('pri-below').value.trim();
+  if (!above || !below) { toast('Enter both names'); return; }
+  if (above === below) { toast('Cannot rank a person above themselves'); return; }
+  if (!G.find(g => g.name === above)) { toast(`"${above}" not found`); return; }
+  if (!G.find(g => g.name === below)) { toast(`"${below}" not found`); return; }
+  // Check duplicate
+  if (priRules.find(r => r.above === above && r.below === below)) { toast('Rule already exists'); return; }
+  // Check for direct conflict (below > above already exists)
+  if (priRules.find(r => r.above === below && r.below === above)) {
+    showConflict({
+      type: 'direct',
+      message: `You already have a rule that <strong>${below}</strong> must be above <strong>${above}</strong>. These two rules directly conflict.`,
+      suggestion: `Keep the existing rule (${below} above ${above}) and discard the new one.`,
+      onAccept: () => { hideConflict(); },
+      onManual: [
+        { label: `Keep: ${below} above ${above}`, action: () => hideConflict() },
+        { label: `Switch to: ${above} above ${below}`, action: () => {
+          priRules = priRules.filter(r => !(r.above===below && r.below===above));
+          priRules.push({id: Date.now(), above, below});
+          hideConflict();
+          document.getElementById('pri-above').value = '';
+          document.getElementById('pri-below').value = '';
+          save(); renderPriorityPanel(); enforcePriorityRules(); render();
+          toast(`📌 Rule updated: ${above} above ${below}`);
+        }}
+      ]
+    });
+    return;
+  }
+  // Check for cycle
+  if (detectCycle(priRules, above, below)) {
+    showConflict({
+      type: 'cycle',
+      message: `Adding "<strong>${above}</strong> above <strong>${below}</strong>" creates a circular conflict with your existing rules.`,
+      suggestion: `Remove conflicting rules to break the cycle, then try again.`,
+      onAccept: () => { hideConflict(); },
+      onManual: [
+        { label: 'Discard new rule', action: () => hideConflict() },
+        { label: 'View Priority Rules tab', action: () => { hideConflict(); switchTab('priority'); } }
+      ]
+    });
+    return;
+  }
+  // All clear — add the rule
+  priRules.push({id: Date.now(), above, below});
+  document.getElementById('pri-above').value = '';
+  document.getElementById('pri-below').value = '';
+  save(); renderPriorityPanel(); enforcePriorityRules(); render();
+  toast(`📌 ${above} will always rank above ${below}`);
+}
+
+function removePriorityRule(id) {
+  priRules = priRules.filter(r => r.id !== id);
+  save(); renderPriorityPanel(); render();
+  toast('Priority rule removed');
+}
+
+function showConflict(data) {
+  const zone = document.getElementById('conflict-zone');
+  const manualBtns = data.onManual.map(b =>
+    `<button class="pri-conflict-btn" onclick="conflictManual(${data.onManual.indexOf(b)})">${b.label}</button>`
+  ).join('');
+  zone.innerHTML = `<div class="pri-conflict">
+    <div class="pri-conflict-title">⚠️ Conflict Detected</div>
+    <div class="pri-conflict-body">${data.message}</div>
+    <div style="font-size:12px;font-weight:600;color:var(--green);margin-bottom:8px">Suggestion: ${data.suggestion}</div>
+    <div class="pri-conflict-btns">
+      <button class="pri-conflict-btn suggest" onclick="conflictAccept()">✓ Accept suggestion</button>
+      ${manualBtns}
+    </div>
+  </div>`;
+  // Store handlers
+  window._conflictData = data;
+  switchTab('priority');
+}
+
+function hideConflict() {
+  document.getElementById('conflict-zone').innerHTML = '';
+  window._conflictData = null;
+}
+
+function conflictAccept() {
+  if (window._conflictData && window._conflictData.onAccept) window._conflictData.onAccept();
+}
+
+function conflictManual(idx) {
+  if (window._conflictData && window._conflictData.onManual[idx]) window._conflictData.onManual[idx].action();
+}
+
+function renderPriorityPanel() {
+  const el = document.getElementById('priority-list');
+  if (!priRules.length) {
+    el.innerHTML = `<div style="font-size:13px;color:var(--ink-muted);padding:12px 4px;text-align:center">No priority rules yet. Add one above.</div>`;
+    return;
+  }
+  el.innerHTML = priRules.map(r => {
+    const aboveG = G.find(g => g.name === r.above);
+    const belowG = G.find(g => g.name === r.below);
+    const aboveRank = aboveG && !aboveG.archived ? `#${aboveG.rank}` : '—';
+    const belowRank = belowG && !belowG.archived ? `#${belowG.rank}` : '—';
+    const aboveMG = getMust(r.above);
+    const belowMG = getMust(r.below);
+    const aboveSub = aboveMG ? `Group: ${aboveMG.name}` : aboveRank;
+    const belowSub = belowMG ? `Group: ${belowMG.name}` : belowRank;
+    return `<div class="pri-rule">
+      <div class="pri-rule-hdr">
+        <div>
+          <div class="pri-rule-label">
+            <strong>${r.above}</strong>
+            <span style="color:var(--ink-muted);font-weight:400;font-size:12px"> always above </span>
+            <strong>${r.below}</strong>
+          </div>
+          <div class="pri-rule-meta">${aboveSub} → ${belowSub}</div>
+        </div>
+        <div style="display:flex;gap:6px;align-items:center">
+          <span class="pri-rule-badge">📌 Locked</span>
+          <button class="unlink-btn" onclick="removePriorityRule(${r.id})">Delete</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════════════
 // STATS
-// ═══════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
 function updateStats() {
-  const vis = sideView === 'both' ? G : G.filter(g => g.side === sideView);
+  const vis    = sideView === 'both' ? G : G.filter(g => g.side === sideView);
   const active = vis.filter(g => !g.archived);
   document.getElementById('st-total').textContent = active.length;
-  document.getElementById('st-in').textContent = active.filter(g => g.invited || g.rank <= cutOf(g)).length;
-  document.getElementById('st-yes').textContent = active.filter(g => g.rsvp === 'Yes').length;
-  document.getElementById('st-wait').textContent = active.filter(g => !g.invited && g.rank > cutOf(g)).length;
-  document.getElementById('st-kids').textContent = active.filter(g => g.ageGroup === 'kid').length;
-  document.getElementById('st-arch').textContent = vis.filter(g => g.archived).length;
+  document.getElementById('st-in').textContent    = active.filter(g => g.invited || g.rank <= cutOf(g)).length;
+  document.getElementById('st-yes').textContent   = active.filter(g => g.rsvp === 'Yes').length;
+  document.getElementById('st-wait').textContent  = active.filter(g => !g.invited && g.rank > cutOf(g)).length;
+  document.getElementById('st-kids').textContent  = active.filter(g => g.ageGroup === 'kid').length;
+  document.getElementById('st-arch').textContent  = vis.filter(g => g.archived).length;
 }
 
-// ═══════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
 // SIDE VIEW
-// ═══════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
 function setSide(v) {
   sideView = v;
-  ['george','both','partner'].forEach((s, i) => {
-    const ids = ['btn-g','btn-b','btn-r'];
-    const btn = document.getElementById(ids[i]);
-    btn.className = 'side-btn' + (s === v ? (v==='george' ? ' act-g' : v==='partner' ? ' act-r' : ' act-b') : '');
+  [['george','btn-g','act-g'],['both','btn-b','act-b'],['partner','btn-r','act-r']].forEach(([s,id,cls]) => {
+    const btn = document.getElementById(id);
+    btn.className = 'side-btn' + (s===v ? ' '+cls : '');
   });
   groupFilter = 'all';
-  buildChips();
-  render();
+  buildChips(); render();
 }
 
-// ═══════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
 // FILTER CHIPS
-// ═══════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
 function buildChips() {
-  const vis = sideView === 'both' ? G : G.filter(g => g.side === sideView);
+  const vis    = sideView === 'both' ? G : G.filter(g => g.side === sideView);
   const groups = [...new Set(vis.map(g => g.group).filter(Boolean))].sort();
   let h = `<div class="chip on" onclick="setFilter('all')" data-v="all">All</div>`;
   if (sideView === 'both') {
@@ -849,14 +1120,14 @@ function toggleFilters() {
   document.getElementById('filter-btn').classList.toggle('on', filtersOpen);
 }
 
-// ═══════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
 // RENDER
-// ═══════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
 function render() {
   applyMustRules();
   updateStats();
   const cg = cutG(), cr = cutR();
-  const q = document.getElementById('search').value.toLowerCase();
+  const q  = document.getElementById('search').value.toLowerCase();
 
   function visible(g) {
     if (g.archived) return false;
@@ -868,44 +1139,33 @@ function render() {
     return true;
   }
 
-  const locked = G.filter(g => g.invited && visible(g)).sort((a,b) => a.rank - b.rank);
-  const waitlist = G.filter(g => !g.invited && visible(g)).sort((a,b) => a.rank - b.rank);
-  const archived = G.filter(g => g.archived && (sideView === 'both' || g.side === sideView) && (!q || g.name.toLowerCase().includes(q)));
+  const locked   = G.filter(g => g.invited && visible(g)).sort((a,b) => a.rank-b.rank);
+  const waitlist = G.filter(g => !g.invited && visible(g)).sort((a,b) => a.rank-b.rank);
+  const archived = G.filter(g => g.archived && (sideView==='both'||g.side===sideView) && (!q||g.name.toLowerCase().includes(q)));
 
   let html = '';
-
-  // Locked section
   html += secHdr('Locked In', locked.length);
   if (!locked.length) html += `<div style="font-size:13px;color:var(--ink-muted);padding:6px 2px">None in this view</div>`;
-  locked.forEach(g => { html += card(g, true, false, false); });
+  locked.forEach(g => { html += cardHtml(g, true, false, false); });
 
-  // Waitlist section
   html += `<div style="margin-top:18px">` + secHdr('Waitlist', waitlist.length) + `</div>`;
   let shownGCut = false, shownRCut = false;
   waitlist.forEach(g => {
     const isBelow = g.rank > cutOf(g);
-    if (!shownGCut && g.side === 'george' && isBelow) {
-      shownGCut = true;
-      html += cutDiv(cg, 'g', sideView === 'both' ? "George's cutoff" : 'Cutoff');
-    }
-    if (!shownRCut && g.side === 'partner' && isBelow) {
-      shownRCut = true;
-      html += cutDiv(cr, 'r', sideView === 'both' ? "Teresa's cutoff" : 'Cutoff');
-    }
-    html += card(g, false, isBelow, false);
+    if (!shownGCut && g.side==='george' && isBelow) { shownGCut=true; html+=cutDiv(cg,'g',sideView==='both'?"George's cutoff":'Cutoff'); }
+    if (!shownRCut && g.side==='partner' && isBelow) { shownRCut=true; html+=cutDiv(cr,'r',sideView==='both'?"Teresa's cutoff":'Cutoff'); }
+    html += cardHtml(g, false, isBelow, false);
   });
-  if (!shownGCut && (sideView === 'george' || sideView === 'both')) html += cutDiv(cg, 'g', sideView === 'both' ? "George's cutoff" : 'Cutoff');
-  if (!shownRCut && (sideView === 'partner' || sideView === 'both')) html += cutDiv(cr, 'r', sideView === 'both' ? "Teresa's cutoff" : 'Cutoff');
+  if (!shownGCut && (sideView==='george'||sideView==='both')) html += cutDiv(cg,'g',sideView==='both'?"George's cutoff":'Cutoff');
+  if (!shownRCut && (sideView==='partner'||sideView==='both')) html += cutDiv(cr,'r',sideView==='both'?"Teresa's cutoff":'Cutoff');
 
-  // Archive section
   if (archived.length > 0) {
     html += `<div class="arch-toggle" onclick="toggleArch()">
       <span class="arch-lbl">Not Making the List</span>
       <span class="arch-cnt">${archived.length}</span>
-      <span class="arch-arrow${archiveOpen ? ' open' : ''}">▼</span>
-    </div>
-    <div class="arch-body${archiveOpen ? ' open' : ''}">`;
-    archived.forEach(g => { html += card(g, false, false, true); });
+      <span class="arch-arrow${archiveOpen?' open':''}">▼</span>
+    </div><div class="arch-body${archiveOpen?' open':''}">`;
+    archived.forEach(g => { html += cardHtml(g, false, false, true); });
     html += '</div>';
   }
 
@@ -916,42 +1176,43 @@ function render() {
 function secHdr(label, count) {
   return `<div class="sec-hdr"><div class="sec-lbl">${label}</div><div class="sec-cnt">${count}</div><div class="sec-line"></div></div>`;
 }
-
 function cutDiv(n, cls, label) {
   return `<div class="cut-div"><div class="cut-line ${cls}"></div><div class="cut-pill ${cls}">${label} #${n}</div><div class="cut-line ${cls}"></div></div>`;
 }
 
-function card(g, isLocked, isBelow, isArchived) {
-  const mg = getMust(g.name);
-  const sg = getSoft(g.name);
-  const isPinned = getPinsBefore(g.name).length > 0;
-  const rc = g.rsvp === 'Yes' ? 'yes' : g.rsvp === 'Maybe' ? 'maybe' : g.rsvp === 'No' ? 'no' : 'none';
+function cardHtml(g, isLocked, isBelow, isArchived) {
+  const mg       = getMust(g.name);
+  const sg       = getSoft(g.name);
+  const hasPri   = getPriRulesFor(g.name).length > 0;
+  const rc       = g.rsvp==='Yes'?'yes':g.rsvp==='Maybe'?'maybe':g.rsvp==='No'?'no':'none';
 
   let cc = 'card';
-  if (mg) cc += ' must';
-  else if (sg) cc += ' soft';
+  if (mg) cc += ' must'; else if (sg) cc += ' soft';
   if (isBelow) cc += ' dim';
   if (isArchived) cc += ' archived';
 
-  const rankCls = isArchived ? 'rank arch' : isLocked ? (g.side === 'george' ? 'rank locked-g' : 'rank locked-r') : 'rank';
+  const rankCls = isArchived ? 'rank arch' : isLocked ? (g.side==='george'?'rank locked-g':'rank locked-r') : 'rank';
   const rankVal = isArchived ? '—' : g.rank;
 
   let tags = '';
-  if (sideView === 'both') tags += `<span class="tag ${g.side === 'partner' ? 'rose' : ''}">${g.side === 'george' ? "George's" : "Teresa's"}</span>`;
+  if (sideView==='both') tags += `<span class="tag ${g.side==='partner'?'rose':''}">${g.side==='george'?"George's":"Teresa's"}</span>`;
   if (mg) tags += `<span class="tag must">🔒 ${mg.name}</span>`;
   else if (sg) tags += `<span class="tag soft">👥 ${sg.name}</span>`;
   else if (g.group) tags += `<span class="tag">${g.group}</span>`;
-  if (isPinned) tags += `<span class="tag pin">📌</span>`;
-  if (g.ageGroup === 'kid') tags += `<span class="tag kid">🧒 kid</span>`;
+  if (hasPri) tags += `<span class="tag pri">📌 priority</span>`;
+  if (g.ageGroup==='kid') tags += `<span class="tag kid">🧒 kid</span>`;
   if (isArchived) tags += `<span class="tag arch">not invited</span>`;
 
-  const nm = esc(g.name);
-  const draggable = (!isLocked && !isArchived) ? `draggable="true" data-name="${g.name}"` : '';
-  const handle = (!isLocked && !isArchived) ? `<div class="drag-hdl">⠿</div>` : `<div style="width:14px"></div>`;
-  const arrows = (!isLocked && !isArchived) ? `<div class="arrow-col">
-    <div class="arr" onclick="event.stopPropagation();move('${nm}',-1)">▲</div>
-    <div class="arr" onclick="event.stopPropagation();move('${nm}',1)">▼</div>
-  </div>` : '';
+  const nm         = esc(g.name);
+  const draggable  = (!isLocked && !isArchived) ? `draggable="true" data-name="${g.name}"` : '';
+  const handle     = (!isLocked && !isArchived) ? `<div class="drag-hdl">⠿</div>` : `<div style="width:14px"></div>`;
+  const controls   = (!isLocked && !isArchived) ? `
+    <div class="card-ctrl">
+      <div class="arr top" onclick="event.stopPropagation();moveToTop('${nm}')" title="Move to top">TOP</div>
+      <div class="arr" onclick="event.stopPropagation();moveDir('${nm}',-1)" title="Move up">▲</div>
+      <div class="arr" onclick="event.stopPropagation();moveDir('${nm}',1)" title="Move down">▼</div>
+      <div class="arr bot" onclick="event.stopPropagation();moveToBottom('${nm}')" title="Move to bottom">BOT</div>
+    </div>` : '';
 
   return `<div class="${cc}" ${draggable} onclick="openModal('${nm}')">
     ${handle}
@@ -960,30 +1221,16 @@ function card(g, isLocked, isBelow, isArchived) {
       <div class="card-name">${g.name}</div>
       ${tags ? `<div class="card-tags">${tags}</div>` : ''}
     </div>
-    ${arrows}
-    <div class="rsvp ${rc}" onclick="event.stopPropagation();cycleRsvp('${nm}')">${g.rsvp || '—'}</div>
+    ${controls}
+    <div class="rsvp ${rc}" onclick="event.stopPropagation();cycleRsvp('${nm}')">${g.rsvp||'—'}</div>
   </div>`;
 }
 
 function toggleArch() { archiveOpen = !archiveOpen; render(); }
 
-// ═══════════════════════════════════════════
-// MOVE / DRAG
-// ═══════════════════════════════════════════
-function move(name, dir) {
-  const g = G.find(x => x.name === name);
-  if (!g) return;
-  const wl = G.filter(x => !x.invited && !x.archived && x.side === g.side).sort((a,b) => a.rank - b.rank);
-  const idx = wl.findIndex(x => x.name === name);
-  if (idx === -1) return;
-  const ni = idx + dir;
-  if (ni < 0 || ni >= wl.length) return;
-  const nb = wl[ni];
-  if (dir === -1 && getPinsBefore(g.name).includes(nb.name)) { toast('📌 Pinned order prevents this'); return; }
-  [g.rank, nb.rank] = [nb.rank, g.rank];
-  save(); render();
-}
-
+// ═══════════════════════════════════════════════════════
+// DRAG AND DROP
+// ═══════════════════════════════════════════════════════
 function attachDrag() {
   document.querySelectorAll('.card[draggable]').forEach(el => {
     el.addEventListener('dragstart', e => {
@@ -1002,101 +1249,82 @@ function attachDrag() {
     });
     el.addEventListener('drop', e => {
       e.preventDefault();
-      const src = G.find(g => g.name === dragName);
       const dst = G.find(g => g.name === e.currentTarget.dataset.name);
-      if (!src || !dst || src === dst) return;
-      if (getPinsBefore(src.name).includes(dst.name) && src.rank > dst.rank) { toast('📌 Pinned order prevents this'); return; }
-      [src.rank, dst.rank] = [dst.rank, src.rank];
-      save(); render();
+      if (!dst || !dragName || dst.name === dragName) return;
+      moveTo(dragName, dst.rank, dst.side);
     });
   });
 }
 
-// ═══════════════════════════════════════════
-// RSVP
-// ═══════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
+// RSVP / AGE
+// ═══════════════════════════════════════════════════════
 function cycleRsvp(name) {
-  const g = G.find(x => x.name === name);
-  if (!g) return;
-  const cycle = ['', 'Yes', 'Maybe', 'No'];
-  g.rsvp = cycle[(cycle.indexOf(g.rsvp) + 1) % cycle.length];
+  const g = G.find(x => x.name === name); if (!g) return;
+  const cycle = ['','Yes','Maybe','No'];
+  g.rsvp = cycle[(cycle.indexOf(g.rsvp)+1)%cycle.length];
   save(); render();
 }
-
 function setRsvp(val) {
   if (!activeGuest) return;
   activeGuest.rsvp = val;
   document.querySelectorAll('.rsvp-opt').forEach(b => b.classList.remove('sel'));
-  const cls = val === 'Yes' ? 'yes' : val === 'Maybe' ? 'maybe' : val === 'No' ? 'no' : 'none';
-  document.querySelector(`.rsvp-opt.${cls}`)?.classList.add('sel');
+  document.querySelector(`.rsvp-opt.${val==='Yes'?'yes':val==='Maybe'?'maybe':val==='No'?'no':'none'}`)?.classList.add('sel');
   save(); render();
 }
-
 function setAge(val) {
   if (!activeGuest) return;
   activeGuest.ageGroup = val;
   document.querySelectorAll('.age-opt').forEach(b => b.classList.remove('sel'));
-  if (val) document.querySelector(`.age-opt.${val || 'clear'}`)?.classList.add('sel');
-  else document.querySelector('.age-opt.clear')?.classList.add('sel');
+  document.querySelector(`.age-opt.${val||'clear'}`)?.classList.add('sel');
   save(); render();
 }
 
-// ═══════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
 // MODAL
-// ═══════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
 function openModal(name) {
-  const g = G.find(x => x.name === name);
-  if (!g) return;
+  const g = G.find(x => x.name === name); if (!g) return;
   activeGuest = g;
-
   document.getElementById('m-name').textContent = g.name;
   cancelEdit();
-
   const cut = cutOf(g);
   let meta = [];
   if (g.group) meta.push(g.group);
-  meta.push(g.side === 'george' ? "George's side" : "Teresa's side");
+  meta.push(g.side==='george'?"George's side":"Teresa's side");
   if (g.invited) meta.push('Locked in');
   else if (g.archived) meta.push('Not making the list');
-  else meta.push(`Rank #${g.rank} — ${g.rank <= cut ? 'above cutoff' : 'below cutoff'}`);
+  else meta.push(`Rank #${g.rank} — ${g.rank<=cut?'above cutoff':'below cutoff'}`);
   document.getElementById('m-meta').textContent = meta.join(' · ');
 
-  // RSVP
   document.querySelectorAll('.rsvp-opt').forEach(b => b.classList.remove('sel'));
-  const rc = g.rsvp === 'Yes' ? 'yes' : g.rsvp === 'Maybe' ? 'maybe' : g.rsvp === 'No' ? 'no' : 'none';
-  document.querySelector(`.rsvp-opt.${rc}`)?.classList.add('sel');
-
-  // Age
+  document.querySelector(`.rsvp-opt.${g.rsvp==='Yes'?'yes':g.rsvp==='Maybe'?'maybe':g.rsvp==='No'?'no':'none'}`)?.classList.add('sel');
   document.querySelectorAll('.age-opt').forEach(b => b.classList.remove('sel'));
-  const ac = g.ageGroup === 'adult' ? 'adult' : g.ageGroup === 'kid' ? 'kid' : 'clear';
-  document.querySelector(`.age-opt.${ac}`)?.classList.add('sel');
+  document.querySelector(`.age-opt.${g.ageGroup==='adult'?'adult':g.ageGroup==='kid'?'kid':'clear'}`)?.classList.add('sel');
 
-  // Rank
   const rs = document.getElementById('m-rank-sec');
   const rd = document.getElementById('m-rank-div');
   if (!g.invited && !g.archived) {
     rs.style.display = 'block'; rd.style.display = 'block';
     document.getElementById('m-rank-inp').value = g.rank;
     document.getElementById('m-rank-cur').textContent = g.rank;
-  } else { rs.style.display = 'none'; rd.style.display = 'none'; }
+  } else { rs.style.display='none'; rd.style.display='none'; }
 
-  // Archive btn
   const ab = document.getElementById('m-arch-btn');
-  if (g.invited) { ab.style.display = 'none'; }
-  else if (g.archived) { ab.className = 'act-btn restore'; ab.textContent = 'Restore to Waitlist'; ab.style.display = ''; }
-  else { ab.className = 'act-btn archive'; ab.textContent = 'Not Making List'; ab.style.display = ''; }
+  if (g.invited) { ab.style.display='none'; }
+  else if (g.archived) { ab.className='act-btn restore'; ab.textContent='Restore to Waitlist'; ab.style.display=''; }
+  else { ab.className='act-btn archive'; ab.textContent='Not Making List'; ab.style.display=''; }
 
-  renderMust(); renderSoft(); renderPins();
+  renderMust(); renderSoft(); renderModalPriRules();
   document.getElementById('modal').classList.add('on');
 }
 
 function closeModal() {
   document.getElementById('modal').classList.remove('on');
-  cancelEdit();
-  activeGuest = null;
+  cancelEdit(); activeGuest = null;
 }
 
-// ── Name edit ──
+// Name edit
 function startEdit() {
   if (!activeGuest) return;
   document.getElementById('m-name').style.display = 'none';
@@ -1108,8 +1336,7 @@ function startEdit() {
 }
 function cancelEdit() {
   document.getElementById('m-name').style.display = '';
-  const eb = document.querySelector('.edit-lbl-btn');
-  if (eb) eb.style.display = '';
+  const eb = document.querySelector('.edit-lbl-btn'); if (eb) eb.style.display = '';
   document.getElementById('m-edit-row').classList.remove('on');
 }
 function saveEdit() {
@@ -1117,31 +1344,29 @@ function saveEdit() {
   const val = document.getElementById('m-name-inp').value.trim();
   if (!val) { toast('Name cannot be empty'); return; }
   if (val === activeGuest.name) { cancelEdit(); return; }
-  if (G.find(g => g.name === val && g !== activeGuest)) { toast('That name already exists'); return; }
+  if (G.find(g => g.name===val && g!==activeGuest)) { toast('That name already exists'); return; }
   const old = activeGuest.name;
   activeGuest.name = val;
-  mustGroups.forEach(m => { const i = m.members.indexOf(old); if (i > -1) m.members[i] = val; });
-  softGroups.forEach(s => { const i = s.members.indexOf(old); if (i > -1) s.members[i] = val; });
-  pinned.forEach(p => { if (p.before === old) p.before = val; if (p.after === old) p.after = val; });
+  mustGroups.forEach(m => { const i=m.members.indexOf(old); if(i>-1) m.members[i]=val; });
+  softGroups.forEach(s => { const i=s.members.indexOf(old); if(i>-1) s.members[i]=val; });
+  priRules.forEach(r => { if(r.above===old) r.above=val; if(r.below===old) r.below=val; });
   document.getElementById('m-name').textContent = val;
   cancelEdit();
-  save(); render();
-  toast(`✓ Renamed to ${val}`);
+  save(); render(); toast(`✓ Renamed to ${val}`);
 }
 
-// ── Rank ──
+// Rank
 function applyRank() {
   if (!activeGuest || activeGuest.invited) return;
   const nr = parseInt(document.getElementById('m-rank-inp').value);
   if (!nr || nr < 1) return;
-  const target = G.find(g => g.rank === nr && g.name !== activeGuest.name && g.side === activeGuest.side && !g.invited && !g.archived);
-  if (target) target.rank = activeGuest.rank;
-  activeGuest.rank = nr;
-  document.getElementById('m-rank-cur').textContent = nr;
-  save(); render(); toast(`✓ Moved to rank ${nr}`);
+  moveTo(activeGuest.name, nr, activeGuest.side);
+  document.getElementById('m-rank-cur').textContent = activeGuest.rank;
+  document.getElementById('m-rank-inp').value = activeGuest.rank;
+  toast(`✓ Moved to rank ${activeGuest.rank}`);
 }
 
-// ── Archive ──
+// Archive
 function toggleArchive() {
   if (!activeGuest || activeGuest.invited) return;
   activeGuest.archived = !activeGuest.archived;
@@ -1149,17 +1374,16 @@ function toggleArchive() {
     activeGuest.rank = 9999;
     toast('Moved to "Not Making the List"');
   } else {
-    const max = Math.max(0, ...G.filter(g => !g.invited && !g.archived && g.side === activeGuest.side).map(g => g.rank));
-    activeGuest.rank = max + 1;
+    const max = Math.max(0, ...G.filter(g=>!g.invited&&!g.archived&&g.side===activeGuest.side).map(g=>g.rank));
+    activeGuest.rank = max+1;
     toast('Restored to waitlist');
   }
   save(); closeModal(); render();
 }
 
-// ── Must group ──
+// Must group
 function renderMust() {
-  const g = activeGuest;
-  const mg = getMust(g.name);
+  const g = activeGuest; const mg = getMust(g.name);
   const el = document.getElementById('m-must');
   if (mg) {
     const others = mg.members.filter(m => m !== g.name);
@@ -1168,7 +1392,7 @@ function renderMust() {
         <div style="flex:1">
           <div class="linked-name blue" style="margin-bottom:6px">${mg.name}</div>
           <div style="display:flex;flex-wrap:wrap;gap:4px">
-            ${others.map(m => `<span style="font-size:11px;background:var(--blue-lt);color:var(--blue);border:1px solid #C5D8EE;border-radius:4px;padding:2px 8px">${m}</span>`).join('')}
+            ${others.map(m=>`<span style="font-size:11px;background:var(--blue-lt);color:var(--blue);border:1px solid #C5D8EE;border-radius:4px;padding:2px 8px">${m}</span>`).join('')}
           </div>
         </div>
         <button class="unlink-btn" onclick="leaveMust()">Leave</button>
@@ -1182,7 +1406,7 @@ function renderMust() {
       <div style="font-size:12px;color:var(--ink-muted);margin-bottom:8px">Link with others who must all be invited together</div>
       <div class="rel-row">
         <input type="text" id="must-gname" placeholder="Group name (e.g. Martinez Family)" list="must-dl" style="flex:1.2">
-        <datalist id="must-dl">${mustGroups.map(m => `<option value="${esc(m.name)}">`).join('')}</datalist>
+        <datalist id="must-dl">${mustGroups.map(m=>`<option value="${esc(m.name)}">`).join('')}</datalist>
         <div class="ac-wrap"><input type="text" id="must-member" placeholder="First other member…" oninput="ac('must-member','must-member-ac')" autocomplete="off"><div class="ac-list" id="must-member-ac"></div></div>
         <button class="mini blue" onclick="joinMust()">Link</button>
       </div>`;
@@ -1191,17 +1415,17 @@ function renderMust() {
 function joinMust() {
   const name = document.getElementById('must-gname')?.value.trim();
   const member = document.getElementById('must-member')?.value.trim();
-  if (!name || !activeGuest) { toast('Enter a group name'); return; }
-  let mg = mustGroups.find(m => m.name === name);
+  if (!name||!activeGuest) { toast('Enter a group name'); return; }
+  let mg = mustGroups.find(m=>m.name===name);
   if (!mg) {
     if (!member) { toast('Add at least one other person'); return; }
-    if (!G.find(g => g.name === member)) { toast(`"${member}" not found`); return; }
-    mg = { name, members: [activeGuest.name, member] };
+    if (!G.find(g=>g.name===member)) { toast(`"${member}" not found`); return; }
+    mg = {name, members:[activeGuest.name, member]};
     mustGroups.push(mg);
   } else {
     if (!mg.members.includes(activeGuest.name)) mg.members.push(activeGuest.name);
     if (member && !mg.members.includes(member)) {
-      if (!G.find(g => g.name === member)) { toast(`"${member}" not found`); return; }
+      if (!G.find(g=>g.name===member)) { toast(`"${member}" not found`); return; }
       mg.members.push(member);
     }
   }
@@ -1209,25 +1433,23 @@ function joinMust() {
 }
 function addToMust() {
   const person = document.getElementById('must-add')?.value.trim();
-  if (!person || !activeGuest) return;
-  if (!G.find(g => g.name === person)) { toast(`"${person}" not found`); return; }
-  const mg = getMust(activeGuest.name);
-  if (!mg) return;
+  if (!person||!activeGuest) return;
+  if (!G.find(g=>g.name===person)) { toast(`"${person}" not found`); return; }
+  const mg = getMust(activeGuest.name); if (!mg) return;
   if (mg.members.includes(person)) { toast('Already in group'); return; }
   mg.members.push(person);
   save(); renderMust(); render(); toast(`🔒 ${person} added`);
 }
 function leaveMust() {
   if (!activeGuest) return;
-  mustGroups.forEach(m => { m.members = m.members.filter(x => x !== activeGuest.name); });
+  mustGroups.forEach(m => { m.members = m.members.filter(x=>x!==activeGuest.name); });
   mustGroups = mustGroups.filter(m => m.members.length > 1);
   save(); renderMust(); render(); toast('Removed from must-invite group');
 }
 
-// ── Soft group ──
+// Soft group
 function renderSoft() {
-  const g = activeGuest;
-  const sg = getSoft(g.name);
+  const g = activeGuest; const sg = getSoft(g.name);
   const el = document.getElementById('m-soft');
   if (sg) {
     el.innerHTML = `<div class="linked">
@@ -1237,74 +1459,64 @@ function renderSoft() {
   } else {
     el.innerHTML = `<div class="rel-row">
       <input type="text" id="soft-name" placeholder="Group name…" list="soft-dl">
-      <datalist id="soft-dl">${softGroups.map(s => `<option value="${esc(s.name)}">`).join('')}</datalist>
+      <datalist id="soft-dl">${softGroups.map(s=>`<option value="${esc(s.name)}">`).join('')}</datalist>
       <button class="mini green" onclick="joinSoft()">Add</button>
     </div>`;
   }
 }
 function joinSoft() {
   const name = document.getElementById('soft-name')?.value.trim();
-  if (!name || !activeGuest) { toast('Enter a group name'); return; }
-  let sg = softGroups.find(s => s.name === name);
-  if (!sg) { sg = { name, members: [] }; softGroups.push(sg); }
+  if (!name||!activeGuest) { toast('Enter a group name'); return; }
+  let sg = softGroups.find(s=>s.name===name);
+  if (!sg) { sg={name,members:[]}; softGroups.push(sg); }
   if (!sg.members.includes(activeGuest.name)) sg.members.push(activeGuest.name);
   save(); renderSoft(); render(); toast(`👥 Added to "${name}"`);
 }
 function leaveSoft() {
   if (!activeGuest) return;
-  softGroups.forEach(s => { s.members = s.members.filter(x => x !== activeGuest.name); });
+  softGroups.forEach(s => { s.members = s.members.filter(x=>x!==activeGuest.name); });
   softGroups = softGroups.filter(s => s.members.length > 0);
   save(); renderSoft(); render(); toast('Removed from group');
 }
 
-// ── Pins ──
-function renderPins() {
+// Priority rules in modal (read-only view)
+function renderModalPriRules() {
   const g = activeGuest;
-  const pins = pinned.filter(p => p.before === g.name || p.after === g.name);
-  const el = document.getElementById('m-pins');
-  if (!pins.length) { el.innerHTML = ''; return; }
-  el.innerHTML = pins.map(p =>
-    `<div class="linked" style="margin-bottom:5px">
-      <span style="font-size:12px"><strong>${p.before}</strong> <span style="color:var(--ink-muted)">always before</span> <strong>${p.after}</strong></span>
-      <button class="unlink-btn" onclick="removePin('${esc(p.before)}','${esc(p.after)}')">Remove</button>
+  const rules = getPriRulesFor(g.name);
+  const el = document.getElementById('m-pri-rules');
+  if (!rules.length) {
+    el.innerHTML = `<div style="font-size:12px;color:var(--ink-muted)">No priority rules for this person.</div>`;
+    return;
+  }
+  el.innerHTML = rules.map(r =>
+    `<div style="font-size:12px;background:var(--purple-lt);color:var(--purple);border:1px solid #D4C7EE;border-radius:6px;padding:5px 10px;margin-bottom:4px">
+      📌 <strong>${r.above}</strong> always above <strong>${r.below}</strong>
     </div>`
   ).join('');
 }
-function addPin() {
-  const below = document.getElementById('pin-inp')?.value.trim();
-  if (!below || !activeGuest) return;
-  if (!G.find(g => g.name === below)) { toast(`"${below}" not found`); return; }
-  pinned.push({ before: activeGuest.name, after: below });
-  document.getElementById('pin-inp').value = '';
-  save(); renderPins(); toast(`📌 ${activeGuest.name} always before ${below}`);
-}
-function removePin(before, after) {
-  pinned = pinned.filter(p => !(p.before === before && p.after === after));
-  save(); renderPins();
-}
 
-// ═══════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
 // ADD GUEST
-// ═══════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
 function openAdd() { document.getElementById('add-modal').classList.add('on'); }
 function closeAdd() { document.getElementById('add-modal').classList.remove('on'); }
 function submitAdd() {
   const name = document.getElementById('add-name').value.trim();
   if (!name) { toast('Enter a name'); return; }
   if (G.find(g => g.name === name)) { toast('Name already exists'); return; }
-  const side = document.getElementById('add-side').value;
-  const status = document.getElementById('add-status').value;
-  const group = document.getElementById('add-group').value.trim();
+  const side     = document.getElementById('add-side').value;
+  const status   = document.getElementById('add-status').value;
+  const group    = document.getElementById('add-group').value.trim();
   const ageGroup = document.getElementById('add-age').value;
-  const rsvp = document.getElementById('add-rsvp').value;
-  const sideG = G.filter(g => g.side === side && !g.archived);
-  const maxR = status === 'locked'
-    ? Math.max(0, ...sideG.filter(g => g.invited).map(g => g.rank)) + 1
-    : Math.max(0, ...sideG.filter(g => !g.invited).map(g => g.rank)) + 1;
-  G.push({ name, invited: status === 'locked', archived: status === 'archived', rsvp, rank: status === 'archived' ? 9999 : maxR, group, side, ageGroup });
+  const rsvp     = document.getElementById('add-rsvp').value;
+  const sideG    = G.filter(g => g.side===side && !g.archived);
+  const maxR     = status==='locked'
+    ? Math.max(0,...sideG.filter(g=>g.invited).map(g=>g.rank))+1
+    : Math.max(0,...sideG.filter(g=>!g.invited).map(g=>g.rank))+1;
+  G.push({name, invited:status==='locked', archived:status==='archived', rsvp, rank:status==='archived'?9999:maxR, group, side, ageGroup});
   if (group) {
-    let sg = softGroups.find(s => s.name === group);
-    if (!sg) { sg = { name: group, members: [] }; softGroups.push(sg); }
+    let sg = softGroups.find(s=>s.name===group);
+    if (!sg) { sg={name:group,members:[]}; softGroups.push(sg); }
     if (!sg.members.includes(name)) sg.members.push(name);
   }
   document.getElementById('add-name').value = '';
@@ -1313,292 +1525,241 @@ function submitAdd() {
   save(); buildChips(); render(); toast(`✓ ${name} added`);
 }
 
-// ═══════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
 // IMPORT CSV
-// ═══════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
 let importRows = [];
-
 function openImport() {
   resetImport();
   document.getElementById('import-modal').classList.add('on');
   const dz = document.getElementById('drop-zone');
   dz.ondragover = e => { e.preventDefault(); dz.classList.add('over'); };
   dz.ondragleave = () => dz.classList.remove('over');
-  dz.ondrop = e => { e.preventDefault(); dz.classList.remove('over'); handleFile({ target: { files: e.dataTransfer.files } }); };
+  dz.ondrop = e => { e.preventDefault(); dz.classList.remove('over'); handleFile({target:{files:e.dataTransfer.files}}); };
 }
 function closeImport() { document.getElementById('import-modal').classList.remove('on'); }
 function resetImport() {
   importRows = [];
   document.getElementById('imp-step1').style.display = 'block';
   document.getElementById('imp-step2').style.display = 'none';
-  const fi = document.getElementById('file-inp');
-  if (fi) fi.value = '';
+  const fi = document.getElementById('file-inp'); if (fi) fi.value = '';
 }
-
 function handleFile(e) {
-  const file = e.target.files[0];
-  if (!file) return;
+  const file = e.target.files[0]; if (!file) return;
   const reader = new FileReader();
   reader.onload = ev => parseCSV(ev.target.result);
   reader.readAsText(file);
 }
-
 function parseCSV(text) {
-  const lines = text.trim().split(/\r?\n/).filter(l => l.trim());
+  const lines = text.trim().split(/\r?\n/).filter(l=>l.trim());
   if (lines.length < 2) { toast('CSV appears empty'); return; }
-  const headers = splitCSVRow(lines[0]).map(h => h.trim().replace(/^"|"$/g, '').toLowerCase());
-  const col = (...variants) => { for (const v of variants) { const i = headers.indexOf(v); if (i > -1) return i; } return -1; };
-  const nameCol = col('guest name', 'name', 'full name', 'guest');
-  if (nameCol === -1) { toast('No "Guest Name" column found'); return; }
-  const invCol = col('invited');
-  const rsvpCol = col('able to come', 'rsvp', 'response');
-  const rankCol = col('rank', 'priority');
-  const groupCol = col('group', 'category');
-  const ageCol = col('age', 'age group', 'type');
-  const side = document.getElementById('imp-side').value;
-  const defStatus = document.getElementById('imp-status').value;
-  const existing = new Set(G.map(g => g.name.toLowerCase()));
-  const sideGuests = G.filter(g => g.side === side && !g.archived);
-  let maxR = Math.max(0, ...sideGuests.filter(g => !g.invited).map(g => g.rank));
-  importRows = [];
-  let dupes = 0;
-  for (let i = 1; i < lines.length; i++) {
+  const headers = splitCSVRow(lines[0]).map(h=>h.trim().replace(/^"|"$/g,'').toLowerCase());
+  const col = (...v) => { for(const x of v){const i=headers.indexOf(x);if(i>-1)return i;} return -1; };
+  const nameCol  = col('guest name','name','full name','guest');
+  if (nameCol===-1) { toast('No "Guest Name" column found'); return; }
+  const invCol  = col('invited');
+  const rsvpCol = col('able to come','rsvp','response');
+  const rankCol = col('rank','priority');
+  const groupCol = col('group','category');
+  const ageCol  = col('age','age group','type');
+  const side    = document.getElementById('imp-side').value;
+  const defSt   = document.getElementById('imp-status').value;
+  const existing = new Set(G.map(g=>g.name.toLowerCase()));
+  const sideG   = G.filter(g=>g.side===side&&!g.archived);
+  let maxR      = Math.max(0,...sideG.filter(g=>!g.invited).map(g=>g.rank));
+  importRows = []; let dupes = 0;
+  for (let i=1; i<lines.length; i++) {
     const row = splitCSVRow(lines[i]);
-    const name = (row[nameCol] || '').trim().replace(/^"|"$/g, '');
+    const name = (row[nameCol]||'').trim().replace(/^"|"$/g,'');
     if (!name) continue;
     const isDupe = existing.has(name.toLowerCase());
     if (isDupe) dupes++;
-    const invRaw = invCol > -1 ? (row[invCol] || '').trim().toUpperCase() : '';
-    const invited = invRaw === 'TRUE' || invRaw === 'YES' || invRaw === '1';
-    const rsvp = rsvpCol > -1 ? normalizeRsvp((row[rsvpCol] || '').trim()) : '';
-    const rankRaw = rankCol > -1 ? parseInt(row[rankCol]) : NaN;
-    const rank = !isNaN(rankRaw) ? rankRaw : ++maxR;
-    const group = groupCol > -1 ? (row[groupCol] || '').trim().replace(/^"|"$/g, '') : '';
-    const ageRaw = ageCol > -1 ? (row[ageCol] || '').trim().toLowerCase() : '';
-    const ageGroup = ageRaw === 'kid' || ageRaw === 'child' ? 'kid' : ageRaw === 'adult' ? 'adult' : '';
-    const status = invited ? 'locked' : defStatus;
-    importRows.push({ name, invited, rsvp, rank, group, ageGroup, side, status, isDupe });
+    const invRaw   = invCol>-1?(row[invCol]||'').trim().toUpperCase():'';
+    const invited  = invRaw==='TRUE'||invRaw==='YES'||invRaw==='1';
+    const rsvp     = rsvpCol>-1?normalizeRsvp((row[rsvpCol]||'').trim()):'';
+    const rankRaw  = rankCol>-1?parseInt(row[rankCol]):NaN;
+    const rank     = !isNaN(rankRaw)?rankRaw:++maxR;
+    const group    = groupCol>-1?(row[groupCol]||'').trim().replace(/^"|"$/g,''):'';
+    const ageRaw   = ageCol>-1?(row[ageCol]||'').trim().toLowerCase():'';
+    const ageGroup = ageRaw==='kid'||ageRaw==='child'?'kid':ageRaw==='adult'?'adult':'';
+    const status   = invited?'locked':defSt;
+    importRows.push({name,invited,rsvp,rank,group,ageGroup,side,status,isDupe});
   }
   showPreview(dupes);
 }
-
 function splitCSVRow(line) {
-  const r = []; let cur = '', inQ = false;
-  for (const c of line) {
-    if (c === '"') inQ = !inQ;
-    else if (c === ',' && !inQ) { r.push(cur); cur = ''; }
-    else cur += c;
-  }
-  r.push(cur);
-  return r;
+  const r=[]; let cur='',inQ=false;
+  for(const c of line){ if(c==='"')inQ=!inQ; else if(c===','&&!inQ){r.push(cur);cur='';}else cur+=c; }
+  r.push(cur); return r;
 }
-
 function normalizeRsvp(r) {
-  const l = r.toLowerCase();
-  if (l === 'yes' || l === 'true') return 'Yes';
-  if (l === 'maybe') return 'Maybe';
-  if (l === 'no') return 'No';
-  return '';
+  const l=r.toLowerCase();
+  if(l==='yes'||l==='true')return'Yes';
+  if(l==='maybe')return'Maybe';
+  if(l==='no')return'No';
+  return'';
 }
-
 function showPreview(dupes) {
-  const newCount = importRows.filter(r => !r.isDupe).length;
-  const pName = document.getElementById('p-name-inp').value || 'Teresa';
-  const gName = document.getElementById('g-name-inp').value || 'George';
-  const sideName = document.getElementById('imp-side').value === 'george' ? gName + "'s" : pName + "'s";
+  const newCount = importRows.filter(r=>!r.isDupe).length;
+  const pName = document.getElementById('p-name-inp').value||'Teresa';
+  const gName = document.getElementById('g-name-inp').value||'George';
+  const sideName = document.getElementById('imp-side').value==='george'?gName+"'s":pName+"'s";
   document.getElementById('imp-summary').innerHTML = `
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:4px">
       <span style="font-size:13px;background:var(--green-lt);color:var(--green);border-radius:6px;padding:4px 10px;font-weight:500">${newCount} new guests</span>
-      ${dupes > 0 ? `<span style="font-size:13px;background:var(--amber-lt);color:var(--amber);border-radius:6px;padding:4px 10px;font-weight:500">${dupes} duplicates skipped</span>` : ''}
+      ${dupes>0?`<span style="font-size:13px;background:var(--amber-lt);color:var(--amber);border-radius:6px;padding:4px 10px;font-weight:500">${dupes} duplicates skipped</span>`:''}
     </div>
     <div style="font-size:11px;color:var(--ink-muted)">Importing to ${sideName} list</div>`;
-  document.getElementById('imp-tbody').innerHTML = importRows.map(r => {
-    const sc = r.isDupe ? 'var(--amber)' : r.status === 'locked' ? 'var(--gold)' : r.status === 'archived' ? 'var(--ink-muted)' : 'var(--green)';
-    const sl = r.isDupe ? 'skip' : r.status === 'locked' ? 'Locked' : r.status === 'archived' ? 'Archived' : 'Waitlist';
-    return `<tr class="${r.isDupe ? 'dupe' : ''}">
-      <td>${r.name}</td>
-      <td>${r.group || '—'}</td>
+  document.getElementById('imp-tbody').innerHTML = importRows.map(r=>{
+    const sc=r.isDupe?'var(--amber)':r.status==='locked'?'var(--gold)':r.status==='archived'?'var(--ink-muted)':'var(--green)';
+    const sl=r.isDupe?'skip':r.status==='locked'?'Locked':r.status==='archived'?'Archived':'Waitlist';
+    return `<tr class="${r.isDupe?'dupe':''}">
+      <td>${r.name}</td><td>${r.group||'—'}</td>
       <td style="text-align:center">${r.rank}</td>
-      <td style="text-align:center">${r.ageGroup || '—'}</td>
+      <td style="text-align:center">${r.ageGroup||'—'}</td>
       <td style="text-align:center;font-weight:500;color:${sc}">${sl}</td>
     </tr>`;
   }).join('');
   const btn = document.getElementById('imp-confirm');
-  btn.textContent = `Import ${newCount} guest${newCount !== 1 ? 's' : ''}`;
-  btn.style.opacity = newCount === 0 ? '0.4' : '1';
-  btn.disabled = newCount === 0;
-  document.getElementById('imp-step1').style.display = 'none';
-  document.getElementById('imp-step2').style.display = 'block';
+  btn.textContent = `Import ${newCount} guest${newCount!==1?'s':''}`;
+  btn.style.opacity = newCount===0?'0.4':'1';
+  btn.disabled = newCount===0;
+  document.getElementById('imp-step1').style.display='none';
+  document.getElementById('imp-step2').style.display='block';
 }
-
 function confirmImport() {
-  const existingNames = new Set(G.map(g => g.name.toLowerCase()));
-  const toAdd = importRows.filter(r => !r.isDupe && !existingNames.has(r.name.toLowerCase()));
+  const existingNames = new Set(G.map(g=>g.name.toLowerCase()));
+  const toAdd = importRows.filter(r=>!r.isDupe&&!existingNames.has(r.name.toLowerCase()));
   if (!toAdd.length) { toast('Nothing new to import'); return; }
   toAdd.forEach(r => {
-    G.push({ name: r.name, invited: r.status === 'locked', archived: r.status === 'archived', rsvp: r.rsvp, rank: r.rank, group: r.group, side: r.side, ageGroup: r.ageGroup });
+    G.push({name:r.name,invited:r.status==='locked',archived:r.status==='archived',rsvp:r.rsvp,rank:r.rank,group:r.group,side:r.side,ageGroup:r.ageGroup});
     if (r.group) {
-      let sg = softGroups.find(s => s.name === r.group);
-      if (!sg) { sg = { name: r.group, members: [] }; softGroups.push(sg); }
-      if (!sg.members.includes(r.name)) sg.members.push(r.name);
+      let sg=softGroups.find(s=>s.name===r.group);
+      if(!sg){sg={name:r.group,members:[]};softGroups.push(sg);}
+      if(!sg.members.includes(r.name))sg.members.push(r.name);
     }
   });
-  save(); buildChips(); render();
-  closeImport();
-  toast(`✓ ${toAdd.length} guest${toAdd.length !== 1 ? 's' : ''} imported`);
+  save(); buildChips(); render(); closeImport();
+  toast(`✓ ${toAdd.length} guest${toAdd.length!==1?'s':''} imported`);
 }
 
-// ═══════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
 // AUTOCOMPLETE
-// ═══════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
 function ac(inputId, listId) {
   const inp = document.getElementById(inputId);
   const list = document.getElementById(listId);
-  if (!inp || !list) return;
+  if (!inp||!list) return;
   const val = inp.value.toLowerCase();
-  if (!val) { list.style.display = 'none'; return; }
-  const matches = G.map(g => g.name).filter(n => n.toLowerCase().includes(val) && n !== activeGuest?.name).slice(0, 8);
-  if (!matches.length) { list.style.display = 'none'; return; }
-  list.innerHTML = matches.map(n =>
+  if (!val) { list.style.display='none'; return; }
+  const matches = G.map(g=>g.name).filter(n=>n.toLowerCase().includes(val)&&n!==activeGuest?.name).slice(0,8);
+  if (!matches.length) { list.style.display='none'; return; }
+  list.innerHTML = matches.map(n=>
     `<div class="ac-item" onclick="document.getElementById('${inputId}').value='${esc(n)}';document.getElementById('${listId}').style.display='none'">${n}</div>`
   ).join('');
   list.style.display = 'block';
 }
 document.addEventListener('click', e => {
-  document.querySelectorAll('.ac-list').forEach(l => { if (!l.contains(e.target)) l.style.display = 'none'; });
+  document.querySelectorAll('.ac-list').forEach(l => { if(!l.contains(e.target)) l.style.display='none'; });
 });
 
-// ═══════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
 // TABS
-// ═══════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
 function switchTab(t) {
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('on'));
-  document.querySelectorAll('.tab').forEach(b => b.classList.remove('on'));
-  document.getElementById('panel-' + t).classList.add('on');
-  document.getElementById('tab-' + t).classList.add('on');
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  document.getElementById('panel-'+t).classList.add('on');
+  document.getElementById('tab-'+t).classList.add('on');
+  if (t==='priority') renderPriorityPanel();
 }
 
-// ═══════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
 // TOAST
-// ═══════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
 function toast(msg) {
   const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.classList.add('on');
-  setTimeout(() => el.classList.remove('on'), 2400);
+  el.textContent = msg; el.classList.add('on');
+  setTimeout(()=>el.classList.remove('on'), 2400);
 }
 
-// ═══════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
 // PASSWORD
-// ═══════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
 const FALLBACK_PW = 'wedding2025';
-
 function getActivePw() {
-  // Priority: remote password fetched from sheet > locally saved override > fallback
   try {
-    const remote = sessionStorage.getItem('wv3_remote_pw');
-    if (remote) return remote;
-    const local = localStorage.getItem('wv3_pw');
-    if (local) return local;
+    const remote = sessionStorage.getItem('wv3_remote_pw'); if (remote) return remote;
+    const local  = localStorage.getItem('wv3_pw'); if (local) return local;
   } catch(e) {}
   return FALLBACK_PW;
 }
-
 async function fetchRemotePw() {
-  const url = getSyncUrl();
-  if (!url) return;
+  const url = getSyncUrl(); if (!url) return;
   try {
-    const res  = await fetch(url + '?action=getPass');
-    const json = await res.json();
-    if (json.ok && json.data && json.data.password) {
-      try { sessionStorage.setItem('wv3_remote_pw', json.data.password); } catch(e) {}
-    }
-  } catch(ex) {}
+    const res=await fetch(url+'?action=getPass');
+    const json=await res.json();
+    if(json.ok&&json.data&&json.data.password){try{sessionStorage.setItem('wv3_remote_pw',json.data.password);}catch(e){}}
+  } catch(ex){}
 }
-
 function checkPw() {
-  const val = document.getElementById('pw-input').value;
-  if (!val) return;
+  const val = document.getElementById('pw-input').value; if (!val) return;
   if (val === getActivePw()) {
-    try { sessionStorage.setItem('wv3_auth', '1'); } catch(e) {}
-    document.getElementById('pw-screen').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
+    try{sessionStorage.setItem('wv3_auth','1');}catch(e){}
+    document.getElementById('pw-screen').style.display='none';
+    document.getElementById('app').style.display='block';
     load();
-    buildChips();
-    render();
   } else {
-    const inp = document.getElementById('pw-input');
-    inp.classList.add('shake');
-    setTimeout(() => inp.classList.remove('shake'), 400);
-    document.getElementById('pw-err').textContent = 'Incorrect password';
-    inp.value = '';
-    inp.focus();
+    const inp=document.getElementById('pw-input');
+    inp.classList.add('shake'); setTimeout(()=>inp.classList.remove('shake'),400);
+    document.getElementById('pw-err').textContent='Incorrect password';
+    inp.value=''; inp.focus();
   }
 }
-
 function saveSettings() {
   const newPw = document.getElementById('pw-set-inp').value.trim();
   if (newPw) {
-    // Save locally
-    try { localStorage.setItem('wv3_pw', newPw); sessionStorage.setItem('wv3_remote_pw', newPw); } catch(e) {}
-    document.getElementById('pw-set-inp').value = '';
-    // Push to sheet so all devices get it
-    const url = getSyncUrl();
-    if (url) {
-      fetch(url, { method: 'POST', body: JSON.stringify({ action: 'setPassword', password: newPw }) })
-        .then(() => toast('✓ Settings saved — password updated on all devices'))
-        .catch(() => toast('✓ Settings saved locally — sync to update other devices'));
-    } else {
-      toast('✓ Password saved locally');
-    }
-  } else {
-    toast('✓ Settings saved');
-  }
-  const syncUrlVal = document.getElementById('sync-url-inp').value.trim();
-  if (syncUrlVal) setSyncUrl(syncUrlVal);
+    try{localStorage.setItem('wv3_pw',newPw);sessionStorage.setItem('wv3_remote_pw',newPw);}catch(e){}
+    document.getElementById('pw-set-inp').value='';
+    const url=getSyncUrl();
+    if(url){
+      fetch(url,{method:'POST',body:JSON.stringify({action:'setPassword',password:newPw})})
+        .then(()=>toast('✓ Settings saved — password updated on all devices'))
+        .catch(()=>toast('✓ Settings saved locally'));
+    } else { toast('✓ Password saved locally'); }
+  } else { toast('✓ Settings saved'); }
+  const syncUrlVal=document.getElementById('sync-url-inp').value.trim();
+  if(syncUrlVal) setSyncUrl(syncUrlVal);
   save();
 }
-
 async function testSync() {
-  const url = document.getElementById('sync-url-inp').value.trim();
-  if (!url) { toast('Paste your Apps Script URL first'); return; }
+  const url=document.getElementById('sync-url-inp').value.trim();
+  if(!url){toast('Paste your Apps Script URL first');return;}
   toast('Testing connection…');
-  try {
-    const res  = await fetch(url + '?action=ping');
-    const json = await res.json();
-    if (json.ok) {
-      setSyncUrl(url);
-      toast('✓ Connected! Syncing now…');
-      syncToSheets();
-    } else { toast('✕ Connected but got an error — check the script'); }
-  } catch(ex) { toast('✕ Could not connect — check the URL'); }
+  try{
+    const res=await fetch(url+'?action=ping');
+    const json=await res.json();
+    if(json.ok){setSyncUrl(url);toast('✓ Connected! Syncing now…');syncToSheets();}
+    else toast('✕ Connected but got an error');
+  }catch(ex){toast('✕ Could not connect — check the URL');}
 }
 
-// ═══════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
 // INIT
-// ═══════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
 (function init() {
-  // Populate sync URL field if saved
   const savedUrl = getSyncUrl();
   if (savedUrl) document.getElementById('sync-url-inp').value = savedUrl;
-
-  // Check if already authenticated this session
   try {
     if (sessionStorage.getItem('wv3_auth') === '1') {
       document.getElementById('pw-screen').style.display = 'none';
       document.getElementById('app').style.display = 'block';
-      load();
-      return;
+      load(); return;
     }
   } catch(e) {}
-
-  // Pre-fetch the remote password in the background so it's ready when user types
   fetchRemotePw();
-
-  // Show password screen
-  setTimeout(() => document.getElementById('pw-input').focus(), 100);
+  setTimeout(()=>document.getElementById('pw-input').focus(), 100);
 })();
-
 </script>
 </body>
 </html>
