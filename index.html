@@ -785,7 +785,7 @@ let activeGuest = null;
 // ═══════════════════════════════════════════
 
 // ▼▼▼ PASTE YOUR APPS SCRIPT URL HERE ▼▼▼
-const DEFAULT_SYNC_URL = 'https://script.google.com/macros/s/AKfycbzfOfmEAmrPHqojt7oYSWbUwS5uU5U83AauFHKBRbyK5kbnEtQLHnZTOvq-8_vxWdcBQA/exec';
+const DEFAULT_SYNC_URL = 'https://script.google.com/macros/s/AKfycbyxI31Lw6o7OTreN3LTTMUQWedmZDTL3N1FuoLCk9u1CvFNt8lJ5q5CTfkFT38pUbTZnA/exec';
 // ▲▲▲ After deploying the Apps Script, paste the URL between the quotes above,
 //     then upload this file to GitHub. Every device will use it automatically.
 
@@ -822,8 +822,12 @@ function save() {
   if (!getSyncUrl()) return;
   if (syncTimer) clearTimeout(syncTimer);
   updateSyncIndicator('syncing');
-  syncTimer = setTimeout(() => syncToSheets(), 1500);
+  syncTimer = setTimeout(() => syncToSheets(), 2000);
 }
+
+// render() is display-only — it NEVER calls save()
+// applyMustRules() modifies ranks internally but does not persist —
+// save() must be called explicitly by user actions only
 
 function saveLocal() {
   try {
@@ -877,17 +881,24 @@ async function loadFromSheets() {
         if (d.settings.cutG)  document.getElementById('cut-g').value      = d.settings.cutG;
         if (d.settings.cutR)  document.getElementById('cut-r').value      = d.settings.cutR;
       }
-      // Store the password from the sheet in session so checkPw works
       if (d.password) {
         try { sessionStorage.setItem('wv3_remote_pw', d.password); } catch(e) {}
       }
       updateNames();
-      saveLocal();
+      saveLocal(); // cache to localStorage only — no remote sync on load
       updateSyncIndicator('synced');
-      buildChips();
-      render();
-    } else { loadLocal(); updateSyncIndicator('error'); }
-  } catch(ex) { loadLocal(); updateSyncIndicator('error'); console.warn('Offline — using local data'); }
+    } else {
+      loadLocal();
+      updateSyncIndicator('error');
+    }
+  } catch(ex) {
+    loadLocal();
+    updateSyncIndicator('error');
+    console.warn('Offline — using local data');
+  }
+  // Always render exactly once after load completes
+  buildChips();
+  render();
 }
 
 function load() { loadFromSheets(); }
@@ -910,8 +921,7 @@ function loadLocal() {
   updateNames();
   if (!G.length) { G = []; softGroups = []; }
   updateSyncIndicator(getSyncUrl() ? 'error' : 'local');
-  buildChips();
-  render();
+  // Caller is responsible for calling buildChips() and render()
 }
 
 function seed() {
