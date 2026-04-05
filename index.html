@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Wedding Guest List — V8</title>
+<title>Wedding Guest List — V9</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -395,7 +395,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(
       <button onclick="testSync()" style="width:100%;padding:9px;background:var(--blue-lt);color:var(--blue);border:1px solid #C5D8EE;border-radius:8px;font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;margin-top:4px">Test Connection</button>
     </div>
     <div class="set-section">
-      <div class="set-note" style="line-height:1.8">All changes save automatically and sync to Google Sheets.<br>To update: upload this file to GitHub Pages as index.html.<br><strong>Version 8.0</strong></div>
+      <div class="set-note" style="line-height:1.8">All changes save automatically and sync to Google Sheets.<br>To update: upload this file to GitHub Pages as index.html.<br><strong>Version 9.0</strong></div>
     </div>
     <button class="set-save" onclick="saveSettings()">Save Settings</button>
   </div>
@@ -727,24 +727,32 @@ function updateNames() {
 // ═══════════════════════════════════════════════════════
 // CORE MOVEMENT ENGINE
 // ═══════════════════════════════════════════════════════
-// All movement goes through moveTo(name, targetRank, side)
-// It handles: insert-not-swap, must-group blocks, priority constraints
 
 function getWaitlist(side) {
   return G.filter(g => g.side === side && !g.invited && !g.archived)
           .sort((a,b) => a.rank - b.rank);
 }
 
+// Get the full block of names to move for a given person
+// (their must-invite group, or just themselves)
+function getBlock(name) {
+  const mg = getMust(name);
+  if (!mg) return [name];
+  const g = G.find(x => x.name === name);
+  if (!g) return [name];
+  return mg.members.filter(n => {
+    const m = G.find(x => x.name === n);
+    return m && !m.invited && !m.archived;
+  });
+}
+
 // Insert a block of names at targetRank on a given side.
 // Everyone between old positions and target shifts to make room.
 function insertBlock(names, targetRank, side) {
   const wl = getWaitlist(side);
-  // Current positions of the block
   const blockItems = wl.filter(g => names.includes(g.name)).sort((a,b) => a.rank - b.rank);
   if (!blockItems.length) return;
   const blockSize = blockItems.length;
-  const firstRank = blockItems[0].rank;
-  const lastRank  = blockItems[blockItems.length-1].rank;
 
   // Clamp target to valid range
   const nonBlock = wl.filter(g => !names.includes(g.name));
@@ -752,26 +760,22 @@ function insertBlock(names, targetRank, side) {
   const maxRank = nonBlock.length ? nonBlock[nonBlock.length-1].rank + 1 : 1;
   let tr = Math.max(minRank, Math.min(targetRank, maxRank));
 
-  // Remove block from list temporarily, then reinsert
-  // Assign temporary high ranks to block to get them out of the way
+  // Temporarily remove block
   blockItems.forEach((g, i) => { g.rank = 90000 + i; });
 
-  // Reorder non-block items sequentially starting from their base
+  // Renumber remaining items sequentially
   const base = wl[0].rank;
-  const remaining = getWaitlist(side); // re-fetch without block
-  remaining.sort((a,b) => a.rank - b.rank).forEach((g,i) => { g.rank = base + i; });
+  getWaitlist(side).sort((a,b) => a.rank - b.rank).forEach((g,i) => { g.rank = base + i; });
 
-  // Find insertion index in the refreshed list
+  // Insert block at target position
   const fresh = getWaitlist(side).sort((a,b) => a.rank - b.rank);
-  // Find the position to insert before
   let insertIdx = fresh.findIndex(g => g.rank >= tr);
   if (insertIdx === -1) insertIdx = fresh.length;
-  // Push everything from insertIdx up by blockSize
   fresh.slice(insertIdx).forEach(g => { g.rank += blockSize; });
-  // Assign block ranks
-  blockItems.forEach((g, i) => { g.rank = (fresh[insertIdx] ? fresh[insertIdx].rank - blockSize : base + fresh.length) + i; });
+  blockItems.forEach((g, i) => {
+    g.rank = (fresh[insertIdx] ? fresh[insertIdx].rank - blockSize : base + fresh.length) + i;
+  });
 
-  // Final clean renumber from base
   renumber(side);
 }
 
@@ -783,84 +787,151 @@ function renumber(side) {
   wl.forEach((g, i) => { g.rank = startRank + i; });
 }
 
-// Main move function — handles groups + priority enforcement
+// ── Priority enforcement — drags lower-priority people DOWN, never blocks ──
+// After any move, walk all priority rules and for any violation,
+// move the BELOW person (and their block) to just after the ABOVE person.
+// Chain resolution: process repeatedly until stable.
+function enforcePriorityRules() {
+  let changed = true;
+  let iterations = 0;
+  while (changed && iterations < 30) {
+    changed = false;
+    iterations++;
+    for (const rule of priRules) {
+      const aboveGuest = G.find(g => g.name === rule.above);
+      const belowGuest = G.find(g => g.name === rule.below);
+      if (!aboveGuest || !belowGuest) continue;
+      if (aboveGuest.invited || aboveGuest.archived) continue;
+      if (belowGuest.invited || belowGuest.archived) continue;
+      if (aboveGuest.side !== belowGuest.side) continue;
+
+      // Get the full above block (for finding where it ends)
+      const aboveBlock = getBlock(rule.above)
+        .map(n => G.find(g => g.name === n))
+        .filter(Boolean)
+        .sort((a,b) => a.rank - b.rank);
+      const aboveLastRank = aboveBlock[aboveBlock.length - 1].rank;
+
+      // Violation: below person is at or above the last rank of the above block
+      if (belowGuest.rank <= aboveLastRank) {
+        // Move the BELOW block to just after the above block
+        const belowBlock = getBlock(rule.below);
+        const targetRank = aboveLastRank + 1;
+        insertBlock(belowBlock, targetRank, belowGuest.side);
+        changed = true;
+      }
+    }
+  }
+}
+
+// Main move — insert block, then drag any lower-priority people down
 function moveTo(name, targetRank, side) {
   const g = G.find(x => x.name === name);
   if (!g || g.invited || g.archived) return;
-
-  // Determine the block to move (must-group or solo)
-  const mg = getMust(name);
-  let blockNames;
-  if (mg) {
-    blockNames = mg.members.filter(n => {
-      const m = G.find(x => x.name === n);
-      return m && !m.invited && !m.archived;
-    });
-  } else {
-    blockNames = [name];
-  }
-
-  // Step 1: Do the insert
+  const blockNames = getBlock(name);
   insertBlock(blockNames, targetRank, side);
-
-  // Step 2: Enforce priority rules
   enforcePriorityRules();
-
   save(); render();
 }
 
-// Move by direction (arrow buttons) — insert one step at a time
+// Arrow buttons — move one step up or down
 function moveDir(name, dir) {
   const g = G.find(x => x.name === name);
   if (!g) return;
-  const mg = getMust(name);
-  const blockNames = mg
-    ? mg.members.filter(n => { const m=G.find(x=>x.name===n); return m&&!m.invited&&!m.archived; })
-    : [name];
+  const blockNames = getBlock(name);
   const wl = getWaitlist(g.side);
-  const blockItems = wl.filter(x => blockNames.includes(x.name)).sort((a,b)=>a.rank-b.rank);
+  const blockItems = wl.filter(x => blockNames.includes(x.name)).sort((a,b) => a.rank - b.rank);
   if (!blockItems.length) return;
   const firstRank = blockItems[0].rank;
-  const lastRank  = blockItems[blockItems.length-1].rank;
-  const nonBlock  = wl.filter(x => !blockNames.includes(x.name)).sort((a,b)=>a.rank-b.rank);
+  const lastRank  = blockItems[blockItems.length - 1].rank;
+  const nonBlock  = wl.filter(x => !blockNames.includes(x.name)).sort((a,b) => a.rank - b.rank);
   if (dir === -1) {
-    // Moving up — find first non-block item above the block
     const above = nonBlock.filter(x => x.rank < firstRank);
     if (!above.length) return;
-    const target = above[above.length-1];
-    const newRank = target.rank;
-    insertBlock(blockNames, newRank, g.side);
+    insertBlock(blockNames, above[above.length - 1].rank, g.side);
   } else {
-    // Moving down — find first non-block item below the block
     const below = nonBlock.filter(x => x.rank > lastRank);
     if (!below.length) return;
-    const target = below[0];
-    const newRank = target.rank + 1;
-    insertBlock(blockNames, newRank, g.side);
+    insertBlock(blockNames, below[0].rank + 1, g.side);
   }
   enforcePriorityRules();
   save(); render();
 }
 
-// Move to top of waitlist (respecting priority rules)
+// Top — move to highest allowed position, dragging lower-priority people down
 function moveToTop(name) {
   const g = G.find(x => x.name === name);
   if (!g || g.invited || g.archived) return;
   const wl = getWaitlist(g.side);
   if (!wl.length) return;
-  const topRank = wl[0].rank;
-  moveTo(name, topRank, g.side);
-  // After insert, priority enforcement will push down if needed
+  insertBlock(getBlock(name), wl[0].rank, g.side);
+  enforcePriorityRules();
+  save(); render();
 }
 
-// Move to bottom of waitlist
+// Bottom — move to lowest position, dragging lower-priority people down with it
 function moveToBottom(name) {
   const g = G.find(x => x.name === name);
   if (!g || g.invited || g.archived) return;
   const wl = getWaitlist(g.side);
   if (!wl.length) return;
-  const bottomRank = wl[wl.length-1].rank + 1;
-  moveTo(name, bottomRank, g.side);
+  // Move to bottom first
+  insertBlock(getBlock(name), wl[wl.length - 1].rank + 1, g.side);
+  // Now drag all lower-priority people below this block
+  enforcePriorityAfterBottom(name, g.side);
+  save(); render();
+}
+
+// Special enforcement for Bottom: any person that must be BELOW the moved person
+// gets dragged down too — in chain order
+function enforcePriorityAfterBottom(name, side) {
+  // Build ordered list of everyone who must be below 'name' (direct and chained)
+  const belowChain = getBelowChain(name);
+  if (!belowChain.length) return;
+
+  // Move each in chain order, each one just after the previous
+  for (const belowName of belowChain) {
+    const aboveOf = getAboveOf(belowName); // the person this one must be below
+    if (!aboveOf) continue;
+    const aboveBlock = getBlock(aboveOf)
+      .map(n => G.find(g => g.name === n))
+      .filter(Boolean)
+      .sort((a,b) => a.rank - b.rank);
+    const aboveLastRank = aboveBlock[aboveBlock.length - 1].rank;
+    const belowGuest = G.find(g => g.name === belowName);
+    if (!belowGuest) continue;
+    // Only drag if violation exists
+    if (belowGuest.rank <= aboveLastRank) {
+      insertBlock(getBlock(belowName), aboveLastRank + 1, side);
+    }
+  }
+}
+
+// Get all names that must be below 'name', in dependency order (BFS)
+function getBelowChain(name) {
+  const chain = [];
+  const queue = [name];
+  const visited = new Set([name]);
+  while (queue.length) {
+    const current = queue.shift();
+    const directBelow = priRules
+      .filter(r => r.above === current)
+      .map(r => r.below);
+    for (const b of directBelow) {
+      if (!visited.has(b)) {
+        visited.add(b);
+        chain.push(b);
+        queue.push(b);
+      }
+    }
+  }
+  return chain;
+}
+
+// Get the name that 'name' must be below (the 'above' in the rule where name is 'below')
+function getAboveOf(name) {
+  const rule = priRules.find(r => r.below === name);
+  return rule ? rule.above : null;
 }
 
 // ═══════════════════════════════════════════════════════
@@ -906,37 +977,8 @@ function detectCycle(rules, testAbove, testBelow) {
   return dfs(testBelow);
 }
 
-// Enforce all priority rules by adjusting ranks
-function enforcePriorityRules() {
-  // For each rule, ensure 'above' ranks higher (lower number) than 'below'
-  // Repeat until stable (handles chains)
-  let changed = true;
-  let iterations = 0;
-  while (changed && iterations < 20) {
-    changed = false;
-    iterations++;
-    for (const rule of priRules) {
-      const aboveGuest = G.find(g => g.name === rule.above);
-      const belowGuest = G.find(g => g.name === rule.below);
-      if (!aboveGuest || !belowGuest) continue;
-      if (aboveGuest.invited || aboveGuest.archived) continue;
-      if (belowGuest.invited || belowGuest.archived) continue;
-      if (aboveGuest.side !== belowGuest.side) continue;
-      // If above is not actually above below, fix it
-      if (aboveGuest.rank >= belowGuest.rank) {
-        // Move above to just before below
-        const mg = getMust(rule.above);
-        if (mg) {
-          const blockNames = mg.members.filter(n => { const m=G.find(x=>x.name===n); return m&&!m.invited&&!m.archived; });
-          insertBlock(blockNames, belowGuest.rank, aboveGuest.side);
-        } else {
-          insertBlock([rule.above], belowGuest.rank, aboveGuest.side);
-        }
-        changed = true;
-      }
-    }
-  }
-}
+
+
 
 // Add a new priority rule with conflict checking
 function addPriorityRule() {
@@ -1344,6 +1386,8 @@ function attachDrag() {
       e.preventDefault();
       const dst = G.find(g => g.name === e.currentTarget.dataset.name);
       if (!dst || !dragName || dst.name === dragName) return;
+      const src = G.find(g => g.name === dragName);
+      if (!src) return;
       moveTo(dragName, dst.rank, dst.side);
     });
   });
