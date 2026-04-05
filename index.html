@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Wedding Guest List — V4</title>
+<title>Wedding Guest List — V5</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -383,7 +383,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(
       <button onclick="testSync()" style="width:100%;padding:9px;background:var(--blue-lt);color:var(--blue);border:1px solid #C5D8EE;border-radius:8px;font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;margin-top:4px">Test Connection</button>
     </div>
     <div class="set-section">
-      <div class="set-note" style="line-height:1.8">All changes save automatically in your browser and sync to Google Sheets.<br>To share: upload this file to GitHub Pages (free) and share the link.<br><strong>Version 4.0</strong></div>
+      <div class="set-note" style="line-height:1.8">All changes save automatically and sync to Google Sheets.<br>To update: upload this file to GitHub Pages as index.html.<br><strong>Version 5.0</strong></div>
     </div>
     <button class="set-save" onclick="saveSettings()">Save Settings</button>
   </div>
@@ -783,17 +783,21 @@ let activeGuest = null;
 // ═══════════════════════════════════════════
 // SYNC — Google Sheets
 // ═══════════════════════════════════════════
-let syncUrl = '';
+
+// ▼▼▼ PASTE YOUR APPS SCRIPT URL HERE ▼▼▼
+const DEFAULT_SYNC_URL = 'https://script.google.com/macros/s/AKfycbzfOfmEAmrPHqojt7oYSWbUwS5uU5U83AauFHKBRbyK5kbnEtQLHnZTOvq-8_vxWdcBQA/exec';
+// ▲▲▲ After deploying the Apps Script, paste the URL between the quotes above,
+//     then upload this file to GitHub. Every device will use it automatically.
+
 let syncTimer = null;
-let syncPending = false;
-let syncStatus = 'local'; // 'local' | 'syncing' | 'synced' | 'error'
+let syncStatus = 'local';
 
 function getSyncUrl() {
-  try { return localStorage.getItem('wv3_sync') || ''; } catch(e) { return ''; }
+  // Use hardcoded default first, fall back to any locally saved URL
+  return DEFAULT_SYNC_URL || ((() => { try { return localStorage.getItem('wv3_sync') || ''; } catch(e) { return ''; } })());
 }
 
 function setSyncUrl(url) {
-  syncUrl = url;
   try { localStorage.setItem('wv3_sync', url); } catch(e) {}
 }
 
@@ -802,22 +806,19 @@ function updateSyncIndicator(status) {
   const el = document.getElementById('sync-indicator');
   if (!el) return;
   const states = {
-    local:   { text: '● Local only',  color: 'var(--ink-muted)' },
-    syncing: { text: '↻ Saving…',     color: 'var(--amber)' },
-    synced:  { text: '✓ Synced',      color: 'var(--green)' },
-    error:   { text: '✕ Sync failed', color: 'var(--red)' },
-    loading: { text: '↻ Loading…',    color: 'var(--amber)' },
+    local:   { text: '● Local only',   color: 'var(--ink-muted)' },
+    syncing: { text: '↻ Saving…',      color: 'var(--amber)' },
+    synced:  { text: '✓ Synced',       color: 'var(--green)' },
+    error:   { text: '✕ Sync failed',  color: 'var(--red)' },
+    loading: { text: '↻ Loading…',     color: 'var(--amber)' },
   };
   const s = states[status] || states.local;
   el.textContent = s.text;
   el.style.color = s.color;
 }
 
-// Debounced save — waits 1.5s after last change before syncing
 function save() {
-  // Always save locally first
   saveLocal();
-  // Then schedule a remote sync if URL is set
   if (!getSyncUrl()) return;
   if (syncTimer) clearTimeout(syncTimer);
   updateSyncIndicator('syncing');
@@ -830,8 +831,8 @@ function saveLocal() {
       G, mustGroups, softGroups, pinned,
       gName: document.getElementById('g-name-inp').value,
       pName: document.getElementById('p-name-inp').value,
-      cutG: document.getElementById('cut-g').value,
-      cutR: document.getElementById('cut-r').value,
+      cutG:  document.getElementById('cut-g').value,
+      cutR:  document.getElementById('cut-r').value,
     }));
   } catch(e) {}
 }
@@ -842,28 +843,19 @@ async function syncToSheets() {
   try {
     updateSyncIndicator('syncing');
     const payload = {
-      guests: G,
-      mustGroups,
-      softGroups,
-      pinned,
+      guests: G, mustGroups, softGroups, pinned,
       settings: {
         gName: document.getElementById('g-name-inp').value,
         pName: document.getElementById('p-name-inp').value,
-        cutG: document.getElementById('cut-g').value,
-        cutR: document.getElementById('cut-r').value,
+        cutG:  document.getElementById('cut-g').value,
+        cutR:  document.getElementById('cut-r').value,
       }
     };
-    const res = await fetch(url, {
-      method: 'POST',
-      body: JSON.stringify({ action: 'save', payload }),
-    });
+    const res  = await fetch(url, { method: 'POST', body: JSON.stringify({ action: 'save', payload }) });
     const json = await res.json();
     if (json.ok) updateSyncIndicator('synced');
     else { updateSyncIndicator('error'); console.error('Sync error:', json.error); }
-  } catch(ex) {
-    updateSyncIndicator('error');
-    console.error('Sync failed:', ex);
-  }
+  } catch(ex) { updateSyncIndicator('error'); console.error('Sync failed:', ex); }
 }
 
 async function loadFromSheets() {
@@ -871,54 +863,48 @@ async function loadFromSheets() {
   if (!url) { loadLocal(); return; }
   try {
     updateSyncIndicator('loading');
-    const res = await fetch(url + '?action=load');
+    const res  = await fetch(url + '?action=load');
     const json = await res.json();
     if (json.ok && json.data) {
       const d = json.data;
-      G = d.guests && d.guests.length ? d.guests : [];
+      G          = d.guests     && d.guests.length     ? d.guests     : [];
       mustGroups = d.mustGroups || [];
       softGroups = d.softGroups && d.softGroups.length ? d.softGroups : buildSoftGroups(G);
-      pinned = d.pinned || [];
+      pinned     = d.pinned     || [];
       if (d.settings) {
         if (d.settings.gName) document.getElementById('g-name-inp').value = d.settings.gName;
         if (d.settings.pName) document.getElementById('p-name-inp').value = d.settings.pName;
-        if (d.settings.cutG) document.getElementById('cut-g').value = d.settings.cutG;
-        if (d.settings.cutR) document.getElementById('cut-r').value = d.settings.cutR;
+        if (d.settings.cutG)  document.getElementById('cut-g').value      = d.settings.cutG;
+        if (d.settings.cutR)  document.getElementById('cut-r').value      = d.settings.cutR;
+      }
+      // Store the password from the sheet in session so checkPw works
+      if (d.password) {
+        try { sessionStorage.setItem('wv3_remote_pw', d.password); } catch(e) {}
       }
       updateNames();
-      saveLocal(); // cache locally too
+      saveLocal();
       updateSyncIndicator('synced');
       buildChips();
       render();
-    } else {
-      loadLocal();
-      updateSyncIndicator('error');
-    }
-  } catch(ex) {
-    loadLocal(); // fall back to local if offline
-    updateSyncIndicator('error');
-    console.warn('Could not reach Google Sheets, using local data');
-  }
+    } else { loadLocal(); updateSyncIndicator('error'); }
+  } catch(ex) { loadLocal(); updateSyncIndicator('error'); console.warn('Offline — using local data'); }
 }
 
-function load() {
-  syncUrl = getSyncUrl();
-  loadFromSheets(); // async — renders when ready
-}
+function load() { loadFromSheets(); }
 
 function loadLocal() {
   try {
     const raw = localStorage.getItem('wv3');
     if (raw) {
       const d = JSON.parse(raw);
-      G = d.G && d.G.length ? d.G : [];
+      G          = d.G          && d.G.length          ? d.G          : [];
       mustGroups = d.mustGroups || [];
       softGroups = d.softGroups && d.softGroups.length ? d.softGroups : buildSoftGroups(G);
-      pinned = d.pinned || [];
+      pinned     = d.pinned     || [];
       if (d.gName) document.getElementById('g-name-inp').value = d.gName;
       if (d.pName) document.getElementById('p-name-inp').value = d.pName;
-      if (d.cutG) document.getElementById('cut-g').value = d.cutG;
-      if (d.cutR) document.getElementById('cut-r').value = d.cutR;
+      if (d.cutG)  document.getElementById('cut-g').value      = d.cutG;
+      if (d.cutR)  document.getElementById('cut-r').value      = d.cutR;
     }
   } catch(e) {}
   updateNames();
@@ -1690,20 +1676,41 @@ function toast(msg) {
 // ═══════════════════════════════════════════
 // PASSWORD
 // ═══════════════════════════════════════════
-const DEFAULT_PW = 'wedding2025';
+const FALLBACK_PW = 'wedding2025';
 
-function getStoredPw() {
-  try { return localStorage.getItem('wv3_pw') || DEFAULT_PW; } catch(e) { return DEFAULT_PW; }
+function getActivePw() {
+  // Priority: remote password fetched from sheet > locally saved override > fallback
+  try {
+    const remote = sessionStorage.getItem('wv3_remote_pw');
+    if (remote) return remote;
+    const local = localStorage.getItem('wv3_pw');
+    if (local) return local;
+  } catch(e) {}
+  return FALLBACK_PW;
+}
+
+async function fetchRemotePw() {
+  const url = getSyncUrl();
+  if (!url) return;
+  try {
+    const res  = await fetch(url + '?action=getPass');
+    const json = await res.json();
+    if (json.ok && json.data && json.data.password) {
+      try { sessionStorage.setItem('wv3_remote_pw', json.data.password); } catch(e) {}
+    }
+  } catch(ex) {}
 }
 
 function checkPw() {
   const val = document.getElementById('pw-input').value;
   if (!val) return;
-  if (val === getStoredPw()) {
+  if (val === getActivePw()) {
     try { sessionStorage.setItem('wv3_auth', '1'); } catch(e) {}
     document.getElementById('pw-screen').style.display = 'none';
     document.getElementById('app').style.display = 'block';
-    load(); buildChips(); render();
+    load();
+    buildChips();
+    render();
   } else {
     const inp = document.getElementById('pw-input');
     inp.classList.add('shake');
@@ -1717,13 +1724,24 @@ function checkPw() {
 function saveSettings() {
   const newPw = document.getElementById('pw-set-inp').value.trim();
   if (newPw) {
-    try { localStorage.setItem('wv3_pw', newPw); } catch(e) {}
+    // Save locally
+    try { localStorage.setItem('wv3_pw', newPw); sessionStorage.setItem('wv3_remote_pw', newPw); } catch(e) {}
     document.getElementById('pw-set-inp').value = '';
+    // Push to sheet so all devices get it
+    const url = getSyncUrl();
+    if (url) {
+      fetch(url, { method: 'POST', body: JSON.stringify({ action: 'setPassword', password: newPw }) })
+        .then(() => toast('✓ Settings saved — password updated on all devices'))
+        .catch(() => toast('✓ Settings saved locally — sync to update other devices'));
+    } else {
+      toast('✓ Password saved locally');
+    }
+  } else {
+    toast('✓ Settings saved');
   }
-  const url = document.getElementById('sync-url-inp').value.trim();
-  setSyncUrl(url);
+  const syncUrlVal = document.getElementById('sync-url-inp').value.trim();
+  if (syncUrlVal) setSyncUrl(syncUrlVal);
   save();
-  toast('✓ Settings saved');
 }
 
 async function testSync() {
@@ -1731,18 +1749,14 @@ async function testSync() {
   if (!url) { toast('Paste your Apps Script URL first'); return; }
   toast('Testing connection…');
   try {
-    const res = await fetch(url + '?action=ping');
+    const res  = await fetch(url + '?action=ping');
     const json = await res.json();
     if (json.ok) {
       setSyncUrl(url);
       toast('✓ Connected! Syncing now…');
       syncToSheets();
-    } else {
-      toast('✕ Connected but got an error — check the script');
-    }
-  } catch(ex) {
-    toast('✕ Could not connect — check the URL');
-  }
+    } else { toast('✕ Connected but got an error — check the script'); }
+  } catch(ex) { toast('✕ Could not connect — check the URL'); }
 }
 
 // ═══════════════════════════════════════════
@@ -1759,11 +1773,13 @@ async function testSync() {
       document.getElementById('pw-screen').style.display = 'none';
       document.getElementById('app').style.display = 'block';
       load();
-      buildChips();
-      render();
       return;
     }
   } catch(e) {}
+
+  // Pre-fetch the remote password in the background so it's ready when user types
+  fetchRemotePw();
+
   // Show password screen
   setTimeout(() => document.getElementById('pw-input').focus(), 100);
 })();
